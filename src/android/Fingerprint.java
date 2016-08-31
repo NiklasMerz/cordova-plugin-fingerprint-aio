@@ -42,9 +42,9 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 @TargetApi(23)
-public class FingerprintAuth extends CordovaPlugin {
+public class Fingerprint extends CordovaPlugin {
 
-    public static final String TAG = "FingerprintAuth";
+    public static final String TAG = "Fingerprint";
     public static String packageName;
 
     private static final String DIALOG_FRAGMENT_TAG = "FpAuthDialog";
@@ -91,7 +91,7 @@ public class FingerprintAuth extends CordovaPlugin {
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        Log.v(TAG, "Init FingerprintAuth");
+        Log.v(TAG, "Init Fingerprint");
         packageName = cordova.getActivity().getApplicationContext().getPackageName();
         mPluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
 
@@ -139,7 +139,7 @@ public class FingerprintAuth extends CordovaPlugin {
                            JSONArray args,
                            CallbackContext callbackContext) throws JSONException {
         mCallbackContext = callbackContext;
-        Log.v(TAG, "FingerprintAuth action: " + action);
+        Log.v(TAG, "Fingerprint action: " + action);
         if (android.os.Build.VERSION.SDK_INT < 23) {
             Log.e(TAG, "minimum SDK version 23 required");
             mPluginResult = new PluginResult(PluginResult.Status.ERROR);

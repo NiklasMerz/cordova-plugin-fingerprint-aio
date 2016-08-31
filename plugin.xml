@@ -10,8 +10,8 @@
   <repo>https://github.com/niklasmerz/cordova-plugin-fingerprint-aio.git</repo>
   <issue>https://github.com/cordova-plugin-fingerprint-aio/issues</issue>
 
-  <js-module src="www/FingerprintAuth.js" name="FingerprintAuth">
-    <clobbers target="FingerprintAuth" />
+  <js-module src="www/Fingerprint.js" name="Fingerprint">
+    <clobbers target="Fingerprint" />
   </js-module>
 
   <!-- ios -->
@@ -39,12 +39,12 @@
     </config-file>
     <config-file target="AndroidManifest.xml" parent="/*">
       <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-      <!--<uses-sdk android:minSdkVersion="23" android:targetSdkVersion="23" />-->
+      <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="23" />
     </config-file>
 
-    <source-file src="src/android/Fingerprint.java" target-dir="src/com/cordova/plugin/android/fingerprintauth" />
-    <source-file src="src/android/FingerprintAuthenticationDialogFragment.java" target-dir="src/com/cordova/plugin/android/fingerprintauth" />
-    <source-file src="src/android/FingerprintUiHelper.java" target-dir="src/com/cordova/plugin/android/fingerprintauth" />
+    <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/fingerprint" />
+    <source-file src="src/android/FingerprintAuthenticationDialogFragment.java" target-dir="src/de/niklasmerz/cordova/fingerprint" />
+    <source-file src="src/android/FingerprintUiHelper.java" target-dir="src/de/niklasmerz/cordova/fingerprint" />
     <source-file src="res/android/drawable/ic_fingerprint_error.xml" target-dir="res/drawable" />
     <source-file src="res/android/drawable/ic_fingerprint_success.xml" target-dir="res/drawable" />
     <source-file src="res/android/drawable-hdpi/ic_fp_40px.png" target-dir="res/drawable-hdpi" />
