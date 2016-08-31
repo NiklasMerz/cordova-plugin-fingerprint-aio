@@ -3,3 +3,5 @@
 ## Work in Progress
 
 Coming soon...
+
+ngCordova support:
