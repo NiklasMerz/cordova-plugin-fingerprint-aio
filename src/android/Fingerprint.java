@@ -1,4 +1,4 @@
-package com.cordova.plugin.android.fingerprintauth;
+package de.niklasmerz.cordova.fingerprint;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
@@ -78,7 +78,7 @@ public class FingerprintAuth extends CordovaPlugin {
     /**
      * Constructor.
      */
-    public FingerprintAuth() {
+    public Fingerprint() {
     }
 
     /**
@@ -231,7 +231,7 @@ public class FingerprintAuth extends CordovaPlugin {
                 mCallbackContext.sendPluginResult(mPluginResult);
             }
             return true;
-        } else if (action.equals("availability")) {
+        } else if (action.equals("isAvailable")) {
             JSONObject resultJson = new JSONObject();
             resultJson.put("isAvailable", isFingerprintAuthAvailable());
             resultJson.put("isHardwareDetected", mFingerPrintManager.isHardwareDetected());

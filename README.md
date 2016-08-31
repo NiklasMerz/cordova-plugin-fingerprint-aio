@@ -1,10 +1,17 @@
 # Cordova Plugin Fingerprint All-In-One
 
+TODO: Description
+
 ## Work in Progress
+
+### TODO
+
+* Unified Api
+* Tests
 
 Coming soon...
 
-ngCordova support:
+ngCordova support
 
 ## Thanks to:
 

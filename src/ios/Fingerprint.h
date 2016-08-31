@@ -6,7 +6,7 @@
 
 - (void) didFingerprintDatabaseChange:(CDVInvokedUrlCommand*)command;
 
-- (void) verifyFingerprint:(CDVInvokedUrlCommand*)command;
+- (void) authenticate:(CDVInvokedUrlCommand*)command;
 - (void) verifyFingerprintWithCustomPasswordFallback:(CDVInvokedUrlCommand*)command;
 - (void) verifyFingerprintWithCustomPasswordFallbackAndEnterPasswordLabel:(CDVInvokedUrlCommand*)command;
 
