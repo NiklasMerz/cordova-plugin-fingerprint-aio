@@ -79,7 +79,7 @@ NSString *keychainItemServiceName;
 
   NSString *json = [command.arguments objectAtIndex:0];
   NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *message = [response objectForKey:@"clientId"];
+  NSString *message = [jsonData objectForKey:@"clientId"];
   NSString *callbackId = command.callbackId;
 
   [self.commandDelegate runInBackground:^{
