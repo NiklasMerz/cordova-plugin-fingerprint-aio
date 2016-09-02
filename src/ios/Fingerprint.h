@@ -1,6 +1,6 @@
 #import <Cordova/CDVPlugin.h>
 
-@interface TouchID :CDVPlugin
+@interface Fingerprint :CDVPlugin
 
 - (void) isAvailable:(CDVInvokedUrlCommand*)command;
 
