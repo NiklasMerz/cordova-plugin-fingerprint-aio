@@ -6,11 +6,18 @@ There are some great cordova plugins out there that make use of the fingerprint 
 
 ## Work in Progress
 Use with caution at the moment. Still under development..
+ngCordova support planed for the future.
 
-ngCordova support
+### Current status
+Android authentication seems to be working fine with the demo app (see below). iOS needs to tested ( lack of Apple hardware).
+The API is still in a constant stage of change but it will be similar to the implementation of Matthew Wheatley (@mjwheatly).
 
 ## Thanks to the authors of the original fingerprint plugins:
 
 https://github.com/mjwheatley/cordova-plugin-android-fingerprint-auth
 
 https://github.com/EddyVerbruggen/cordova-plugin-touch-id
+
+## How to use
+
+For now refer to my demo app: https://github.com/NiklasMerz/fingerprint-aio-demo
