@@ -1,0 +1,16 @@
+machine:
+  environment:
+    ANDROID_NDK_HOME: $ANDROID_NDK
+    NODE_ENV: dev
+    PATH: $PATH:$HOME/$CIRCLE_PROJECT_REPONAME/node_modules/.bin
+dependencies:
+  override:
+    - npm install
+test:
+  pre:
+    - emulator -avd test -no-audio -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+  override:
+    - cordova-paramedic --platform android --plugin .
