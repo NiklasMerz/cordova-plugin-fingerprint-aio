@@ -78,7 +78,7 @@ NSString *keychainItemServiceName;
 - (void) authenticate:(CDVInvokedUrlCommand*)command {
 
   NSString *json = [command.arguments objectAtIndex:0];
-  NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
+  NSDictionary *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
   NSString *message = [jsonData objectForKey:@"clientId"];
   NSString *callbackId = command.callbackId;
 
