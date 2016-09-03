@@ -5,8 +5,8 @@ machine:
     PATH: $PATH:$HOME/$CIRCLE_PROJECT_REPONAME/node_modules/.bin
 dependencies:
   override:
-    - sudo npm install -g ionic
-    - sudo npm install -g cordova
+    - npm install -g ionic
+    - npm install -g cordova
     - npm install
 test:
   pre:
