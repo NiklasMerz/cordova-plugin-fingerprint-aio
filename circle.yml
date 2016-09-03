@@ -2,7 +2,7 @@ machine:
   environment:
     ANDROID_NDK_HOME: $ANDROID_NDK
     NODE_ENV: dev
-    PATH: $PATH:$HOME/$CIRCLE_PROJECT_REPONAME/node_modules/.bin
+    PATH: $PATH:$HOME/$CIRCLE_PROJECT_REPONAME/
 dependencies:
   override:
     - npm install -g ionic
