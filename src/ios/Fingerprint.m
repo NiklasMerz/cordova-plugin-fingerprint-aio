@@ -35,45 +35,6 @@ NSString *keychainItemServiceName;
   }];
 }
 
-- (void) didFingerprintDatabaseChange:(CDVInvokedUrlCommand*)command {
-  // Get enrollment state
-  [self.commandDelegate runInBackground:^{
-    LAContext *laContext = [[LAContext alloc] init];
-    NSError *error = nil;
-
-    // we expect the dev to have checked 'isAvailable' already so this should not return an error,
-    // we do however need to run canEvaluatePolicy here in order to get a non-nil evaluatedPolicyDomainState
-    if (![laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
-      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]] callbackId:command.callbackId];
-      return;
-    }
-
-    // only supported on iOS9+, so check this.. if not supported just report back as false
-    if (![laContext respondsToSelector:@selector(evaluatedPolicyDomainState)]) {
-      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO] callbackId:command.callbackId];
-      return;
-    }
-
-    NSData * state = [laContext evaluatedPolicyDomainState];
-    if (state != nil) {
-
-      NSString * stateStr = [state base64EncodedStringWithOptions:0];
-
-      NSString * storedState = [[NSUserDefaults standardUserDefaults] stringForKey:FingerprintDatabaseStateKey];
-
-      // whenever a finger is added/changed/removed the value of the storedState changes,
-      // so compare agains a value we previously stored in the context of this app
-      BOOL changed = storedState != nil && ![stateStr isEqualToString:storedState];
-
-      [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:changed] callbackId:command.callbackId];
-
-      // Store enrollment
-      [[NSUserDefaults standardUserDefaults] setObject:stateStr forKey:FingerprintDatabaseStateKey];
-      [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-  }];
-}
-
 // this 'default' method uses keychain instead of localauth so the passcode fallback can be used
 - (void) authenticate:(CDVInvokedUrlCommand*)command {
 
@@ -131,12 +92,6 @@ NSString *keychainItemServiceName;
 - (void) verifyFingerprintWithCustomPasswordFallback:(CDVInvokedUrlCommand*)command {
   NSString *message = [command.arguments objectAtIndex:0];
   [self verifyFingerprintWithCustomPasswordFallback:command.callbackId withMessage:message andEnterPasswordLabel:nil];
-}
-
-- (void) verifyFingerprintWithCustomPasswordFallbackAndEnterPasswordLabel:(CDVInvokedUrlCommand*)command {
-  NSString *message = [command.arguments objectAtIndex:0];
-  NSString *enterPasswordLabel = [command.arguments objectAtIndex:1];
-  [self verifyFingerprintWithCustomPasswordFallback:command.callbackId withMessage:message andEnterPasswordLabel:enterPasswordLabel];
 }
 
 - (void) verifyFingerprintWithCustomPasswordFallback:(NSString*)callbackId withMessage:(NSString*)message andEnterPasswordLabel:(NSString*)enterPasswordLabel {

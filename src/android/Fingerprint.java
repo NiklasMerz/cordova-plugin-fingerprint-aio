@@ -237,7 +237,8 @@ public class Fingerprint extends CordovaPlugin {
             resultJson.put("isHardwareDetected", mFingerPrintManager.isHardwareDetected());
             resultJson.put("hasEnrolledFingerprints", mFingerPrintManager.hasEnrolledFingerprints());
             mPluginResult = new PluginResult(PluginResult.Status.OK);
-            mCallbackContext.success(resultJson);
+            //mCallbackContext.success(resultJson); return nothing for simplyfiaction
+            mCallbackContext.success();
             mCallbackContext.sendPluginResult(mPluginResult);
             return true;
         }

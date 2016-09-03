@@ -21,39 +21,5 @@ Fingerprint.prototype.isAvailable = function (successCallback, errorCallback) {
   );
 };
 
-//TODO Android
-Fingerprint.prototype.didFingerprintDatabaseChange = function (successCallback, errorCallback) {
-  cordova.exec(
-    successCallback,
-    errorCallback,
-    "Fingerprint",
-    "didFingerprintDatabaseChange",
-    []
-  );
-};
-
-//TODO Android
-Fingerprint.prototype.verifyFingerprintWithCustomPasswordFallback = function (message, successCallback, errorCallback) {
-  cordova.exec(
-    successCallback,
-    errorCallback,
-    "Fingerprint",
-    "verifyFingerprintWithCustomPasswordFallback",
-    [message]
-  );
-};
-
-//TODO Android
-Fingerprint.prototype.verifyFingerprintWithCustomPasswordFallbackAndEnterPasswordLabel = function (message, enterPasswordLabel, successCallback, errorCallback) {
-  cordova.exec(
-    successCallback,
-    errorCallback,
-    "Fingerprint",
-    "verifyFingerprintWithCustomPasswordFallbackAndEnterPasswordLabel",
-    [message, enterPasswordLabel]
-  );
-};
-
-
 Fingerprint = new Fingerprint();
 module.exports = Fingerprint;
