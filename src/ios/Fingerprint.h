@@ -1,6 +1,6 @@
 #import <Cordova/CDVPlugin.h>
 
-@interface Test :CDVPlugin
+@interface Fingerprint :CDVPlugin
 
 - (void) isAvailable:(CDVInvokedUrlCommand*)command;
 - (void) authenticate:(CDVInvokedUrlCommand*)command;
