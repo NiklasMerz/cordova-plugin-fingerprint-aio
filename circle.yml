@@ -5,12 +5,14 @@ machine:
     PATH: $PATH:$HOME/$CIRCLE_PROJECT_REPONAME/node_modules/.bin
 dependencies:
   override:
+    - sudo npm install -g ionic
+    - sudo npm install -g cordova
     - npm install
 test:
   pre:
     - emulator -avd test -no-audio -no-window:
         background: true
         parallel: true
-    - circle-android wait-for-boot
+    #- circle-android wait-for-boot
   override:
     - cordova-paramedic --platform android --plugin .
