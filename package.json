@@ -31,6 +31,6 @@
   },
   "homepage": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio#readme",
   "devDependencies": {
-    "cordova-paramedic": "*"
+    "jasmine": "*"
   }
 }

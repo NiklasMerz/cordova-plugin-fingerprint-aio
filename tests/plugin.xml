@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  id="cordova-plugin-fingerprint-aio"
+  version="0.1.0">
+  <name>FingerprintAllInOne Tests</name>
+  <description>Cordova plugin to use fingerprint on Android and iOS</description>
+  <license>MIT</license>
+  <keywords>cordova,plugin,android,fingerprint,authentication,ios</keywords>
+  <repo>https://github.com/niklasmerz/cordova-plugin-fingerprint-aio.git</repo>
+  <issue>https://github.com/cordova-plugin-fingerprint-aio/issues</issue>
+
+  <js-module src="tests.js" name="tests">
+  </js-module>
+
+</plugin>
