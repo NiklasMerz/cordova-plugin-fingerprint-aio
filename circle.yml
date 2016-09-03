@@ -15,4 +15,4 @@ test:
         parallel: true
     #- circle-android wait-for-boot
   override:
-    - cordova-paramedic --platform android --plugin .
+    - ionic build android

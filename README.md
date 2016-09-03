@@ -8,7 +8,7 @@
 
 This plugin is my attempt to provide a single interface for accessing fingerprint hardware on both Android 6+ and iOS.
 
-There are some great cordova plugins out there that make use of the fingerprint APIs provided by Android and iOS. But I could not find a project which supports both platforms (correct me if I am wrong). So I decided to take the native code and bundle it together in one plugin.
+There are some great cordova plugins out there that make use of the fingerprint APIs provided by Android and iOS. But I could not find a project which supports both platforms (correct me if I am wrong). I decided to take the native code and bundle it together in one plugin.
 
 ## Disclaimer
 This is just an simpler implementation of the original plugins. At the moment the API could change every day and the plugin build could crash or have secutity issues. If you use fingerprint authentication in production use the plugins below.
@@ -22,11 +22,11 @@ https://github.com/EddyVerbruggen/cordova-plugin-touch-id
 ## Work in Progress
 Use with caution at the moment. Still under development..
 
-ngCordova support planed for the future.
+ngCordova support planned for the future.
 
 ### Current status
 Android authentication seems to be working fine with the demo app (see below). iOS needs to tested ( lack of Apple hardware).
-The API is still in a constant stage of change but it will be similar to the implementation of Matthew Wheatley (@mjwheatly).
+The API is still in a constant stage of change but it will be similar to the implementation by Matthew Wheatley (@mjwheatly).
 
 ## How to use
 
