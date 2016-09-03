@@ -4,7 +4,6 @@
 [![npm version](https://badge.fury.io/js/cordova-plugin-fingerprint-aio.svg)](https://badge.fury.io/js/cordova-plugin-fingerprint-aio)
 [![npm](https://img.shields.io/npm/dt/cordova-plugin-fingerprint-aio.svg?maxAge=2592000)]()
 [![GitHub version](https://badge.fury.io/gh/niklasmerz%2Fcordova-plugin-fingerprint-aio.svg)](https://badge.fury.io/gh/niklasmerz%2Fcordova-plugin-fingerprint-aio)
-[![CircleCI](https://circleci.com/gh/NiklasMerz/cordova-plugin-fingerprint-aio.svg?style=shield)](https://circleci.com/gh/NiklasMerz/cordova-plugin-fingerprint-aio)
 
 This plugin is my attempt to provide a single interface for accessing fingerprint hardware on both Android 6+ and iOS.
 
