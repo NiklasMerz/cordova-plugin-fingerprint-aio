@@ -3,7 +3,7 @@
 
 [![npm](https://img.shields.io/npm/v/cordova-plugin-fingerprint-aio.svg?maxAge=2592000)](https://www.npmjs.com/package/cordova-plugin-fingerprint-aio)
 [![npm](https://img.shields.io/npm/dt/express.svg?maxAge=2592000)](https://www.npmjs.com/package/cordova-plugin-fingerprint-aio)
-
+[![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Star&maxAge=2592000)](https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio)
 
 This plugin is an attempt to provide a single interface for accessing fingerprint hardware on both Android 6+ and iOS.
 
