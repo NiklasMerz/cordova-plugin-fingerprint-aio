@@ -1,13 +1,13 @@
 # Cordova Plugin Fingerprint All-In-One
-## **A**ndroid and **IO**s
+## **A** ndroid and **IO** s
 
-[![npm version](https://badge.fury.io/js/cordova-plugin-fingerprint-aio.svg)](https://badge.fury.io/js/cordova-plugin-fingerprint-aio)
-[![npm](https://img.shields.io/npm/dt/cordova-plugin-fingerprint-aio.svg?maxAge=2592000)]()
-[![GitHub version](https://badge.fury.io/gh/niklasmerz%2Fcordova-plugin-fingerprint-aio.svg)](https://badge.fury.io/gh/niklasmerz%2Fcordova-plugin-fingerprint-aio)
+[![npm](https://img.shields.io/npm/v/cordova-plugin-fingerprint-aio.svg?maxAge=2592000)](https://www.npmjs.com/package/cordova-plugin-fingerprint-aio)
+[![npm](https://img.shields.io/npm/dt/express.svg?maxAge=2592000)](https://www.npmjs.com/package/cordova-plugin-fingerprint-aio)
+
 
 This plugin is an attempt to provide a single interface for accessing fingerprint hardware on both Android 6+ and iOS.
 
-** Contributors welcome for iOS testing and development **
+**Contributors welcome for iOS testing and development**
 
 There are some great cordova plugins out there that make use of the fingerprint APIs provided by Android and iOS. But I could not find a project which supports both platforms (correct me if I am wrong). I decided to take their native code and bundle it together in one plugin.
 
@@ -18,7 +18,7 @@ ngCordova support planned for the future.
 
 ### Current status
 
-** iOS Work in Progress, Android Testing in Progress **
+**iOS Work in Progress, Android Testing in Progress**
 
 Android authentication seems to be working fine with the demo app (see below). iOS needs to tested ( lack of Apple hardware).
 The API is still in a constant stage of change but it will be similar to the implementation by Matthew Wheatley (@mjwheatly).
