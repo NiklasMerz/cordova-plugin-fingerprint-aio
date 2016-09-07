@@ -37,10 +37,6 @@ import LocalAuthentication
       var statusCode = CDVCommandStatus_ERROR;
       var message = "auth?"
       if( success ) {
-
-          // Fingerprint recognized
-          // Go to view controller
-          self.navigateToAuthenticatedViewController()
           statusCode = CDVCommandStatus_OK;
       }else {
           // Check if there is an error
