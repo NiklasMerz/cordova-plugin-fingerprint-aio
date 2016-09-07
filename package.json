@@ -30,6 +30,9 @@
     "url": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio/issues"
   },
   "homepage": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio#readme",
+  "dependencies": {
+    "cordova-plugin-add-swift-support" : "*"
+  },
   "devDependencies": {
     "jasmine": "*"
   }
