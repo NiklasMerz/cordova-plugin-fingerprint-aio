@@ -2,15 +2,9 @@ import Foundation
 import LocalAuthentication
 
 @objc(Fingerprint) class Fingerprint : CDVPlugin {
-  func sayHello(command: CDVInvokedUrlCommand) {
-    let message = "Hello !";
-
-    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: message);
-    commandDelegate.sendPluginResult(pluginResult, callbackId:command.callbackId);
-  }
+  let authenticationContext = LAContext();
 
   func isAvailable(command: CDVInvokedUrlCommand){
-    var authenticationContext = LAContext();
     var error:NSError?
 
     var available = authenticationContext.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error);
@@ -26,12 +20,11 @@ import LocalAuthentication
   }
 
   func authenticate(command: CDVInvokedUrlCommand){
-    //TODO class
-    var authenticationContext = LAContext();
+    //TODO params
 
     authenticationContext.evaluatePolicy(
       .DeviceOwnerAuthenticationWithBiometrics,
-      localizedReason: "Only awesome people are allowed",
+      localizedReason: "authenticate",
       reply: { [unowned self] (success, error) -> Void in
 
       var statusCode = CDVCommandStatus_ERROR;

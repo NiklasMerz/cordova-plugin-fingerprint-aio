@@ -14,14 +14,16 @@
     <clobbers target="Fingerprint" />
   </js-module>
 
+  <dependency id="cordova-plugin-add-swift-support" url="https://github.com/akofman/cordova-plugin-add-swift-support"/>
+
   <!-- ios -->
   <platform name="ios">
-
     <config-file target="config.xml" parent="/*">
       <feature name="Fingerprint">
         <param name="ios-package" value="Fingerprint"/>
       </feature>
     </config-file>
+    <source-file src="src/ios/Fingerprint.swift" />
   </platform>
 
   <!-- android -->
@@ -51,9 +53,6 @@
     <source-file src="res/android/values/fpauth-colors.xml" target-dir="res/values" />
     <source-file src="res/android/values/fpauth-strings.xml" target-dir="res/values" />
     <source-file src="res/android/values-es" target-dir="res" />
-
-    <source-file src="src/ios/Fingerprint.swift" />
-    <dependency id="cordova-plugin-add-swift-support" url="https://github.com/akofman/cordova-plugin-add-swift-support"/>
   </platform>
 
 </plugin>
