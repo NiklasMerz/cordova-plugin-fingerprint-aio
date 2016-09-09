@@ -2,9 +2,9 @@ import Foundation
 import LocalAuthentication
 
 @objc(Fingerprint) class Fingerprint : CDVPlugin {
-  let authenticationContext = LAContext();
 
   func isAvailable(command: CDVInvokedUrlCommand){
+    let authenticationContext = LAContext();
     var error:NSError?
 
     let available = authenticationContext.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error);
@@ -21,15 +21,24 @@ import LocalAuthentication
   }
 
   func authenticate(command: CDVInvokedUrlCommand){
-    //TODO params
+    let authenticationContext = LAContext();
+    var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "Something went wrong");
+    var reason = "Authentication";
+
+    do {
+      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+      if let clientId = json["clientId"] as? String {
+        reason = clientId;
+      }
+    } catch {
+      print("error serializing JSON: \(error)")
+    }
 
     authenticationContext.evaluatePolicy(
       .DeviceOwnerAuthenticationWithBiometrics,
-      localizedReason: "authenticate",
+      localizedReason: reason,
       reply: { [unowned self] (success, error) -> Void in
-
-        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "No success");
-        if( success ) {
+        if success == true {
           pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "Success");
         }else {
           // Check if there is an error
