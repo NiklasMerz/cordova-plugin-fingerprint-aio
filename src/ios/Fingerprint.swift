@@ -5,18 +5,15 @@ import LocalAuthentication
 
   func isAvailable(command: CDVInvokedUrlCommand){
     let authenticationContext = LAContext();
-    var error:NSError?
+    var error:NSError?;
 
     let available = authenticationContext.canEvaluatePolicy(.DeviceOwnerAuthenticationWithBiometrics, error: &error);
 
-    var statusCode = CDVCommandStatus_ERROR;
-    var message = "Not available"
-    if(available){
-      statusCode = CDVCommandStatus_OK;
-      message = "available";
+    var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "Not available");
+    if available == true {
+      pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "Available");
     }
 
-    let pluginResult = CDVPluginResult(status: statusCode, messageAsString: message);
     commandDelegate.sendPluginResult(pluginResult, callbackId:command.callbackId);
   }
 
@@ -26,12 +23,12 @@ import LocalAuthentication
     var reason = "Authentication";
 
     do {
-      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments);
       if let clientId = json["clientId"] as? String {
         reason = clientId;
       }
     } catch {
-      print("error serializing JSON: \(error)")
+      pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "error serializing JSON: \(error)");
     }
 
     authenticationContext.evaluatePolicy(
@@ -43,9 +40,8 @@ import LocalAuthentication
         }else {
           // Check if there is an error
           if let error = error {
-            //TODO error result
-            print(error.code);
-            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "Error");
+            let erroCode = String(error.code);
+            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "Error: \(errorCode)");
           }
         }
       });
