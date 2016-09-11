@@ -41,7 +41,7 @@ import LocalAuthentication
                         pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Error: \(error)");
                     }
                 }
+                self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
             });
-        commandDelegate.send(pluginResult, callbackId:command.callbackId);
     }
 }
