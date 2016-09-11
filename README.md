@@ -31,4 +31,6 @@ https://github.com/EddyVerbruggen/cordova-plugin-touch-id
 
 ## How to use
 
+[Example](https://github.com/NiklasMerz/fingerprint-aio-demo/blob/master/www/js/controllers.js)
+
 For now refer to my demo app: https://github.com/NiklasMerz/fingerprint-aio-demo
