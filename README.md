@@ -1,8 +1,7 @@
 # Cordova Plugin Fingerprint All-In-One
 ## **A** ndroid and **IO** s
 
-[![npm](https://img.shields.io/npm/v/cordova-plugin-fingerprint-aio.svg?maxAge=2592000)](https://www.npmjs.com/package/cordova-plugin-fingerprint-aio)
-[![npm](https://img.shields.io/npm/dt/cordova-plugin-fingerprint-aio.svg?maxAge=2592000)](https://www.npmjs.com/package/cordova-plugin-fingerprint-aio)
+[![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)
 
 
 This plugin is an attempt to provide a single interface for accessing fingerprint hardware on both Android 6+ and iOS.
