@@ -14,19 +14,18 @@ The plugin is still under development. At the moment the API could change every 
 ## Features
 
 * Check if fingerprint scanner is available
-* fingerprint authentication
+* Fingerprint authentication
 
 ## Features - Work in Progress
 
-* Swift 2 support
-* ngCordova support
-* password fallback
+* ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
+* Password fallback
 
 
 ### Platforms
 
-* Android works
-* iOS works only if **XCode 8** is installed - Plugin uses Swift 3
+* Android
+* iOS - **XCode 8** required, plugin uses Swift 3
 
 ## How to use
 
@@ -61,6 +60,8 @@ Fingerprint.show({
 ```
 
 [Example](https://github.com/NiklasMerz/fingerprint-aio-demo/blob/master/www/js/controllers.js)
+
+[ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)
 
 Demo app: https://github.com/NiklasMerz/fingerprint-aio-demo
 
