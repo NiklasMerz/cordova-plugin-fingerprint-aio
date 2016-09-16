@@ -70,3 +70,8 @@ Demo app: https://github.com/NiklasMerz/fingerprint-aio-demo
 [Android](https://github.com/mjwheatley/cordova-plugin-android-fingerprint-auth)
 
 [iOS](https://github.com/EddyVerbruggen/cordova-plugin-touch-id)
+
+## License
+
+Project and iOS source -> MIT
+Android source -> MIT and Apache 2.0
