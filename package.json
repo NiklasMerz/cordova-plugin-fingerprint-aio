@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio#readme",
   "dependencies": {
-    "cordova-plugin-add-swift-support": "*"
+    "cordova-plugin-add-swift-support": "niklasmerz/cordova-plugin-add-swift-support"
   },
   "devDependencies": {
     "jasmine": "*"

@@ -8,9 +8,6 @@ This plugin is an attempt to provide a single interface for accessing fingerprin
 
 There are some great cordova plugins out there that make use of the fingerprint APIs provided by Android and iOS. But I could not find a project which supports both platforms (correct me if I am wrong). I decided to take their native code and bundle it together in one plugin.
 
-## Disclaimer
-The plugin is still under development. At the moment the API could change every day and the plugin build could crash or have secutity issues. If you use fingerprint authentication in production use the plugins below.
-
 ## Features
 
 * Check if fingerprint scanner is available
@@ -32,14 +29,13 @@ The plugin is still under development. At the moment the API could change every 
 ### Check if fingerprint authentication is available
 ```javascript
 Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
-    $scope.available = "Not checked";
 
     function isAvailableSuccess(result) {
-      $scope.available = "Fingerprint available";
+      alert("Fingerprint available");
     }
 
     function isAvailableError(message) {
-      console.error(message);
+      alert(message);
     }
 ```
 
@@ -73,5 +69,5 @@ Demo app: https://github.com/NiklasMerz/fingerprint-aio-demo
 
 ## License
 
-Project and iOS source -> MIT
-Android source -> MIT and Apache 2.0
+* Project and iOS source -> MIT
+* Android source -> MIT and Apache 2.0
