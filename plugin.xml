@@ -14,7 +14,7 @@
     <clobbers target="Fingerprint" />
   </js-module>
 
-  <dependency id="cordova-plugin-add-swift-support" url="https://github.com/NiklasMerz/cordova-plugin-add-swift-support"/>
+  <dependency id="cordova-plugin-add-swift-support" url="cordova-plugin-add-swift-support"/>
 
   <!-- ios -->
   <platform name="ios">

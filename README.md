@@ -12,10 +12,11 @@ There are some great cordova plugins out there that make use of the fingerprint 
 
 * Check if fingerprint scanner is available
 * Fingerprint authentication
+* ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
 
 ## Features - Work in Progress
 
-* ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
+* Android German translation
 * Password fallback
 
 
