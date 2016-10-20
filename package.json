@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-fingerprint-aio",
-  "version": "0.6.0",
+  "version": "0.7.2",
   "description": "Cordova plugin to use fingerprint authentication on Android and iOS",
   "cordova": {
     "id": "cordova-plugin-fingerprint-aio",
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio#readme",
   "dependencies": {
-    "cordova-plugin-add-swift-support": "*"
+    "cordova-plugin-add-swift-support": "^1.4.0"
   },
   "devDependencies": {
     "jasmine": "*"

@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="cordova-plugin-fingerprint-aio"
-  version="0.1.0">
+  version="0.6.0">
   <name>FingerprintAllInOne</name>
   <description>Cordova plugin to use fingerprint on Android and iOS</description>
   <license>MIT</license>
@@ -14,7 +14,7 @@
     <clobbers target="Fingerprint" />
   </js-module>
 
-  <dependency id="cordova-plugin-add-swift-support" url="https://github.com/akofman/cordova-plugin-add-swift-support"/>
+  <dependency id="cordova-plugin-add-swift-support" url="cordova-plugin-add-swift-support"/>
 
   <!-- ios -->
   <platform name="ios">
