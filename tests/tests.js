@@ -4,4 +4,4 @@ exports.defineAutoTests = function() {
       expect(window.Fingperprint).toBeDefined();
     });
   });
-});
+};

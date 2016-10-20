@@ -53,6 +53,7 @@
     <source-file src="res/android/values/fpauth-colors.xml" target-dir="res/values" />
     <source-file src="res/android/values/fpauth-strings.xml" target-dir="res/values" />
     <source-file src="res/android/values-es" target-dir="res" />
+    <source-file src="res/android/values-de" target-dir="res" />
   </platform>
 
 </plugin>
