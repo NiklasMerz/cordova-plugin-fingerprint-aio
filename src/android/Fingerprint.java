@@ -90,7 +90,6 @@ public class Fingerprint extends CordovaPlugin {
      * Options
      */
     private static boolean mDisableBackup = false;
-    private String mLangCode = "en_US";
 
     /**
      * Constructor.
@@ -179,16 +178,12 @@ public class Fingerprint extends CordovaPlugin {
             if (arg_object.has("disableBackup")) {
                 mDisableBackup = arg_object.getBoolean("disableBackup");
             }
-            if (arg_object.has("locale")) {
-                mLangCode = arg_object.getString("locale");
-                Log.d(TAG, "Change language to locale: " + mLangCode);
-            }
             // Set language
             Resources res = cordova.getActivity().getResources();
             // Change locale settings in the app.
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
-            conf.locale = new Locale(mLangCode.toLowerCase());
+            //Do not change locale
             res.updateConfiguration(conf, dm);
 
             if (isFingerprintAuthAvailable()) {
