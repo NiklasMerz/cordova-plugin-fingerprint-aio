@@ -22,7 +22,7 @@
     <string name="fingerprint_description">Fingerabdruck bestätigen</string>
     <string name="fingerprint_hint">Fingerabdrucksensor</string>
     <string name="fingerprint_not_recognized">Fingerabdruck nicht erkannt. Versuchen Sie es erneut</string>
-    <string name="fingerprint_success">Fingerabdruck erkannr</string>
+    <string name="fingerprint_success">Fingerabdruck erkannt</string>
     <string name="new_fingerprint_enrolled_description">Ein neuer Fingerabdruck wurde gespeichert. Bitte geben Sie ihr Passwort ein.</string>
     <string name="secure_lock_screen_required">Passwortgeschützter Sperrbildschirm benötigt</string>
 </resources>
