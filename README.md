@@ -14,12 +14,6 @@ There are some great cordova plugins out there that make use of the fingerprint 
 * Fingerprint authentication
 * ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
 
-## Features - Work in Progress
-
-* Android German translation
-* Password fallback
-
-
 ### Platforms
 
 * Android
