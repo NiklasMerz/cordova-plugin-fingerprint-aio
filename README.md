@@ -13,6 +13,7 @@ There are some great cordova plugins out there that make use of the fingerprint 
 * Check if fingerprint scanner is available
 * Fingerprint authentication
 * ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
+* Ionic Native support - [Pull request](https://github.com/driftyco/ionic-native/pull/845)
 
 ## Features - Work in Progress
 
@@ -56,9 +57,12 @@ Fingerprint.show({
     }
 ```
 
-[Example](https://github.com/NiklasMerz/fingerprint-aio-demo/blob/master/www/js/controllers.js)
+[Example](https://github.com/NiklasMerz/fingerprint-aio-demo)
 
 [ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)
+
+[Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)
+
 
 Demo app: https://github.com/NiklasMerz/fingerprint-aio-demo
 
