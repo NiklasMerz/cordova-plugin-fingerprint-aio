@@ -15,12 +15,6 @@ There are some great cordova plugins out there that make use of the fingerprint 
 * ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
 * Ionic Native support - [Pull request](https://github.com/driftyco/ionic-native/pull/845)
 
-## Features - Work in Progress
-
-* Android German translation
-* Password fallback
-
-
 ### Platforms
 
 * Android
