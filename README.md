@@ -39,7 +39,7 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
 ```javascript
 Fingerprint.show({
       clientId: "Fingerprint-Demo",
-      clientSecret: "password" //Only necessary for Android
+      clientSecret: "password", //Only necessary for Android
     }, successCallback, errorCallback);
 
     function successCallback(){
@@ -50,6 +50,12 @@ Fingerprint.show({
       alert("Authentication invalid " + err);
     }
 ```
+**Optional parameters**
+
+__disableBackup__: If true remove backup option on authentication dialogue for Android. Default false.
+
+---
+
 
 [Example](https://github.com/NiklasMerz/fingerprint-aio-demo)
 
