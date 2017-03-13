@@ -39,7 +39,7 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
 ```javascript
 Fingerprint.show({
       clientId: "Fingerprint-Demo",
-      clientSecret: "password", //Only necessary for Android
+      clientSecret: "password" //Only necessary for Android
     }, successCallback, errorCallback);
 
     function successCallback(){
