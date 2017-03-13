@@ -56,6 +56,8 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     private FingerprintUiHelper mFingerprintUiHelper;
     FingerprintUiHelper.FingerprintUiHelperBuilder mFingerprintUiHelperBuilder;
 
+    boolean disableBackup;
+
     public FingerprintAuthenticationDialogFragment() {
     }
 
@@ -77,7 +79,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle args = getArguments();
-        boolean disableBackup = args.getBoolean("disableBackup");
+        disableBackup = args.getBoolean("disableBackup");
         Log.d(TAG, "disableBackup: " + disableBackup);
 
         int fingerprint_auth_dialog_title_id = getResources()
@@ -168,8 +170,15 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
      * button. This can also happen when the user had too many fingerprint attempts.
      */
     private void goToBackup() {
-        mStage = Stage.BACKUP;
-        updateStage();
+        if(disableBackup)
+        {
+            Fingerprint.onCancelled(); 
+            dismiss();
+        }
+        else{
+            mStage = Stage.BACKUP;
+            updateStage();
+        }
     }
 
     private void updateStage() {
