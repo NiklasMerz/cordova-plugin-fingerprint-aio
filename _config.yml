@@ -1,0 +1,8 @@
+title: Cordova-plugin-fingerprint-aio
+description: Upcoming Cordova Plugin for fingerprint sensors with Android and iOS support
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-hacker
+
+gems:
+  - jekyll-mentions
