@@ -20,7 +20,30 @@ There are some great cordova plugins out there that make use of the fingerprint 
 * Android
 * iOS - **XCode 8** required, plugin uses Swift 3
 
+
 ## How to use
+
+---
+
+**[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday
+
+[Examples](https://github.com/NiklasMerz/fingerprint-aio-demo)
+
+[ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)
+
+[Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)
+
+---
+
+### Install
+
+Install from NPM
+
+```
+cordova plugin add cordova-plugin-fingerprint-aio --save
+```
+
+or use this Github repo
 
 ### Check if fingerprint authentication is available
 ```javascript
@@ -53,20 +76,6 @@ Fingerprint.show({
 **Optional parameters**
 
 __disableBackup__: If true remove backup option on authentication dialogue for Android. Default false.
-
----
-
-
-[Example](https://github.com/NiklasMerz/fingerprint-aio-demo)
-
-[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8) thanks to Paul Halliday
-
-[ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)
-
-[Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)
-
-
-Demo app: https://github.com/NiklasMerz/fingerprint-aio-demo
 
 ## Thanks to the authors of the original fingerprint plugin:
 
