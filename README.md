@@ -59,6 +59,8 @@ __disableBackup__: If true remove backup option on authentication dialogue for A
 
 [Example](https://github.com/NiklasMerz/fingerprint-aio-demo)
 
+[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8) thanks to Paul Halliday
+
 [ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)
 
 [Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)
