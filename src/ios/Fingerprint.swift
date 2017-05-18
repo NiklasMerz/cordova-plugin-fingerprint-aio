@@ -3,7 +3,7 @@ import LocalAuthentication
 
 @objc(Fingerprint) class Fingerprint : CDVPlugin {
 
-  func isAvailable(_ command: CDVInvokedUrlCommand){
+  func isAvailable(command: CDVInvokedUrlCommand){
     let authenticationContext = LAContext();
     var error:NSError?;
 
@@ -17,7 +17,7 @@ import LocalAuthentication
     commandDelegate.send(pluginResult, callbackId:command.callbackId);
   }
 
-  func authenticate(_ command: CDVInvokedUrlCommand){
+  func authenticate(command: CDVInvokedUrlCommand){
     let authenticationContext = LAContext();
     var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Something went wrong");
     var reason = "Authentication";
