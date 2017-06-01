@@ -54,6 +54,7 @@
     <source-file src="res/android/values/fpauth-strings.xml" target-dir="res/values" />
     <source-file src="res/android/values-es/fpauth-strings.xml" target-dir="res/values-es" />
     <source-file src="res/android/values-de/fpauth-strings.xml" target-dir="res/values-de" />
+    <source-file src="res/android/values-fr/fpauth-strings.xml" target-dir="res/values-fr" />
   </platform>
 
 </plugin>
