@@ -22,7 +22,6 @@ import LocalAuthentication
     var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Something went wrong");
     var reason = "Authentication";
     let data  = command.arguments[0] as AnyObject?;
-
     var policy:LAPolicy;
     if #available(iOS 9.0, *) {
         policy = .deviceOwnerAuthentication;
@@ -30,7 +29,9 @@ import LocalAuthentication
         policy = .deviceOwnerAuthenticationWithBiometrics;
     }
 
-    if let clientId = data?["clientId"] as! String? {
+    if let msg = data?["msg"] as! String? {
+      reason = msg;
+    } else if let clientId = data?["clientId"] as! String? {
       reason = clientId;
     }
 
