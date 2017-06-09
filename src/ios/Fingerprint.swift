@@ -23,7 +23,9 @@ import LocalAuthentication
     var reason = "Authentication";
     let data  = command.arguments[0] as AnyObject?;
 
-    if let clientId = data?["clientId"] as! String? {
+    if let msg = data?["msg"] as! String? {
+      reason = msg;
+    } else if let clientId = data?["clientId"] as! String? {
       reason = clientId;
     }
 
