@@ -1,7 +1,7 @@
 # Cordova Plugin Fingerprint All-In-One
 ## **Android** and **iOS**
 
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)]https://gitter.im/cordova-plugin-fingerprint-aio)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/cordova-plugin-fingerprint-aio)
 
 [![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)
 
