@@ -1,5 +1,5 @@
 # Cordova Plugin Fingerprint All-In-One
-## **A** ndroid and **IO** s
+## **Android** and **iOS**
 
 [![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)
 
