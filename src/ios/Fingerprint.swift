@@ -29,16 +29,17 @@ import LocalAuthentication
     } else {
         policy = .deviceOwnerAuthenticationWithBiometrics;
     }
+
     if let disableBackup = data?["disableBackup"] as! Bool? {
         if disableBackup {
             authenticationContext.localizedFallbackTitle = "";
+            policy = .deviceOwnerAuthenticationWithBiometrics;
         }
     }
 
-    if let clientId = data?["clientId"] as! String? {
-      reason = clientId;
+    if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
+      authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
     }
-
 
     authenticationContext.evaluatePolicy(
       policy,
