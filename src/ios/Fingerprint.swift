@@ -23,22 +23,20 @@ import LocalAuthentication
     var reason = "Authentication";
     let data  = command.arguments[0] as AnyObject?;
 
-    var policy:LAPolicy;
-    if #available(iOS 9.0, *) {
-        policy = .deviceOwnerAuthentication;
-    } else {
-        policy = .deviceOwnerAuthenticationWithBiometrics;
-    }
-
+    var policy:LAPolicy = .deviceOwnerAuthenticationWithBiometrics;
     if let disableBackup = data?["disableBackup"] as! Bool? {
         if disableBackup {
             authenticationContext.localizedFallbackTitle = "";
             policy = .deviceOwnerAuthenticationWithBiometrics;
-        }
-    }
+        }else{
+          if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
+            authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
+          }
 
-    if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
-      authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
+          if #available(iOS 9.0, *) {
+              policy = .deviceOwnerAuthentication;
+          }
+      }
     }
 
     authenticationContext.evaluatePolicy(
