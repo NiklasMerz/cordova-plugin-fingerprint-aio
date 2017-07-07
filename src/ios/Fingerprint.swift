@@ -23,15 +23,29 @@ import LocalAuthentication
     var reason = "Authentication";
     let data  = command.arguments[0] as AnyObject?;
 
+    var policy:LAPolicy = .deviceOwnerAuthenticationWithBiometrics;
+    if #available(iOS 9.0, *) {
+        policy = .deviceOwnerAuthentication;
+    }
+    if let disableBackup = data?["disableBackup"] as! Bool? {
+        if disableBackup {
+            authenticationContext.localizedFallbackTitle = "";
+            policy = .deviceOwnerAuthenticationWithBiometrics;
+        } else {
+          if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
+            authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
+          }
+      }
+     
+    //Localized reason
     if let localizedReason = data?["localizedReason"] as! String? {
       reason = localizedReason;
     }else if let clientId = data?["clientId"] as! String? {
       reason = clientId;
     }
 
-
     authenticationContext.evaluatePolicy(
-      .deviceOwnerAuthenticationWithBiometrics,
+      policy,
       localizedReason: reason,
       reply: { [unowned self] (success, error) -> Void in
         if( success ) {
