@@ -36,6 +36,12 @@ import LocalAuthentication
             authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
           }
       }
+     
+    //Localized reason
+    if let localizedReason = data?["localizedReason"] as! String? {
+      reason = localizedReason;
+    }else if let clientId = data?["clientId"] as! String? {
+      reason = clientId;
     }
 
     authenticationContext.evaluatePolicy(
