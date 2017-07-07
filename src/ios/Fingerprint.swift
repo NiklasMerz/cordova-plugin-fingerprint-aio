@@ -24,17 +24,16 @@ import LocalAuthentication
     let data  = command.arguments[0] as AnyObject?;
 
     var policy:LAPolicy = .deviceOwnerAuthenticationWithBiometrics;
+    if #available(iOS 9.0, *) {
+        policy = .deviceOwnerAuthentication;
+    }
     if let disableBackup = data?["disableBackup"] as! Bool? {
         if disableBackup {
             authenticationContext.localizedFallbackTitle = "";
             policy = .deviceOwnerAuthenticationWithBiometrics;
-        }else{
+        } else {
           if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
             authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
-          }
-
-          if #available(iOS 9.0, *) {
-              policy = .deviceOwnerAuthentication;
           }
       }
     }
