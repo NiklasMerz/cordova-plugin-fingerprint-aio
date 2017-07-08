@@ -36,7 +36,7 @@ import LocalAuthentication
             authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
           }
       }
-     
+
     //Localized reason
     if let localizedReason = data?["localizedReason"] as! String? {
       reason = localizedReason;
@@ -60,3 +60,4 @@ import LocalAuthentication
       });
     }
   }
+}
