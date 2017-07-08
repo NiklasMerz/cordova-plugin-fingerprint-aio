@@ -81,9 +81,11 @@ Fingerprint.show({
 ```
 **Optional parameters**
 
-__disableBackup__: If true remove backup option on authentication dialogue for Android. Default false.
+* __disableBackup__: If true remove backup option on authentication dialogue for Android. Default false.
+* __localizedFallbackTitle__ (iOS only): Title of fallback button.
+* __localizedReason__ (iOS only): Description in authentication dialogue.
 
-## Thanks to the authors of the original fingerprint plugin:
+## Thanks to the authors of the original fingerprint plugins:
 
 [Android](https://github.com/mjwheatley/cordova-plugin-android-fingerprint-auth)
 
