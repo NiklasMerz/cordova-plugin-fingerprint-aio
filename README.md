@@ -23,7 +23,8 @@ There are some great cordova plugins out there that make use of the fingerprint 
 ### Platforms
 
 * Android
-* iOS - **XCode 8** required, plugin uses Swift 3
+* iOS - **XCode 8 or higher** required, plugin uses Swift 3
+  * _If you are using XCode 9, please set `<preference name="UseSwiftLanguageVersion" value="3.2" />` in your config.xml_
 
 
 ## How to use
