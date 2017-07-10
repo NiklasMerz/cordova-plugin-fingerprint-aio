@@ -1,24 +1,28 @@
 # Cordova Plugin Fingerprint All-In-One
-## **A** ndroid and **IO** s
+## **Android** and **iOS**
+
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/cordova-plugin-fingerprint-aio)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NiklasMerz/cordova-plugin-fingerprint-aio/master/LICENSE)
+
 
 [![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)
 
 
-This plugin is an attempt to provide a single interface for accessing fingerprint hardware on both Android 6+ and iOS.
-
-There are some great cordova plugins out there that make use of the fingerprint APIs provided by Android and iOS. But I could not find a project which supports both platforms (correct me if I am wrong). I decided to take their native code and bundle it together in one plugin.
+**This plugin provides a single and simple interface for accessing fingerprint APIs on both Android 6+ and iOS.**
 
 ## Features
 
 * Check if fingerprint scanner is available
 * Fingerprint authentication
-* ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
 * Ionic Native support - [Pull request](https://github.com/driftyco/ionic-native/pull/845)
+* ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
+* Fallback options
 
 ### Platforms
 
 * Android
-* iOS - **XCode 8** required, plugin uses Swift 3
+* iOS - **XCode 8 or higher** required, plugin uses Swift 3
+  * _If you are using XCode 9, please set `<preference name="UseSwiftLanguageVersion" value="3.2" />` in your config.xml_
 
 
 ## How to use
@@ -75,9 +79,11 @@ Fingerprint.show({
 ```
 **Optional parameters**
 
-__disableBackup__: If true remove backup option on authentication dialogue for Android. Default false.
+* __disableBackup__: If true remove backup option on authentication dialogue for Android. Default false.
+* __localizedFallbackTitle__ (iOS only): Title of fallback button.
+* __localizedReason__ (iOS only): Description in authentication dialogue.
 
-## Thanks to the authors of the original fingerprint plugin:
+## Thanks to the authors of the original fingerprint plugins:
 
 [Android](https://github.com/mjwheatley/cordova-plugin-android-fingerprint-auth)
 

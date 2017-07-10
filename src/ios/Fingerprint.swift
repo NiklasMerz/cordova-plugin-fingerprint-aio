@@ -30,7 +30,6 @@ import LocalAuthentication
     if let disableBackup = data?["disableBackup"] as! Bool? {
         if disableBackup {
             authenticationContext.localizedFallbackTitle = "";
-            policy = .deviceOwnerAuthenticationWithBiometrics;
         } else {
           if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
             authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
@@ -41,7 +40,7 @@ import LocalAuthentication
     //Localized reason
     if let localizedReason = data?["localizedReason"] as! String? {
       reason = localizedReason;
-    }else if let clientId = data?["clientId"] as! String? {
+    } else if let clientId = data?["clientId"] as! String? {
       reason = clientId;
     }
 
