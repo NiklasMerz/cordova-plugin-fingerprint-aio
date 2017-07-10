@@ -35,6 +35,7 @@ import LocalAuthentication
             authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
           }
       }
+    }
 
     //Localized reason
     if let localizedReason = data?["localizedReason"] as! String? {
@@ -57,6 +58,5 @@ import LocalAuthentication
         }
         self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
       });
-    }
   }
 }
