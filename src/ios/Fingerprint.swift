@@ -30,12 +30,12 @@ import LocalAuthentication
     if let disableBackup = data?["disableBackup"] as! Bool? {
         if disableBackup {
             authenticationContext.localizedFallbackTitle = "";
-            policy = .deviceOwnerAuthenticationWithBiometrics;
         } else {
           if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
             authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
           }
       }
+    }
 
     //Localized reason
     if let localizedReason = data?["localizedReason"] as! String? {
@@ -58,6 +58,5 @@ import LocalAuthentication
         }
         self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
       });
-    }
   }
 }
