@@ -1,6 +1,6 @@
 ## Do you have a question ?
 
-Please go to [Gitter](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/cordova-plugin-fingerprint-aio) and ask here.
+Please go to [Gitter](https://gitter.im/cordova-plugin-fingerprint-aio) and ask here.
 
 ## Description
 
