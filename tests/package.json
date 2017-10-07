@@ -1,0 +1,14 @@
+{
+    "name": "cordova-plugin-fingerprint-aio-tests",
+    "version": "2.0.0-dev",
+    "description": "",
+    "cordova": {
+        "id": "cordova-plugin-fingerprint-aio-tests",
+        "platforms": ["android", "ios"]
+    },
+    "keywords": [
+        "ecosystem:cordova"
+    ],
+    "author": "Niklas Merz",
+    "license": "MIT"
+}

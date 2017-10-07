@@ -5,3 +5,11 @@ exports.defineAutoTests = function() {
     });
   });
 };
+
+exports.defineManualTests = function (contentEl, createActionButton) {
+
+  createActionButton('Simple Test', function () {
+    console.log(JSON.stringify(foo, null, '\t'));
+  });
+
+};
