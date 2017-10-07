@@ -1,16 +1,13 @@
 sudo: false
+addons:
+  jwt:
+    secure: "YRC+AhHmnlhfqjlZAHdD2UFimfTcPZQWb+IjiuOmhst/hACKLnpMXbWVJwpzkRrarCsMv59hXHy88kQJa/8yJWHlxE0YoYGajBTxQYxbPCg29g98Sdvu7s9DoEuNS8FKNkDK0qNVTWvOB5OFY8dZ21eSM81IBpW0l2gl5ugUKisJckKcPn1bap8PZC1GufAwO3kFXSIFVV1Hh6A9egNyFjZyzNO6p66+/fhxdew8mZMwtr9RNON3afMWCIGgObtJ/GLB2x5CQj6nPA/pel8DRSEyEJjo/+V3rDhLKdUQKXbdGP70MYenYYmSDZHXEFjMlEA5LDiOraicyoCHzxC/3CtJ+cQH34AyXVEadNOObtNQokCIHC7oY8V4w1G4y9q8fWz6wNmV9eNQQXCbzBdq7YNrUyabdRXGuxaIle0H9PGS0bMocbBHhRImg5kLcjR7vN5HDaVbxY5/bHpR+V4Q+2gumyjtMl9zJ4FpHPRKy0hbpzciUDSkQqoci4OeKndbwizQXWl0qyiFd49qZ/SV1NOUwEC4M2dyNERAX2a2ESJxPNkS2LL4l70vlAV176oMzROszxl83Cal10PvATxksAKF0V1yImlwxhbNRw6hEJ8NVziGJLX6lK6/i9z0L7Xj3CH6kGtEw5zA0c/rv1wK2Yj59vDMZI1XxNX3x3GMf3s="
 env:
   global:
+  - SAUCE_USERNAME=NiklasMerz
   - TRAVIS_NODE_VERSION="4.2"
 matrix:
   include:
-  - env: PLATFORM=android-6.0
-    os: linux
-    language: android
-    jdk: oraclejdk8
-    android:
-      components:
-      - tools
   - env: PLATFORM=android-7.0
     os: linux
     language: android
@@ -25,7 +22,7 @@ before_install:
 - node --version
 - if [[ "$PLATFORM" =~ android ]]; then gradle --version; fi
 - if [[ "$PLATFORM" =~ ios ]]; then npm install -g ios-deploy; fi
-- if [[ "$PLATFORM" =~ android ]]; then echo y | android update sdk -u --filter android-22,android-23,android-24,android-25;
+- if [[ "$PLATFORM" =~ android ]]; then echo y | android update sdk -u --filter android-25;
   fi
 - git clone https://github.com/apache/cordova-paramedic /tmp/paramedic && pushd /tmp/paramedic
   && npm install && popd
@@ -33,6 +30,6 @@ before_install:
 install:
 - npm install
 script:
-- node /tmp/paramedic/main.js --config pr/$PLATFORM --plugin $(pwd)
+- node /tmp/paramedic/main.js --config pr/$PLATFORM --plugin $(pwd) --shouldUseSauce
   --buildName travis-plugin-device-$TRAVIS_JOB_NUMBER
 
