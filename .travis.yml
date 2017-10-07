@@ -24,7 +24,7 @@ matrix:
     os: osx
     osx_image: xcode9.1
     language: node_js
-node_js: '4.2'
+    node_js: '4.2'
 before_install:
 - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
   && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
