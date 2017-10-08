@@ -1,0 +1,47 @@
+sudo: false
+addons:
+  jwt:
+    secure: f0G7Z/0N1ACi5pFg32P4kr8tVd5EOADDne5a8/MtabGTjeH0/QZl+4xKIgemXle6BJn949Gqpx4+XkmaKmDHHfIsV+9GmLwqGpGSyQMMoeBI0Lfxzh8aecYDxfJKBYmdmpJcyG3yKa42nxQFEMIljf0NJEmNN8AAglsaSh5VQq2dlv1aXaoJz18dpgRVE1cJ4rvUJN+fOrZYjRsqw9ev+11J7cwRONsBB/Yx+56tsverD2uC4Xutj58CEaw7WRk4BLMqehkGO0/ez2Ofc9dBDfc4ZHqHxZMfqjYO5r95VFclyIgto9ToW2kazuK+NZMgaX5wEBp+ktVQGHQw+rRunANplJt14AXpu7Elpfp04Hb4qjBQTYCXellNJ1TgLJLhP6a3P4nTUBrZ9I5mjSGI8ckvUEb1066KyGJmMIPs64z6BJgDHd91PP+cDq6MqUm+n+m24l6Ou/iLDmxaEs6peEctx5A6hACnNwyyB5MEeqZVbksFkNoYw9pxbTj1bBtBbg5QRHC7+Bd8mrN12VOi2wA2N8dFgO3Np+sfZriq/CXfCPrDNYPX8IwF9HEkm2J+PLW1MD8Kx2XwALCqKjU6md0hKui5LdhNWlpAiNK/eBLtJEF2egaMkQw1JPQYxHIyAAi4yUSYYVd64hb9rgUSTNiywRddmKovBChiwiTsmFc=
+env:
+  global:
+  - SAUCE_USERNAME=NiklasMerz
+  - TRAVIS_NODE_VERSION="4.2"
+matrix:
+  include:
+  - env: PLATFORM=android-7.0
+    os: linux
+    language: android
+    jdk: oraclejdk8
+    android:
+      components:
+      - tools
+  - env: PLATFORM=ios-9.3
+    os: osx
+    osx_image: xcode9.1
+    language: node_js
+    node_js: '4.2'
+  - env: PLATFORM=ios-10.0
+    os: osx
+    osx_image: xcode9.1
+    language: node_js
+    node_js: '4.2'
+before_install:
+- rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
+  && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
+  install $TRAVIS_NODE_VERSION
+- node --version
+- if [[ "$PLATFORM" =~ android ]]; then gradle --version; fi
+- if [[ "$PLATFORM" =~ ios ]]; then npm install -g ios-deploy; fi
+- if [[ "$PLATFORM" =~ android ]]; then echo y | android update sdk -u --filter android-25;
+  fi
+- git clone https://github.com/apache/cordova-paramedic /tmp/paramedic && pushd /tmp/paramedic
+  && npm install && popd
+- npm install -g cordova
+install:
+- npm install
+script:
+- node /tmp/paramedic/main.js --config pr/$PLATFORM --plugin $(pwd) --shouldUseSauce
+  --buildName travis-plugin-device-$TRAVIS_JOB_NUMBER
+notifications:
+  slack:
+    secure: M2YnQ9ZNaAg86UnNWmWcEZ0vsi5UMJ+wYCpqvhYGBzs6UGhyy4vRx/dhrFT3zsJr4of5YmVYulidVbjfGBnubTbI3VHdtzP3KXqmCci3ioavMud6Luspw4h8+pCJXQIkoXM/n4Atx4S5Qyke6HrXX/IJrigOw4QXQYsU29n/j6SAHcVHckbO7hHCiDQMr6D5PwVUi6m02/zpE9B2FATar1JcVrVfX+d9ZbULf8w5iOVtfVPrnBl6RKAIXxNaFNnQyiAld0eCguePNeVuMU5QSS+VKc5b0HvJPeRydRAuL3Hlf8DJ3F6TR8kOfVUa7fTqvejweRaaqAvjYSVC2exgp79eV53/1vYRMAWgo4qAsRoH5m7xVvTJcgP0M97Bh1fZJzGWyKmiRvUw6tJdKh7Ig9vIM0FjXvzf3wfl/09u7Jh8KUBjqBZlZ+SLVaU7qLB8DaxeRvgymCInlKJd135lGsWj8+ZNl7eccfSJ3cjQIuYRKcgCAPyyo2Iydfi/q6ZBN4CJTgyuIt0ooI0aB5h9kDRQIxiODzAy363AtHEsnRL7wHtOSYikKGsrIz+vUN8gjpu4lSm1ePIf0ErP1kZBpB6rcvX28dSuKwBGbyoqJMjbYbgRSTiePcIS3VLLg8qfoNoBonEylLK6IpJA3ussjGS2sEyS1F8wln5L+y0C3pw=
