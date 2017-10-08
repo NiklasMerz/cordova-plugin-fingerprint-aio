@@ -1,3 +1,5 @@
+/*global cordova */
+
 function Fingerprint() {
 }
 
@@ -7,7 +9,7 @@ Fingerprint.prototype.show = function (params, successCallback, errorCallback) {
     errorCallback,
     "Fingerprint",
     "authenticate",
-    [ params ]
+    [params]
   );
 };
 
@@ -21,5 +23,4 @@ Fingerprint.prototype.isAvailable = function (successCallback, errorCallback) {
   );
 };
 
-Fingerprint = new Fingerprint();
-module.exports = Fingerprint;
+module.exports = new Fingerprint();

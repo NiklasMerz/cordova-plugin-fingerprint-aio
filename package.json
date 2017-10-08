@@ -34,6 +34,7 @@
     "cordova-plugin-add-swift-support": "^1.7.0"
   },
   "devDependencies": {
+    "eslint": "^4.8.0",
     "jasmine": "*"
   }
 }
