@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio.svg?branch=master)](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio)
 [![Code Climate](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/gpa.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)
 [![Issue Count](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/issue_count.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)
+[![Dependency Status](https://gemnasium.com/badges/github.com/NiklasMerz/cordova-plugin-fingerprint-aio.svg)](https://gemnasium.com/github.com/NiklasMerz/cordova-plugin-fingerprint-aio)
 
 [![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)
 
@@ -16,8 +17,8 @@
 
 * Check if fingerprint scanner is available
 * Fingerprint authentication
-* Ionic Native support - [Pull request](https://github.com/driftyco/ionic-native/pull/845)
-* ngCordova support - [Pull request](https://github.com/driftyco/ng-cordova/pull/1347)
+* Ionic Native support
+* ngCordova support
 * Fallback options
 
 ### Platforms
