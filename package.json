@@ -34,11 +34,14 @@
     "cordova-plugin-add-swift-support": "^1.7.0"
   },
   "devDependencies": {
+    "cordova-paramedic": "^0.5.0",
+    "cordova-plugin-xml": "^0.1.2",
     "eslint": "^4.8.0",
-    "jasmine": "*",
-    "cordova-paramedic": "^0.5.0"
+    "jasmine": "*"
   },
   "scripts": {
-    "test": "./node_modules/cordova-paramedic/main.js --plugin . --device --platform"
+    "test": "./node_modules/cordova-paramedic/main.js --plugin . --device --platform",
+    "plugin-version": "cordova-plugin-xml setVersion",
+    "preversion": "npm test"
   }
 }
