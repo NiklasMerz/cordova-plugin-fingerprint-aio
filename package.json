@@ -41,7 +41,6 @@
   },
   "scripts": {
     "test": "./node_modules/cordova-paramedic/main.js --plugin . --device --platform",
-    "plugin-version": "cordova-plugin-xml setVersion",
-    "preversion": "npm test"
+    "plugin-version": "cordova-plugin-xml setVersion"
   }
 }
