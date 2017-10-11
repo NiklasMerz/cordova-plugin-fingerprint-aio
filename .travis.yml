@@ -5,14 +5,13 @@ addons:
 env:
   global:
   - SAUCE_USERNAME=NiklasMerz
-  - TRAVIS_NODE_VERSION="4.2"
+  - TRAVIS_NODE_VERSION="lts/*"
 matrix:
   include:
   - env: PLATFORM=android-7.0
     os: linux
     language: android
     jdk: oraclejdk8
-    node_js: 'lts/*'
     android:
       components:
       - tools
