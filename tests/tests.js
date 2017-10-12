@@ -21,7 +21,7 @@ exports.defineAutoTests = function () {
 
       it("should call the error handler when attempting to use the plugin on Android 5.1 or below", function (done) {
         spyOn(handlers, "errorHandler").and.callFake(function (res) {
-          expect(res).toEqual(jasmine.any(Error));
+          expect(res).toEqual("minimum SDK version 23 required");
           expect(handlers.successHandler).not.toHaveBeenCalled();
           done();
         });

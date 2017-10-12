@@ -8,14 +8,14 @@ env:
   - TRAVIS_NODE_VERSION="lts/*"
 matrix:
   include:
-  - env: PLATFORM=android-6.0
+  - env: PLATFORM=android-5.1
     os: linux
     language: android
     jdk: oraclejdk8
     android:
       components:
       - tools
-  - env: PLATFORM=android-5.1
+  - env: PLATFORM=android-6.0
     os: linux
     language: android
     jdk: oraclejdk8
@@ -55,7 +55,7 @@ install:
 - npm install
 script:
 - node /tmp/paramedic/main.js --config pr/$PLATFORM --plugin $(pwd) --shouldUseSauce
-  --buildName travis-plugin-device-$TRAVIS_JOB_NUMBER
+  --buildName travis-plugin-fingerprint-$TRAVIS_JOB_NUMBER
 notifications:
   email: false
   slack:
