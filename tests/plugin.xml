@@ -13,4 +13,8 @@
   <js-module src="tests.js" name="tests">
   </js-module>
 
+  <platform name="android">
+        <dependency id="cordova-plugin-device" version="*" />
+  </platform>
+
 </plugin>
