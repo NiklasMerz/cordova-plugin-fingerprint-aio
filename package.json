@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/niklasmerz/cordova-plugin-fingerprint-aio"
+    "url": "git+https://github.com/Fever905/cordova-plugin-fingerprint-aio"
   },
   "keywords": [
     "cordova",
