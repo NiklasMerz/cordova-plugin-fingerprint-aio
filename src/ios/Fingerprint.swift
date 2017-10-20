@@ -7,7 +7,11 @@ import LocalAuthentication
     let authenticationContext = LAContext();
     var error:NSError?;
 
-    let available = authenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error);
+    var policy:LAPolicy = .deviceOwnerAuthenticationWithBiometrics;
+    if #available(iOS 9.0, *) {
+        policy = .deviceOwnerAuthentication;
+    }
+    let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
 
     var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
     if available == true {
