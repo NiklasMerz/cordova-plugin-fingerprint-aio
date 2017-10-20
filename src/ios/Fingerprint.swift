@@ -58,7 +58,7 @@ import LocalAuthentication
         }else {
           // Check if there is an error
           if error != nil {
-            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Error: \(error)");
+            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Error: \(String(describing:error))");
           }
         }
         self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
