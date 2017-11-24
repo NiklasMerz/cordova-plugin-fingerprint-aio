@@ -279,11 +279,12 @@ public class Fingerprint extends CordovaPlugin {
             mCipher.init(Cipher.ENCRYPT_MODE, key);
             initCipher = true;
         } catch (InvalidKeyException e) {
-            errorMessage = initCipherExceptionErrorPrefix
-                    + "InvalidKeyException: " + e.toString();
+            errorMessage = initCipherExceptionErrorPrefix + "InvalidKeyException: " + e.toString();
+            
         }
         if (!initCipher) {
             Log.e(TAG, errorMessage);
+            createKey();
         }
         return initCipher;
     }
