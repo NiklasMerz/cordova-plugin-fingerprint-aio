@@ -15,8 +15,9 @@ import LocalAuthentication
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
         if available == true {
             if #available(iOS 11.0, *) {
-                if (laContext.biometryType == LABiometryTypeFaceID) {
-                    biometryType = "face";
+                switch(laContext.biometryType) {
+                case .typeFaceID:
+                    biometryType = "face"
                 }
             }
 
