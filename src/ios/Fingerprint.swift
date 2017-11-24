@@ -7,7 +7,7 @@ import LocalAuthentication
     
     func isAvailable(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
-        let biometryType = "finger";
+        var biometryType = "finger";
         var error:NSError?;
         
         let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
