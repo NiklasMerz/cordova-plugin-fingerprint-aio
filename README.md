@@ -4,7 +4,6 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/cordova-plugin-fingerprint-aio)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NiklasMerz/cordova-plugin-fingerprint-aio/master/LICENSE)
 [![Build Status](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio.svg?branch=master)](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio)
-[![Code Climate](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/gpa.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)
 [![Issue Count](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/issue_count.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)
 [![Dependency Status](https://gemnasium.com/badges/github.com/NiklasMerz/cordova-plugin-fingerprint-aio.svg)](https://gemnasium.com/github.com/NiklasMerz/cordova-plugin-fingerprint-aio)
 
