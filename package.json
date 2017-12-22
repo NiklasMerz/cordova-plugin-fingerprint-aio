@@ -36,8 +36,8 @@
   "devDependencies": {
     "cordova-paramedic": "^0.5.0",
     "cordova-plugin-xml": "^0.1.2",
-    "eslint": "^4.8.0",
-    "jasmine": "*"
+    "eslint": "^4.13.1",
+    "jasmine": "^2.8.0"
   },
   "scripts": {
     "test": "./node_modules/cordova-paramedic/main.js --plugin . --device --platform",
