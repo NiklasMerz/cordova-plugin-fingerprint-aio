@@ -31,12 +31,12 @@
   },
   "homepage": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio#readme",
   "dependencies": {
-    "cordova-plugin-add-swift-support": "^1.7.0"
+    "cordova-plugin-add-swift-support": "^1.7.1"
   },
   "devDependencies": {
-    "cordova-paramedic": "^0.5.0",
+    "cordova-paramedic": "git+https://github.com/apache/cordova-paramedic.git",
     "cordova-plugin-xml": "^0.1.2",
-    "eslint": "^4.13.1",
+    "eslint": "^4.14.0",
     "jasmine": "^2.8.0"
   },
   "scripts": {
