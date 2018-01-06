@@ -19,6 +19,7 @@
 * Ionic Native support
 * ngCordova support
 * Fallback options
+* Now with **FaceID** on iPhone X
 
 ### Platforms
 
@@ -49,6 +50,12 @@ Install from NPM
 cordova plugin add cordova-plugin-fingerprint-aio --save
 ```
 
+If you want to set a FaceID description use:
+
+```
+cordova plugin add cordova-plugin-fingerprint-aio --variable FACEID_USAGE_DESCRIPTION="Login now...."
+```
+
 or use this Github repo
 
 ### Check if fingerprint authentication is available
@@ -56,6 +63,10 @@ or use this Github repo
 Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
 
     function isAvailableSuccess(result) {
+      /*
+      result depends on device and os. 
+      iPhone X will return 'face' other Android or iOS devices will return 'finger'  
+      */
       alert("Fingerprint available");
     }
 
@@ -85,7 +96,11 @@ Fingerprint.show({
 * __localizedFallbackTitle__ (iOS only): Title of fallback button.
 * __localizedReason__ (iOS only): Description in authentication dialogue.
 
-## Thanks to the authors of the original fingerprint plugins:
+## Thanks to the authors of the original fingerprint plugins
+
+Some code is refactored from their projects and I learned how to make Cordova plugins from their great plugins:
+
+@EddyVerbruggen and @mjwheatley
 
 [Android](https://github.com/mjwheatley/cordova-plugin-android-fingerprint-auth)
 

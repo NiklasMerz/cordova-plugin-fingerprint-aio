@@ -7,13 +7,25 @@ import LocalAuthentication
     
     func isAvailable(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
+        var biometryType = "finger";
         var error:NSError?;
         
         let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
         
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
         if available == true {
-            pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Available");
+            if #available(iOS 11.0, *) {
+                switch(authenticationContext.biometryType) {
+                case .none:
+                    biometryType = "finger";
+                case .typeTouchID:
+                    biometryType = "finger";
+                case .typeFaceID:
+                    biometryType = "face"
+                }
+            }
+
+            pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: biometryType);
         }
         
         commandDelegate.send(pluginResult, callbackId:command.callbackId);

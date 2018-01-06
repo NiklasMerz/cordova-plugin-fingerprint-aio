@@ -38,7 +38,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     function isAvailableSuccess(result) {
       console.log(result);
-      alert("Fingerprint available");
+      alert("Fingerprint available (" + result + ")");
     }
 
     function isAvailableError(message) {
