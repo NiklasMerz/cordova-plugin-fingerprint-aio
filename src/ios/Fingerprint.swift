@@ -18,9 +18,9 @@ import LocalAuthentication
                 switch(authenticationContext.biometryType) {
                 case .none:
                     biometryType = "finger";
-                case .typeTouchID:
+                case .touchID:
                     biometryType = "finger";
-                case .typeFaceID:
+                case .faceID:
                     biometryType = "face"
                 }
             }
