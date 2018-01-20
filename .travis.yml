@@ -15,6 +15,7 @@ matrix:
     android:
       components:
       - tools
+      - build-tools-26.0.2
   - env: PLATFORM=ios-9.3
     os: osx
     osx_image: xcode9.1
