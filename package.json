@@ -40,7 +40,7 @@
     "jasmine": "^2.8.0"
   },
   "scripts": {
-    "test": "./node_modules/cordova-paramedic/main.js --plugin . --device --platform",
+    "test": "./node_modules/cordova-paramedic/main.js --plugin . --platform",
     "plugin-version": "cordova-plugin-xml setVersion"
   }
 }
