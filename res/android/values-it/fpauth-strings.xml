@@ -7,7 +7,7 @@
     <string name="fingerprint_description">Conferma l\'impronta digitale per continuare</string>
     <string name="fingerprint_hint">Sensore Touch</string>
     <string name="fingerprint_not_recognized">Impronta digitale non riconosciuta. Riprova.</string>
-    <string name="fingerprint_success">Impronta digitale riconosciutar</string>
+    <string name="fingerprint_success">Impronta digitale riconosciuta</string>
     <string name="new_fingerprint_enrolled_description">Una nuova impronta è stata aggiunta a questo dispositivo, quindi è necessaria la tua password</string>
     <string name="secure_lock_screen_required">Blocco schermo richiesto!</string>
 </resources>
