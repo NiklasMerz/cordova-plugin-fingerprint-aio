@@ -17,7 +17,7 @@ import LocalAuthentication
             if #available(iOS 11.0, *) {
                 switch(authenticationContext.biometryType) {
                 case .none:
-                    biometryType = "finger";
+                    biometryType = "none";
                 case .touchID:
                     biometryType = "finger";
                 case .faceID:
