@@ -24,10 +24,10 @@
     <source-file src="src/ios/Fingerprint.swift"/>
 
     <!-- Usage description of Face ID for iOS 11+ -->
-+    <preference name="FACEID_USAGE_DESCRIPTION" default=" " />
-+    <config-file target="*-Info.plist" parent="NSFaceIDUsageDescription">
-+      <string>$FACEID_USAGE_DESCRIPTION</string>
-+    </config-file>
+    <preference name="FACEID_USAGE_DESCRIPTION" default=" " />
+    <config-file target="*-Info.plist" parent="NSFaceIDUsageDescription">
+      <string>$FACEID_USAGE_DESCRIPTION</string>
+    </config-file>
   </platform>
 
   <!-- android -->
