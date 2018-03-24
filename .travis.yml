@@ -37,7 +37,7 @@ before_install:
   fi
 - git clone https://github.com/apache/cordova-paramedic /tmp/paramedic && pushd /tmp/paramedic
   && npm install && popd
-- npm install -g cordova
+- npm install -g cordova@7.0.1
 install:
 - npm install
 script:
