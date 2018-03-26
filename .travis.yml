@@ -18,12 +18,12 @@ matrix:
       - build-tools-26.0.2
   - env: PLATFORM=ios-9.3
     os: osx
-    osx_image: xcode9.1
+    osx_image: xcode9.2
     language: node_js
     node_js: 'lts/*'
   - env: PLATFORM=ios-10.0
     os: osx
-    osx_image: xcode9.1
+    osx_image: xcode9.2
     language: node_js
     node_js: 'lts/*'
 before_install:
@@ -36,7 +36,7 @@ before_install:
 - if [[ "$PLATFORM" =~ android ]]; then echo y | android update sdk -u --filter android-25,android-26;
   fi
 - git clone https://github.com/apache/cordova-paramedic /tmp/paramedic && pushd /tmp/paramedic
-  && npm install && popd
+  && npm install && echo '{"platform":"ios","action":"run","cleanUpAfterRun":true,"verbose":true,"saucePlatformVersion":"10.0","sauceAppiumVersion":"1.6.4"}' > conf/pr/ios-11.0.config.json && popd
 - npm install -g cordova@7.0.1
 install:
 - npm install
