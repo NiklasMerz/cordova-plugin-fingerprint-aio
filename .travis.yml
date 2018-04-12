@@ -42,7 +42,7 @@ install:
 - npm install
 script:
 - node /tmp/paramedic/main.js --config pr/$PLATFORM --plugin $(pwd) --shouldUseSauce
-  --buildName travis-plugin-device-$TRAVIS_JOB_NUMBER
+  --buildName travis-plugin-fingerprint-aio-$TRAVIS_JOB_NUMBER
 notifications:
   email: false
   slack:
