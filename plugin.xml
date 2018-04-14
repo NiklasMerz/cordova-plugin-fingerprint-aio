@@ -37,9 +37,9 @@
         <param name="android-package" value="de.niklasmerz.cordova.fingerprint.Fingerprint"/>
       </feature>
     </config-file>
-    <edit-config file="app/src/main/AndroidManifest.xml" target="/manifest/application" mode="merge">
+    <config-file target="AndroidManifest.xml" parent="/*">
       <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-    </edit-config>
+    </config-file>
 
     <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
     <source-file src="src/android/FingerprintAuthenticationDialogFragment.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
