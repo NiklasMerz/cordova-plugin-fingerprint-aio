@@ -38,7 +38,7 @@
             </feature>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/*">
-            <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+            <uses-permission android:name="android.permission.USE_FINGERPRINT" />
         </config-file>
 
         <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
@@ -46,12 +46,12 @@
         <source-file src="src/android/FingerprintUiHelper.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
         <source-file src="res/android/drawable/ic_fingerprint_error.xml" target-dir="res/drawable"/>
         <source-file src="res/android/drawable/ic_fingerprint_success.xml" target-dir="res/drawable"/>
-        <source-file src="res/android/drawable-hdpi/ic_fp_40px.png" target-dir="res/drawable-hdpi"/>
-        <source-file src="res/android/drawable-mdpi/ic_fp_40px.png" target-dir="res/drawable-mdpi"/>
-        <source-file src="res/android/drawable-nodpi/android_robot.png" target-dir="res/drawable-nodpi"/>
-        <source-file src="res/android/drawable-xhdpi/ic_fp_40px.png" target-dir="res/drawable-xhdpi"/>
-        <source-file src="res/android/drawable-xxhdpi/ic_fp_40px.png" target-dir="res/drawable-xxhdpi"/>
-        <source-file src="res/android/drawable-xxxhdpi/ic_fp_40px.png" target-dir="res/drawable-xxxhdpi"/>
+        <resource-file src="res/android/drawable-hdpi/ic_fp_40px.png" target="res/drawable-hdpi/ic_fp_40px.png"/>
+        <resource-file src="res/android/drawable-mdpi/ic_fp_40px.png" target="res/drawable-mdpi/ic_fp_40px.png"/>
+        <resource-file src="res/android/drawable-nodpi/android_robot.png" target="res/drawable-nodpi/android_robot.png"/>
+        <resource-file src="res/android/drawable-xhdpi/ic_fp_40px.png" target="res/drawable-xhdpi/ic_fp_40px.png"/>
+        <resource-file src="res/android/drawable-xxhdpi/ic_fp_40px.png" target="res/drawable-xxhdpi/ic_fp_40px.png"/>
+        <resource-file src="res/android/drawable-xxxhdpi/ic_fp_40px.png" target="res/drawable-xxxhdpi/ic_fp_40px.png"/>
         <source-file src="res/android/layout/fingerprint_dialog_container.xml" target-dir="res/layout"/>
         <source-file src="res/android/layout/fingerprint_dialog_content.xml" target-dir="res/layout"/>
         <source-file src="res/android/values/fpauth-colors.xml" target-dir="res/values"/>
