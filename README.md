@@ -22,7 +22,7 @@
 
 ### Platforms
 
-* Android
+* Android - Minimum SDK 23
 * iOS - **XCode 9.2 or higher** required
   * _Please set `<preference name="UseSwiftLanguageVersion" value="3.2" />` in your config.xml_
 
@@ -43,7 +43,7 @@
 
 ### Install
 
-Install from NPM
+**Install from NPM**
 
 ```
 cordova plugin add cordova-plugin-fingerprint-aio --save
@@ -55,7 +55,21 @@ If you want to set a FaceID description use:
 cordova plugin add cordova-plugin-fingerprint-aio --variable FACEID_USAGE_DESCRIPTION="Login now...."
 ```
 
-or use this Github repo
+**Use Release candidate**
+
+You can use preview versions with the `rc` tag on npm.
+
+```
+cordova plugin add cordova-plugin-fingerprint-aio@rc
+```
+
+**Use this Github repo**
+
+Get the latest development version. *Not recommended!*
+
+```
+cordova plugin add https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio.git
+```
 
 ### Check if fingerprint authentication is available
 ```javascript
