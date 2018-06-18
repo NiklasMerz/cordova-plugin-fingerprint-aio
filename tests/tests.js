@@ -1,11 +1,14 @@
+/* global Fingerprint */
+/* eslint-disable no-alert, no-console */
+
 exports.defineAutoTests = function() {
-  describe('Fingerprint Object', function () {
+  describe("Fingerprint Object", function () {
     it("should exist", function() {
       expect(window.Fingerprint).toBeDefined();
     });
   });
 
-  describe('isAvailable', function () {
+  describe("isAvailable", function () {
     it("isAvailable schould be defined", function () {
       expect(window.Fingerprint.isAvailable).toBeDefined();
     });
@@ -21,7 +24,7 @@ exports.defineAutoTests = function() {
     });
   });
 
-  describe('show', function () {
+  describe("show", function () {
     it("show schould be defined", function () {
       expect(window.Fingerprint.show).toBeDefined();
     });
@@ -30,11 +33,12 @@ exports.defineAutoTests = function() {
 
 exports.defineManualTests = function (contentEl, createActionButton) {
 
-  createActionButton('isAvailable', function () {
+  createActionButton("isAvailable", function () {
     window.Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
 
     function isAvailableSuccess(result) {
-      alert("Fingerprint available");
+      console.log(result);
+      alert("Fingerprint available (" + result + ")");
     }
 
     function isAvailableError(message) {
@@ -42,10 +46,11 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
   });
 
-  createActionButton('show', function () {
+  createActionButton("show", function () {
     Fingerprint.show({
       clientId: "Fingerprint-Tests",
-      clientSecret: "password"
+      clientSecret: "password",
+      disableBackup: false
     }, successCallback, errorCallback);
 
     function successCallback() {
@@ -57,7 +62,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
   });
 
-  createActionButton('show-disablebackup', function () {
+  createActionButton("show-disablebackup", function () {
     Fingerprint.show({
       clientId: "Fingerprint-Tests",
       clientSecret: "password",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="1.3.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="1.3.7">
   <name>FingerprintAllInOne</name>
   <description>Cordova plugin to use fingerprint on Android and iOS</description>
   <license>MIT</license>
@@ -11,16 +11,23 @@
     <clobbers target="Fingerprint"/>
   </js-module>
 
-  <dependency id="cordova-plugin-add-swift-support" version="^1.7.0"/>
+  
 
   <!-- ios -->
   <platform name="ios">
+    <dependency id="cordova-plugin-add-swift-support" version="^1.7.1"/>
     <config-file target="config.xml" parent="/*">
       <feature name="Fingerprint">
         <param name="ios-package" value="Fingerprint"/>
       </feature>
     </config-file>
     <source-file src="src/ios/Fingerprint.swift"/>
+
+    <!-- Usage description of Face ID for iOS 11+ -->
+    <preference name="FACEID_USAGE_DESCRIPTION" default=" "/>
+    <config-file target="*-Info.plist" parent="NSFaceIDUsageDescription">
+      <string>$FACEID_USAGE_DESCRIPTION</string>
+    </config-file>
   </platform>
 
   <!-- android -->
@@ -39,12 +46,12 @@
     <source-file src="src/android/FingerprintUiHelper.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
     <source-file src="res/android/drawable/ic_fingerprint_error.xml" target-dir="res/drawable"/>
     <source-file src="res/android/drawable/ic_fingerprint_success.xml" target-dir="res/drawable"/>
-    <source-file src="res/android/drawable-hdpi/ic_fp_40px.png" target-dir="res/drawable-hdpi"/>
-    <source-file src="res/android/drawable-mdpi/ic_fp_40px.png" target-dir="res/drawable-mdpi"/>
-    <source-file src="res/android/drawable-nodpi/android_robot.png" target-dir="res/drawable-nodpi"/>
-    <source-file src="res/android/drawable-xhdpi/ic_fp_40px.png" target-dir="res/drawable-xhdpi"/>
-    <source-file src="res/android/drawable-xxhdpi/ic_fp_40px.png" target-dir="res/drawable-xxhdpi"/>
-    <source-file src="res/android/drawable-xxxhdpi/ic_fp_40px.png" target-dir="res/drawable-xxxhdpi"/>
+    <resource-file src="res/android/drawable-hdpi/ic_fp_40px.png" target="res/drawable-hdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-mdpi/ic_fp_40px.png" target="res/drawable-mdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-nodpi/android_robot.png" target="res/drawable-nodpi/android_robot.png"/>
+    <resource-file src="res/android/drawable-xhdpi/ic_fp_40px.png" target="res/drawable-xhdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-xxhdpi/ic_fp_40px.png" target="res/drawable-xxhdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-xxxhdpi/ic_fp_40px.png" target="res/drawable-xxxhdpi/ic_fp_40px.png"/>
     <source-file src="res/android/layout/fingerprint_dialog_container.xml" target-dir="res/layout"/>
     <source-file src="res/android/layout/fingerprint_dialog_content.xml" target-dir="res/layout"/>
     <source-file src="res/android/values/fpauth-colors.xml" target-dir="res/values"/>
@@ -53,6 +60,10 @@
     <source-file src="res/android/values-de/fpauth-strings.xml" target-dir="res/values-de"/>
     <source-file src="res/android/values-fr/fpauth-strings.xml" target-dir="res/values-fr"/>
     <source-file src="res/android/values-zh/fpauth-strings.xml" target-dir="res/values-zh"/>
+    <source-file src="res/android/values-pt/fpauth-strings.xml" target-dir="res/values-pt"/>
+    <source-file src="res/android/values-it/fpauth-strings.xml" target-dir="res/values-it"/>
+    <source-file src="res/android/values-el/fpauth-strings.xml" target-dir="res/values-el"/>       
+    <source-file src="res/android/values-zh-rTW/fpauth-strings.xml" target-dir="res/values-zh-rTW"/>   
     <source-file src="res/android/values-nl/fpauth-strings.xml" target-dir="res/values-nl"/>
   </platform>
 

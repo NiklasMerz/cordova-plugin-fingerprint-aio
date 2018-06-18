@@ -4,9 +4,7 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/cordova-plugin-fingerprint-aio)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/NiklasMerz/cordova-plugin-fingerprint-aio/master/LICENSE)
 [![Build Status](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio.svg?branch=master)](https://travis-ci.org/NiklasMerz/cordova-plugin-fingerprint-aio)
-[![Code Climate](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/gpa.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)
 [![Issue Count](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio/badges/issue_count.svg)](https://codeclimate.com/github/NiklasMerz/cordova-plugin-fingerprint-aio)
-[![Dependency Status](https://gemnasium.com/badges/github.com/NiklasMerz/cordova-plugin-fingerprint-aio.svg)](https://gemnasium.com/github.com/NiklasMerz/cordova-plugin-fingerprint-aio)
 
 [![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)
 
@@ -20,12 +18,13 @@
 * Ionic Native support
 * ngCordova support
 * Fallback options
+* Now with **FaceID** on iPhone X
 
 ### Platforms
 
-* Android
-* iOS - **XCode 8 or higher** required, plugin uses Swift 3
-  * _If you are using XCode 9, please set `<preference name="UseSwiftLanguageVersion" value="3.2" />` in your config.xml_
+* Android - Minimum SDK 23
+* iOS - **XCode 9.2 or higher** required
+  * _Please set `<preference name="UseSwiftLanguageVersion" value="3.2" />` in your config.xml_
 
 
 ## How to use
@@ -44,19 +43,43 @@
 
 ### Install
 
-Install from NPM
+**Install from NPM**
 
 ```
 cordova plugin add cordova-plugin-fingerprint-aio --save
 ```
 
-or use this Github repo
+If you want to set a FaceID description use:
+
+```
+cordova plugin add cordova-plugin-fingerprint-aio --variable FACEID_USAGE_DESCRIPTION="Login now...."
+```
+
+**Use Release candidate**
+
+You can use preview versions with the `rc` tag on npm.
+
+```
+cordova plugin add cordova-plugin-fingerprint-aio@rc
+```
+
+**Use this Github repo**
+
+Get the latest development version. *Not recommended!*
+
+```
+cordova plugin add https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio.git
+```
 
 ### Check if fingerprint authentication is available
 ```javascript
 Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
 
     function isAvailableSuccess(result) {
+      /*
+      result depends on device and os. 
+      iPhone X will return 'face' other Android or iOS devices will return 'finger'  
+      */
       alert("Fingerprint available");
     }
 
@@ -86,7 +109,11 @@ Fingerprint.show({
 * __localizedFallbackTitle__ (iOS only): Title of fallback button.
 * __localizedReason__ (iOS only): Description in authentication dialogue.
 
-## Thanks to the authors of the original fingerprint plugins:
+## Thanks to the authors of the original fingerprint plugins
+
+Some code is refactored from their projects and I learned how to make Cordova plugins from their great plugins:
+
+@EddyVerbruggen and @mjwheatley
 
 [Android](https://github.com/mjwheatley/cordova-plugin-android-fingerprint-auth)
 

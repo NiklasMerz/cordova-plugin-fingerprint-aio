@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "commonjs": true
+        "commonjs": true,
+        "jasmine": true
     },
     "extends": "eslint:recommended",
     "rules": {

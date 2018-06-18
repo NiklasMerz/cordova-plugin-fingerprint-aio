@@ -5,7 +5,7 @@ addons:
 env:
   global:
   - SAUCE_USERNAME=NiklasMerz
-  - TRAVIS_NODE_VERSION="4.2"
+  - TRAVIS_NODE_VERSION="lts/*"
 matrix:
   include:
   - env: PLATFORM=android-7.0
@@ -15,16 +15,17 @@ matrix:
     android:
       components:
       - tools
+      - build-tools-26.0.2
   - env: PLATFORM=ios-9.3
     os: osx
-    osx_image: xcode9.1
+    osx_image: xcode9.2
     language: node_js
-    node_js: '4.2'
+    node_js: 'lts/*'
   - env: PLATFORM=ios-10.0
     os: osx
-    osx_image: xcode9.1
+    osx_image: xcode9.2
     language: node_js
-    node_js: '4.2'
+    node_js: 'lts/*'
 before_install:
 - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm
   && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm
@@ -32,16 +33,16 @@ before_install:
 - node --version
 - if [[ "$PLATFORM" =~ android ]]; then gradle --version; fi
 - if [[ "$PLATFORM" =~ ios ]]; then npm install -g ios-deploy; fi
-- if [[ "$PLATFORM" =~ android ]]; then echo y | android update sdk -u --filter android-25;
+- if [[ "$PLATFORM" =~ android ]]; then echo y | android update sdk -u --filter android-25,android-26;
   fi
 - git clone https://github.com/apache/cordova-paramedic /tmp/paramedic && pushd /tmp/paramedic
   && npm install && popd
-- npm install -g cordova
+- npm install -g cordova@7.0.1
 install:
 - npm install
 script:
 - node /tmp/paramedic/main.js --config pr/$PLATFORM --plugin $(pwd) --shouldUseSauce
-  --buildName travis-plugin-device-$TRAVIS_JOB_NUMBER
+  --buildName travis-plugin-fingerprint-aio-$TRAVIS_JOB_NUMBER
 notifications:
   email: false
   slack:
