@@ -21,6 +21,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -104,6 +105,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
 
     @Override
     public void onAuthenticationError(int errMsgId, CharSequence errString) {
+        Fingerprint.sendAuthMsg(errMsgId,errString.toString());
         if (!mSelfCancelled) {
             showError(errString);
             mIcon.postDelayed(new Runnable() {
@@ -117,11 +119,13 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
 
     @Override
     public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
+        Fingerprint.sendAuthMsg(helpMsgId,helpString.toString());
         showError(helpString);
     }
 
     @Override
     public void onAuthenticationFailed() {
+        Fingerprint.sendAuthMsg(1000,"指纹无法识别，请再试一次");
         int fingerprint_not_recognized_id = mContext.getResources()
                 .getIdentifier("fingerprint_not_recognized", "string", Fingerprint.packageName);
         showError(mIcon.getResources().getString(
