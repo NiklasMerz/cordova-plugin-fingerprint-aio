@@ -34,7 +34,7 @@
     "cordova-plugin-add-swift-support": "^1.7.1"
   },
   "devDependencies": {
-    "cordova-paramedic": "git+https://github.com/apache/cordova-paramedic.git",
+    "cordova-paramedic": "git+https://github.com/NiklasMerz/cordova-paramedic.git#audit",
     "cordova-plugin-xml": "^0.1.2",
     "eslint": "^4.19.1",
     "jasmine": "^2.8.0"
