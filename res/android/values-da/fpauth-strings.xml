@@ -15,7 +15,7 @@
   ~ limitations under the License
   -->
 <resources>
-    <string name="fingerprint_cancel">Annuler</string>
+    <string name="fingerprint_cancel">Annuller</string>
     <string name="fingerprint_use_backup">Brug backup</string>
     <string name="fingerprint_auth_dialog_title">Fingeraftryk Login</string>
     <string name="fingerprint_ok">Ok</string>
