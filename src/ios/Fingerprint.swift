@@ -5,6 +5,7 @@ import LocalAuthentication
 
     fileprivate var policy:LAPolicy!
 
+    @objc(isAvailable:)
     func isAvailable(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
         var biometryType = "finger";
@@ -35,6 +36,8 @@ import LocalAuthentication
         commandDelegate.send(pluginResult, callbackId:command.callbackId);
     }
 
+
+    @objc(authenticate:)
     func authenticate(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Something went wrong");
