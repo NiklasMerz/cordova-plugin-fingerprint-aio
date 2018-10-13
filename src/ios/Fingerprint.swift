@@ -3,13 +3,12 @@ import LocalAuthentication
 
 @objc(Fingerprint) class Fingerprint : CDVPlugin {
 
-    fileprivate var policy:LAPolicy!
-
     @objc(isAvailable:)
     func isAvailable(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
         var biometryType = "finger";
         var error:NSError?;
+        let policy:LAPolicy = .deviceOwnerAuthenticationWithBiometrics;
 
         let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
 
@@ -42,6 +41,7 @@ import LocalAuthentication
         let authenticationContext = LAContext();
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Something went wrong");
         var reason = "Authentication";
+        var policy:LAPolicy = .deviceOwnerAuthentication;
         let data  = command.arguments[0] as AnyObject?;
 
         if let disableBackup = data?["disableBackup"] as! Bool? {
@@ -80,8 +80,6 @@ import LocalAuthentication
 
     override func pluginInitialize() {
         super.pluginInitialize()
-
-        policy = .deviceOwnerAuthenticationWithBiometrics
     }
 }
 
