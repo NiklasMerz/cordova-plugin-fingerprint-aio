@@ -55,7 +55,7 @@ If you want to set a FaceID description use:
 cordova plugin add cordova-plugin-fingerprint-aio --variable FACEID_USAGE_DESCRIPTION="Login now...."
 ```
 
-**Use a release candidate for testing the latest fixes**
+**Use the release candidate for testing the latest fixes**
 
 You can use preview versions with the `rc` tag on npm.
 
