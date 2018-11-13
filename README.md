@@ -19,6 +19,7 @@
 * ngCordova support
 * Fallback options
 * Now with **FaceID** on iPhone X
+* **⚡️ Works with [Capacitor](https://capacitor.ionicframework.com/). [Try it out](https://github.com/NiklasMerz/capacitor-fingerprint-app) ⚡️**
 
 ### Platforms
 
