@@ -252,7 +252,12 @@ public class Fingerprint extends CordovaPlugin {
               mCallbackContext.success("finger");
             }else{
               mPluginResult = new PluginResult(PluginResult.Status.ERROR);
-              mCallbackContext.error("Fingerprint authentication not ready");
+
+              if (mFingerPrintManager.isHardwareDetected() && !mFingerPrintManager.hasEnrolledFingerprints()) {
+                mCallbackContext.error("Fingerprint authentication not ready");
+              } else {
+                mCallbackContext.error("Fingerprint authentication not available");
+              }
             }
             mCallbackContext.sendPluginResult(mPluginResult);
             return true;
