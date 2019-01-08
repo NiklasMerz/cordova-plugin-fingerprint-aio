@@ -1,9 +1,16 @@
-workflow "Build version on NPM" {
+workflow "Build version and publish latest on NPM" {
   on = "push"
-  resolves = ["GitHub Action for npm"]
+  resolves = ["npm publish"]
 }
 
-action "GitHub Action for npm" {
+action "npm version" {
   uses = "actions/npm@6309cd9"
   runs = "npm version prerelease"
+}
+
+action "npm publish" {
+  needs = "npm version"
+  uses = "actions/npm@master"
+  args = "publish --tag $(echo $GITHUB_REF| cut -d'/' -f 3)"
+  secrets = ["NPM_AUTH_TOKEN"]
 }
