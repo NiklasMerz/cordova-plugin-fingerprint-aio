@@ -1,6 +1,7 @@
 ---
 name: Bug report
 about: Report bugs
+labels: bug
 ---
 
 ### Bug report
