@@ -1,6 +1,6 @@
 workflow "Build version and publish latest on NPM" {
   on = "push"
-  resolves = ["npm publish"]
+  resolves = ["npm version"]
 }
 
 action "npm version" {
