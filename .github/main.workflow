@@ -9,7 +9,8 @@ action "filter tags" {
 }
 
 action "npm publish" {
-  needs = ["filter tags"]
+  needs = "filter tags"
   uses = "actions/npm@master"
   args = "publish"
+  secrets = ["NPM_AUTH_TOKEN"]
 }
