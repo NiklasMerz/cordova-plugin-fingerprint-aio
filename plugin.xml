@@ -15,7 +15,7 @@
 
   <!-- ios -->
   <platform name="ios">
-    <dependency id="cordova-plugin-add-swift-support" version="^2.0.1"/>
+    <dependency id="cordova-plugin-add-swift-support" version="^2.0.2"/>
     <config-file target="config.xml" parent="/*">
       <feature name="Fingerprint">
         <param name="ios-package" value="Fingerprint"/>
