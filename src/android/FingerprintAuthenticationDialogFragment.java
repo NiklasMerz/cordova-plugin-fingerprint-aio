@@ -78,6 +78,12 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (!Fingerprint.isPluginSetUp()) {
+            Log.i(TAG, "Invalid state, view not created");
+            dismissAllowingStateLoss();
+            return null;
+        }
+
         Bundle args = getArguments();
         disableBackup = args.getBoolean("disableBackup");
         Log.d(TAG, "disableBackup: " + disableBackup);

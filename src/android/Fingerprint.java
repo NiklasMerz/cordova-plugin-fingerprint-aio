@@ -433,4 +433,8 @@ public class Fingerprint extends CordovaPlugin {
         mPluginResult = new PluginResult(PluginResult.Status.ERROR);
         return false;
     }
+
+    public static boolean isPluginSetUp() {
+        return Fingerprint.packageName != null;
+    }
 }
