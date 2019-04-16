@@ -12,7 +12,7 @@ import LocalAuthentication
 
         let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
 
-        if(error != nil){
+        if(error != nil && error?.code == LAError.touchIDNotAvailable.rawValue){
             biometryType = "none";
         }
 
