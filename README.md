@@ -92,8 +92,8 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
 ### Show authentication dialogue
 ```javascript
 Fingerprint.show({
-      clientId: "Fingerprint-Demo",
-      clientSecret: "password" //Only necessary for Android
+      clientId: "Fingerprint-Demo", //Android: Used for encryption. iOS: used for dialogue if no `localizedReason` is given.
+      clientSecret: "o7aoOMYUbyxaD23oFAnJ" //Necessary for Android encrpytion of keys. Use random secret key.
     }, successCallback, errorCallback);
 
     function successCallback(){
