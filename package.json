@@ -40,7 +40,14 @@
     "jasmine": "^3.2.0"
   },
   "scripts": {
-    "test": "./node_modules/cordova-paramedic/main.js --plugin . --args=--buildFlag='-UseModernBuildSystem=0' --platform",
+    "test": "npm run eslint & npm run test-local && npm run test-saucelabs",
+    "eslint": "npx eslint www",
+    "test-travis": "npm run eslint & npm run test-ios",
+    "test-local": "npm run test-browser && npm run test-android && npm run test-ios",
+    "test-android": "node main.js --platform android --plugin ./spec/testable-plugin/",
+    "test-ios": "node main.js --platform ios --plugin ./spec/testable-plugin/ --verbose",
+    "test-saucelabs-ios": "node main.js --config ./pr/ios-10.0 --plugin ./spec/testable-plugin/ --shouldUseSauce",
+    "test-saucelabs-android": "node main.js --config ./pr/android-7.0 --plugin ./spec/testable-plugin/ --shouldUseSauce",
     "plugin-version": "cordova-plugin-xml setVersion"
   }
 }
