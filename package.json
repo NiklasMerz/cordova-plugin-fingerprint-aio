@@ -45,14 +45,13 @@
     "test-travis": "npm run test-ios",
     "test-appveyor": "npm run test-browser",
     "test-local": "npm run test-browser && npm run test-android && npm run test-ios",
-    "test-android": "node main.js --platform android --plugin ./spec/testable-plugin/",
-    "test-ios": "node main.js --platform ios --plugin ./spec/testable-plugin/ --verbose",
-    "test-windows": "node main.js --platform windows --plugin ./spec/testable-plugin/",
-    "test-browser": "node main.js --platform browser --plugin ./spec/testable-plugin/",
-    "test-saucelabs": "npm run test-saucelabs-browser && npm run test-saucelabs-ios && npm run test-saucelabs-android",
-    "test-saucelabs-browser": "node main.js --config ./pr/browser-chrome --plugin ./spec/testable-plugin/ --shouldUseSauce",
-    "test-saucelabs-ios": "node main.js --config ./pr/ios-10.0 --plugin ./spec/testable-plugin/ --shouldUseSauce",
-    "test-saucelabs-android": "node main.js --config ./pr/android-7.0 --plugin ./spec/testable-plugin/ --shouldUseSauce",
+    "test-android": "node /tmp/paramedic/main.js --platform android --plugin  $(pwd)",
+    "test-ios": "node /tmp/paramedic/main.js --platform ios --plugin  $(pwd) --verbose",
+    "test-windows": "node /tmp/paramedic/main.js --platform windows --plugin  $(pwd)",
+    "test-browser": "node /tmp/paramedic/main.js --platform browser --plugin  $(pwd)",
+    "test-saucelabs": "npm run test-saucelabs-ios && npm run test-saucelabs-android",
+    "test-saucelabs-ios": "node /tmp/paramedic/main.js --config ./pr/ios-10.0 --plugin  $(pwd) --shouldUseSauce",
+    "test-saucelabs-android": "node /tmp/paramedic/main.js --config ./pr/android-7.0 --plugin  $(pwd) --shouldUseSauce",
     "plugin-version": "cordova-plugin-xml setVersion"
   }
 }
