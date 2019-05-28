@@ -45,13 +45,13 @@
     "test-travis": "npm run test-ios",
     "test-appveyor": "npm run test-browser",
     "test-local": "npm run test-browser && npm run test-android && npm run test-ios",
-    "test-android": "node /tmp/paramedic/main.js --platform android --plugin  $(pwd)",
-    "test-ios": "node /tmp/paramedic/main.js --platform ios --plugin  $(pwd) --verbose",
-    "test-windows": "node /tmp/paramedic/main.js --platform windows --plugin  $(pwd)",
-    "test-browser": "node /tmp/paramedic/main.js --platform browser --plugin  $(pwd)",
+    "test-android": "npx cordova-paramedic --platform android --plugin  $(pwd)",
+    "test-ios": "npx cordova-paramedic --platform ios --plugin  $(pwd) --verbose",
+    "test-windows": "npx cordova-paramedic --platform windows --plugin  $(pwd)",
+    "test-browser": "npx cordova-paramedic --platform browser --plugin  $(pwd)",
     "test-saucelabs": "npm run test-saucelabs-ios && npm run test-saucelabs-android",
-    "test-saucelabs-ios": "node /tmp/paramedic/main.js --config ./pr/ios-10.0 --plugin  $(pwd) --shouldUseSauce",
-    "test-saucelabs-android": "node /tmp/paramedic/main.js --config ./pr/android-7.0 --plugin  $(pwd) --shouldUseSauce",
+    "test-saucelabs-ios": "npx cordova-paramedic --config ./pr/ios-10.0 --plugin  $(pwd) --shouldUseSauce",
+    "test-saucelabs-android": "npx cordova-paramedic --config ./pr/android-7.0 --plugin  $(pwd) --shouldUseSauce",
     "plugin-version": "cordova-plugin-xml setVersion"
   }
 }
