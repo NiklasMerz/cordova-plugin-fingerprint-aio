@@ -16,7 +16,7 @@ import LocalAuthentication
             biometryType = "none";
         }
 
-        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Error: \(String(describing: error?.localizedDescription))");
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "\(String(describing: error?.localizedDescription))");
         if available == true {
             if #available(iOS 11.0, *) {
                 switch(authenticationContext.biometryType) {
