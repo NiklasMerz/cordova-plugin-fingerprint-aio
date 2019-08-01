@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aio_fingerprint_cancel">Annuller</string>
+    <string name="aio_fingerprint_use_backup">Brug backup</string>
+    <string name="aio_fingerprint_auth_dialog_title">Fingeraftryk Login</string>
+    <string name="aio_fingerprint_ok">Ok</string>
+    <string name="aio_fingerprint_description">Bekræft fingeraftryk for at fortsætte</string>
+    <string name="aio_fingerprint_hint">Rør sensor</string>
+    <string name="aio_fingerprint_not_recognized">Fingeraftryk ikke genkendt. Prøv igen.</string>
+    <string name="aio_fingerprint_success">Fingeraftryk godkendt</string>
+    <string name="aio_new_fingerprint_enrolled_description">Et nyt fingeraftryk blev tilføjet til denne enhed så din adgangskode er krævet.</string>
+    <string name="aio_secure_lock_screen_required">Sikring af skærmlås krævet!</string>
+</resources>

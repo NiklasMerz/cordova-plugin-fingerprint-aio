@@ -90,7 +90,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
                 .authenticate(cryptoObject, mCancellationSignal, 0 /* flags */, this, null);
 
         int ic_fp_40px_id = mContext.getResources()
-                .getIdentifier("ic_fp_40px", "drawable", Fingerprint.packageName);
+                .getIdentifier("aio_ic_fp_40px", "drawable", Fingerprint.packageName);
         mIcon.setImageResource(ic_fp_40px_id);
     }
 
@@ -175,7 +175,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
             mErrorTextView.setText(
                     mErrorTextView.getResources().getString(fingerprint_hint_id));
             int ic_fp_40px_id = mContext.getResources()
-                    .getIdentifier("ic_fp_40px", "drawable", Fingerprint.packageName);
+                    .getIdentifier("aio_ic_fp_40px", "drawable", Fingerprint.packageName);
             mIcon.setImageResource(ic_fp_40px_id);
         }
     };

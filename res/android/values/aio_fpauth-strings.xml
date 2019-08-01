@@ -15,14 +15,14 @@
   ~ limitations under the License
   -->
 <resources>
-    <string name="fingerprint_cancel">Cancel</string>
-    <string name="fingerprint_use_backup">Use backup</string>
-    <string name="fingerprint_auth_dialog_title">Fingerprint Authentication</string>
-    <string name="fingerprint_ok">Ok</string>
-    <string name="fingerprint_description">Confirm fingerprint to continue</string>
-    <string name="fingerprint_hint">Touch sensor</string>
-    <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again.</string>
+    <string name="aio_fingerprint_cancel">Cancel</string>
+    <string name="aio_fingerprint_use_backup">Use backup</string>
+    <string name="aio_fingerprint_auth_dialog_title">Fingerprint Authentication</string>
+    <string name="aio_fingerprint_ok">Ok</string>
+    <string name="aio_fingerprint_description">Confirm fingerprint to continue</string>
+    <string name="aio_fingerprint_hint">Touch sensor</string>
+    <string name="aio_fingerprint_not_recognized">Fingerprint not recognized. Try again.</string>
     <string name="aio_fingerprint_success">Fingerprint recognized</string>
-    <string name="new_fingerprint_enrolled_description">A new fingerprint was added to this device, so your password is required.</string>
-    <string name="secure_lock_screen_required">Secure lock screen required!</string>
+    <string name="aio_new_fingerprint_enrolled_description">A new fingerprint was added to this device, so your password is required.</string>
+    <string name="aio_secure_lock_screen_required">Secure lock screen required!</string>
 </resources>

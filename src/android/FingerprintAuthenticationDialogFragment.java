@@ -83,11 +83,11 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         Log.d(TAG, "disableBackup: " + disableBackup);
 
         int fingerprint_auth_dialog_title_id = getResources()
-                .getIdentifier("fingerprint_auth_dialog_title", "string",
+                .getIdentifier("aio_fingerprint_auth_dialog_title", "string",
                         Fingerprint.packageName);
         getDialog().setTitle(getString(fingerprint_auth_dialog_title_id));
         int fingerprint_dialog_container_id = getResources()
-                .getIdentifier("fingerprint_dialog_container", "layout",
+                .getIdentifier("aio_fingerprint_dialog_container", "layout",
                         Fingerprint.packageName);
         View v = inflater.inflate(fingerprint_dialog_container_id, container, false);
         int cancel_button_id = getResources()
