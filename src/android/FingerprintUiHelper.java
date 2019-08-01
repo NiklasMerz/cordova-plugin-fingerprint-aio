@@ -132,14 +132,14 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
         mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
         int ic_fingerprint_success_id = mContext.getResources()
-                .getIdentifier("ic_fingerprint_success", "drawable", Fingerprint.packageName);
+                .getIdentifier("ic_aio_fingerprint_success", "drawable", Fingerprint.packageName);
         mIcon.setImageResource(ic_fingerprint_success_id);
         int success_color_id = mContext.getResources()
                 .getIdentifier("success_color", "color", Fingerprint.packageName);
         mErrorTextView.setTextColor(
                 mErrorTextView.getResources().getColor(success_color_id, null));
         int fingerprint_success_id = mContext.getResources()
-                .getIdentifier("fingerprint_success", "string", Fingerprint.packageName);
+                .getIdentifier("aio_fingerprint_success", "string", Fingerprint.packageName);
         mErrorTextView.setText(
                 mErrorTextView.getResources().getString(fingerprint_success_id));
         mIcon.postDelayed(new Runnable() {
@@ -152,7 +152,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
 
     private void showError(CharSequence error) {
         int ic_fingerprint_error_id = mContext.getResources()
-                .getIdentifier("ic_fingerprint_error", "drawable", Fingerprint.packageName);
+                .getIdentifier("ic_aio_fingerprint_error", "drawable", Fingerprint.packageName);
         mIcon.setImageResource(ic_fingerprint_error_id);
         mErrorTextView.setText(error);
         int warning_color_id = mContext.getResources()

@@ -22,7 +22,7 @@
     <string name="fingerprint_description">Confirm fingerprint to continue</string>
     <string name="fingerprint_hint">Touch sensor</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again.</string>
-    <string name="fingerprint_success">Fingerprint recognized</string>
+    <string name="aio_fingerprint_success">Fingerprint recognized</string>
     <string name="new_fingerprint_enrolled_description">A new fingerprint was added to this device, so your password is required.</string>
     <string name="secure_lock_screen_required">Secure lock screen required!</string>
 </resources>

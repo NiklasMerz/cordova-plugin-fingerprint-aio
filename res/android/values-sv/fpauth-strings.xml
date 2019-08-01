@@ -22,7 +22,7 @@
     <string name="fingerprint_description">Bekräfta fingeravtryck för att fortsätta</string>
     <string name="fingerprint_hint">Touch sensor</string>
     <string name="fingerprint_not_recognized">Fingeravtryck inte erkänt. Försök igen.</string>
-    <string name="fingerprint_success">Fingeravtryck igenkänt</string>
+    <string name="aio_fingerprint_success">Fingeravtryck igenkänt</string>
     <string name="new_fingerprint_enrolled_description">Ett nytt fingeravtryck har lagts till i den här enheten, ditt lösenord krävs</string>
     <string name="secure_lock_screen_required">Säker låsskärm krävs</string>
 </resources>

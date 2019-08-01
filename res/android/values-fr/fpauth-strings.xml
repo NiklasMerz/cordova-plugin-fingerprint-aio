@@ -22,7 +22,7 @@
     <string name="fingerprint_description">Confirmer l\'empreinte pour continuer</string>
     <string name="fingerprint_hint">Toucher le capteur</string>
     <string name="fingerprint_not_recognized">Empreinte non reconnue. Essayer à nouveau.</string>
-    <string name="fingerprint_success">Empreinte reconnue</string>
+    <string name="aio_fingerprint_success">Empreinte reconnue</string>
     <string name="new_fingerprint_enrolled_description">Une nouvelle empreinte digitale a été ajoutée à ce dispositif, de sorte que votre mot de passe est nécessaire.</string>
     <string name="secure_lock_screen_required">Écran de verrouillage sécurisé nécessaire!</string>
 </resources>

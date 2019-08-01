@@ -7,7 +7,7 @@
     <string name="fingerprint_description">Подтвердите отпечаток пальца чтобы продолжить</string>
     <string name="fingerprint_hint">Коснитесь сенсора</string>
     <string name="fingerprint_not_recognized">Отпечаток пальца не распознан. Попробуйте ещё.</string>
-    <string name="fingerprint_success">Отпечаток пальца верен</string>
+    <string name="aio_fingerprint_success">Отпечаток пальца верен</string>
     <string name="new_fingerprint_enrolled_description">Новый отпечаток пальца был добавлен на устройстве, поэтому требуется ввод вашего пароля.</string>
     <string name="secure_lock_screen_required">Требуется защита блокировки экрана!</string>
 </resources>

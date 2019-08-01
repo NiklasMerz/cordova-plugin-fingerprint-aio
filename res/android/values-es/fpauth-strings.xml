@@ -22,7 +22,7 @@
     <string name="fingerprint_description">Confirmar la huella digital para continuar</string>
     <string name="fingerprint_hint">Sensor tactil</string>
     <string name="fingerprint_not_recognized">No se reconoce la huella digital. Inténtalo de nuevo.</string>
-    <string name="fingerprint_success">Reconocido de huella dactilar</string>
+    <string name="aio_fingerprint_success">Reconocido de huella dactilar</string>
     <string name="new_fingerprint_enrolled_description">Una nueva huella digital fue agregada a este dispositivo, por lo que se requiere la contraseña.</string>
     <string name="secure_lock_screen_required">¡Requiere pantalla de bloqueo seguro!</string>
 </resources>
