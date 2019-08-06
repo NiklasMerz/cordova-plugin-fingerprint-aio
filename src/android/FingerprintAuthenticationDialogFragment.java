@@ -83,11 +83,11 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         Log.d(TAG, "disableBackup: " + disableBackup);
 
         int fingerprint_auth_dialog_title_id = getResources()
-                .getIdentifier("fingerprint_auth_dialog_title", "string",
+                .getIdentifier("aio_fingerprint_auth_dialog_title", "string",
                         Fingerprint.packageName);
         getDialog().setTitle(getString(fingerprint_auth_dialog_title_id));
         int fingerprint_dialog_container_id = getResources()
-                .getIdentifier("fingerprint_dialog_container", "layout",
+                .getIdentifier("aio_fingerprint_dialog_container", "layout",
                         Fingerprint.packageName);
         View v = inflater.inflate(fingerprint_dialog_container_id, container, false);
         int cancel_button_id = getResources()
@@ -118,7 +118,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
         mFingerprintContent = v.findViewById(fingerprint_container_id);
 
         int new_fingerprint_enrolled_description_id = getResources()
-                .getIdentifier("new_fingerprint_enrolled_description", "id",
+                .getIdentifier("aio_new_fingerprint_enrolled_description", "id",
                         Fingerprint.packageName);
 
         int fingerprint_icon_id = getResources()
@@ -183,12 +183,12 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
     private void updateStage() {
         int cancel_id = getResources()
-                .getIdentifier("fingerprint_cancel", "string", Fingerprint.packageName);
+                .getIdentifier("aio_fingerprint_cancel", "string", Fingerprint.packageName);
         switch (mStage) {
             case FINGERPRINT:
                 mCancelButton.setText(cancel_id);
                 int use_backup_id = getResources()
-                        .getIdentifier("fingerprint_use_backup", "string", Fingerprint.packageName);
+                        .getIdentifier("aio_fingerprint_use_backup", "string", Fingerprint.packageName);
                 mSecondDialogButton.setText(use_backup_id);
                 mFingerprintContent.setVisibility(View.VISIBLE);
                 break;
@@ -201,7 +201,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
                 if (!mKeyguardManager.isKeyguardSecure()) {
                     // Show a message that the user hasn't set up a lock screen.
                     int secure_lock_screen_required_id = getResources()
-                            .getIdentifier("secure_lock_screen_required", "string",
+                            .getIdentifier("aio_secure_lock_screen_required", "string",
                                     Fingerprint.packageName);
                     Toast.makeText(getContext(),
                             getString(secure_lock_screen_required_id),

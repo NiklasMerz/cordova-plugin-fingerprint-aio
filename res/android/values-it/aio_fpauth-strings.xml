@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aio_fingerprint_cancel">Cancella</string>
+    <string name="aio_fingerprint_use_backup">Usa backup</string>
+    <string name="aio_fingerprint_auth_dialog_title">Autenticazione impronta digitale</string>
+    <string name="aio_fingerprint_ok">Ok</string>
+    <string name="aio_fingerprint_description">Conferma l\'impronta digitale per continuare</string>
+    <string name="aio_fingerprint_hint">Sensore Touch</string>
+    <string name="aio_fingerprint_not_recognized">Impronta digitale non riconosciuta. Riprova.</string>
+    <string name="aio_fingerprint_success">Impronta digitale riconosciuta</string>
+    <string name="aio_new_fingerprint_enrolled_description">Una nuova impronta è stata aggiunta a questo dispositivo, quindi è necessaria la tua password</string>
+    <string name="aio_secure_lock_screen_required">Blocco schermo richiesto!</string>
+</resources>
