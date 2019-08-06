@@ -24,12 +24,12 @@
     android:paddingTop="16dp">
 
     <TextView
-        android:id="@+id/fingerprint_description"
+        android:id="@+id/aio_fingerprint_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="@string/fingerprint_description"
+        android:text="@string/aio_fingerprint_description"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         android:textColor="?android:attr/textColorSecondary"/>
 
@@ -39,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/fingerprint_description"
+        android:layout_below="@+id/aio_fingerprint_description"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_fp_40px" />
+        android:src="@drawable/aio_ic_fp_40px" />
 
     <TextView
         android:id="@+id/fingerprint_status"
@@ -53,6 +53,6 @@
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/fingerprint_icon"
         android:gravity="center_vertical"
-        android:text="@string/fingerprint_hint"
-        android:textColor="@color/hint_color" />
+        android:text="@string/aio_fingerprint_hint"
+        android:textColor="@color/aio_hint_color" />
 </RelativeLayout>
