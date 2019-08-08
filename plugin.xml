@@ -38,59 +38,17 @@
         <param name="android-package" value="de.niklasmerz.cordova.fingerprint.Fingerprint"/>
       </feature>
     </config-file>
+    
     <config-file target="AndroidManifest.xml" parent="/*">
 	  <uses-permission android:name="android.permission.USE_BIOMETRIC" />
       <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     </config-file>
     
-    <source-file src="src/android/Biometric.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-	<source-file src="src/android/BiometricCallback.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-	<source-file src="src/android/BiometricCallbackV28.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-	<source-file src="src/android/BiometricDialogV23.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-	<source-file src="src/android/BiometricManager.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-	<source-file src="src/android/BiometricManagerV23.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-	<source-file src="src/android/BiometricUtils.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-	
-	<source-file src="res/android/drawable/bg_bottom_sheet.xml" target-dir="res/drawable"/>
-	<source-file src="res/android/drawable/bg_fingerprint.xml" target-dir="res/drawable"/>
-	<source-file src="res/android/drawable/ic_fingerprint.xml" target-dir="res/drawable"/>
-	<source-file src="res/android/layout/view_bottom_sheet.xml" target-dir="res/layout"/>
-	<source-file src="res/android/values/colors.xml" target-dir="res/values"/>
-	<source-file src="res/android/values/dimens.xml" target-dir="res/values"/>
-	<source-file src="res/android/values/strings.xml" target-dir="res/values"/>
-	<source-file src="res/android/values/styles.xml" target-dir="res/values"/>
-   
+    <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
+    <resource-file src="src/android/libs/biometric.aar" target="libs/biometric.aar" />
 
-	<!-- old paths	 -->
-<!--
-    <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
-    <source-file src="src/android/FingerprintAuthenticationDialogFragment.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
-    <source-file src="src/android/FingerprintUiHelper.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
-    <source-file src="res/android/drawable/ic_aio_fingerprint_error.xml" target-dir="res/drawable"/>
-    <source-file src="res/android/drawable/ic_aio_fingerprint_success.xml" target-dir="res/drawable"/>
-    <resource-file src="res/android/drawable-hdpi/aio_ic_fp_40px.png" target="res/drawable-hdpi/aio_ic_fp_40px.png"/>
-    <resource-file src="res/android/drawable-mdpi/aio_ic_fp_40px.png" target="res/drawable-mdpi/aio_ic_fp_40px.png"/>
-    <resource-file src="res/android/drawable-nodpi/aio_android_robot.png" target="res/drawable-nodpi/aio_android_robot.png"/>
-    <resource-file src="res/android/drawable-xhdpi/aio_ic_fp_40px.png" target="res/drawable-xhdpi/aio_ic_fp_40px.png"/>
-    <resource-file src="res/android/drawable-xxhdpi/aio_ic_fp_40px.png" target="res/drawable-xxhdpi/aio_ic_fp_40px.png"/>
-    <resource-file src="res/android/drawable-xxxhdpi/aio_ic_fp_40px.png" target="res/drawable-xxxhdpi/aio_ic_fp_40px.png"/>
-    <source-file src="res/android/layout/aio_fingerprint_dialog_container.xml" target-dir="res/layout"/>
-    <source-file src="res/android/layout/aio_fingerprint_dialog_content.xml" target-dir="res/layout"/>
-    <source-file src="res/android/values/aio_fpauth-colors.xml" target-dir="res/values"/>
-    <source-file src="res/android/values/aio_fpauth-strings.xml" target-dir="res/values"/>
-    <source-file src="res/android/values-es/aio_fpauth-strings.xml" target-dir="res/values-es"/>
-    <source-file src="res/android/values-de/aio_fpauth-strings.xml" target-dir="res/values-de"/>
-    <source-file src="res/android/values-fr/aio_fpauth-strings.xml" target-dir="res/values-fr"/>
-    <source-file src="res/android/values-zh/aio_fpauth-strings.xml" target-dir="res/values-zh"/>
-    <source-file src="res/android/values-pt/aio_fpauth-strings.xml" target-dir="res/values-pt"/>
-    <source-file src="res/android/values-it/aio_fpauth-strings.xml" target-dir="res/values-it"/>
-    <source-file src="res/android/values-el/aio_fpauth-strings.xml" target-dir="res/values-el"/>       
-    <source-file src="res/android/values-zh-rTW/aio_fpauth-strings.xml" target-dir="res/values-zh-rTW"/>   
-    <source-file src="res/android/values-nl/aio_fpauth-strings.xml" target-dir="res/values-nl"/>
-    <source-file src="res/android/values-da/aio_fpauth-strings.xml" target-dir="res/values-da"/>
-    <source-file src="res/android/values-sv/aio_fpauth-strings.xml" target-dir="res/values-sv"/>
-    <source-file src="res/android/values-ru/aio_fpauth-strings.xml" target-dir="res/values-ru"/>
--->
+    <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
+    
   </platform>
 
 </plugin>

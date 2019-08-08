@@ -1,0 +1,21 @@
+repositories {    
+    jcenter()
+    flatDir {
+        dirs 'src/main/libs'
+    }
+}
+
+dependencies {
+    implementation(name: 'biometric', ext: 'aar')
+	implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:support-annotations:28.0.0'
+}
+
+android {
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}

@@ -5,7 +5,7 @@
 
 
     <corners
-        android:topLeftRadius="@dimen/biometric_bottom_sheet_padding"
-        android:topRightRadius="@dimen/biometric_bottom_sheet_padding" />
+        android:topLeftRadius="@dimen/aio_biometric_bottom_sheet_padding"
+        android:topRightRadius="@dimen/aio_biometric_bottom_sheet_padding" />
 
 </shape>

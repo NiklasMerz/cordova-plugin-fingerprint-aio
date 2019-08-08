@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_bottom_sheet"
+    android:background="@drawable/aio_bg_bottom_sheet"
     android:orientation="vertical"
     android:padding="15dp">
 
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/img_logo"
-        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/aio_margin_large"
         android:layout_toRightOf="@+id/img_logo"
         android:gravity="center"
         android:orientation="vertical">
@@ -26,15 +26,15 @@
             android:id="@+id/item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dialog_title"
+            android:textColor="@color/aio_dialog_title"
             android:textSize="18dp" />
 
         <TextView
             android:id="@+id/item_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xxsmall"
-            android:textColor="@color/dialog_subtitle"
+            android:layout_marginTop="@dimen/aio_margin_xxsmall"
+            android:textColor="@color/aio_dialog_subtitle"
             android:textSize="13dp" />
     </LinearLayout>
 
@@ -44,10 +44,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_view"
-        android:layout_marginLeft="@dimen/margin_xsmall"
-        android:layout_marginTop="@dimen/margin_large"
-        android:layout_marginRight="@dimen/margin_large"
-        android:textColor="@color/dialog_description" />
+        android:layout_marginLeft="@dimen/aio_margin_xsmall"
+        android:layout_marginTop="@dimen/aio_margin_large"
+        android:layout_marginRight="@dimen/aio_margin_large"
+        android:textColor="@color/aio_dialog_description" />
 
     <ImageView
         android:id="@+id/img_fingerprint"
@@ -55,10 +55,10 @@
         android:layout_height="60dp"
         android:layout_below="@id/item_description"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_large"
-        android:background="@drawable/bg_fingerprint"
+        android:layout_marginTop="@dimen/aio_margin_large"
+        android:background="@drawable/aio_bg_fingerprint"
         android:padding="14dp"
-        android:src="@drawable/ic_fingerprint" />
+        android:src="@drawable/aio_ic_fingerprint" />
 
 
     <TextView
@@ -66,9 +66,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/img_fingerprint"
-        android:layout_marginTop="@dimen/margin_xlarge"
+        android:layout_marginTop="@dimen/aio_margin_xlarge"
         android:gravity="center"
-        android:textColor="@color/dialog_status" />
+        android:textColor="@color/aio_dialog_status" />
 
 
     <Button
@@ -76,9 +76,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_status"
-        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:layout_marginTop="@dimen/aio_margin_xxlarge"
         android:background="@null"
-        android:paddingTop="@dimen/margin_xxlarge"
-        android:textColor="@color/dialog_cancel_btn" />
+        android:paddingTop="@dimen/aio_margin_xxlarge"
+        android:textColor="@color/aio_dialog_cancel_btn" />
 
 </RelativeLayout>

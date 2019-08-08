@@ -17,15 +17,22 @@
  
 package de.niklasmerz.cordova.fingerprint;
 
+import org.apache.cordova.PluginResult;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
 
 import android.os.Bundle;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import de.niklasmerz.cordova.fingerprint.BiometricManager;
-import de.niklasmerz.cordova.fingerprint.BiometricCallback;
+import android.util.Log;
+
+import com.an.biometric.BiometricManager;
+import com.an.biometric.BiometricCallback;
+
 
 public class Fingerprint extends CordovaPlugin implements BiometricCallback {
 	
@@ -33,6 +40,7 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
     public static String packageName;
     public static CallbackContext mCallbackContext;
     public static PluginResult mPluginResult;
+    BiometricManager mBiometricManager;
 
 	
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -53,23 +61,15 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
         if (action.equals("authenticate")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
 	            public void run() {
-	                // Set up the crypto object for later. The object will be authenticated by use
-	                // of the fingerprint.
-/*
-	                mFragment = new FingerprintAuthenticationDialogFragment();
-	                Bundle bundle = new Bundle();
-	                bundle.putBoolean("disableBackup", mDisableBackup);
-	                mFragment.setArguments(bundle);
-*/
 					  mBiometricManager = new BiometricManager.BiometricBuilder(cordova.getActivity().getApplicationContext())
-                        .setTitle(getString(R.string.biometric_title))
-                        .setSubtitle(getString(R.string.biometric_subtitle))
-                        .setDescription(getString(R.string.biometric_description))
-                        .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+                        .setTitle("Title")
+                        .setSubtitle("Subtitle")
+                        .setDescription("Description")
+                        .setNegativeButtonText("Cancel")
                         .build();
 
 		                //start authentication
-		                mBiometricManager.authenticate(cordova.getActivity().getApplicationContext());
+		                mBiometricManager.authenticate(Fingerprint.this);
 	            }
 	        });
 	        mPluginResult.setKeepCallback(true);
@@ -121,12 +121,12 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
 
     @Override
     public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
-		mCallbackContext.error("helpString");
+		mCallbackContext.error(helpString + " | code: " + helpCode);
     }
 
     @Override
     public void onAuthenticationError(int errorCode, CharSequence errString) {
-		mCallbackContext.error("errString");
+		mCallbackContext.error(errString + " | code: " + errorCode);
     }
 	
 }
