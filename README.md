@@ -85,7 +85,8 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
     }
 
     function isAvailableError(message) {
-      alert(message);
+      // 'message' will be an object with an error code and message
+      console.log(message);
     }
 ```
 
