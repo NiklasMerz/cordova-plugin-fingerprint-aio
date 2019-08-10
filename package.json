@@ -40,7 +40,7 @@
     "jasmine": "^3.2.0"
   },
   "scripts": {
-    "test": "npm run test-local && npm run test-saucelabs",
+    "test": "npm run eslint",
     "eslint": "npx eslint www",
     "test-travis": "npm run test-ios",
     "test-appveyor": "npm run test-browser",
