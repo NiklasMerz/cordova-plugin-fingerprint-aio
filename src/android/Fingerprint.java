@@ -157,10 +157,12 @@ public class Fingerprint extends CordovaPlugin {
                            CallbackContext callbackContext) throws JSONException {
         mCallbackContext = callbackContext;
         Log.v(TAG, "Fingerprint action: " + action);
+        JSONObject errorResponse = new JSONObject();
+
         if (android.os.Build.VERSION.SDK_INT < 23) {
             Log.e(TAG, "minimum SDK version 23 required");
             mPluginResult = new PluginResult(PluginResult.Status.ERROR);
-            mCallbackContext.error("minimum SDK version 23 required");
+            mCallbackContext.error(errorResponse.put("message", "minimum SDK version 23 required"));
             mCallbackContext.sendPluginResult(mPluginResult);
             return true;
         }
@@ -170,7 +172,7 @@ public class Fingerprint extends CordovaPlugin {
         if (action.equals("authenticate")) {
             if (!arg_object.has("clientId") || !arg_object.has("clientSecret")) {
                 mPluginResult = new PluginResult(PluginResult.Status.ERROR);
-                mCallbackContext.error("Missing required parameters");
+                mCallbackContext.error(errorResponse.put("message", "Missing required parameters"));
                 mCallbackContext.sendPluginResult(mPluginResult);
                 return true;
             }
@@ -228,7 +230,11 @@ public class Fingerprint extends CordovaPlugin {
                                     transaction.add(mFragment, DIALOG_FRAGMENT_TAG);
                                     transaction.commitAllowingStateLoss();
                                 } else {
-                                    mCallbackContext.error("Failed to init Cipher and backup disabled.");
+                                    try {
+                                        mCallbackContext.error(errorResponse.put("message", "Failed to init Cipher and backup disabled."));
+                                    } catch (JSONException e) {
+                                        Log.e(TAG, "Failed to set errorResponse key value pair: " + e.getMessage());
+                                    }
                                     mPluginResult = new PluginResult(PluginResult.Status.ERROR);
                                     mCallbackContext.sendPluginResult(mPluginResult);
                                 }
@@ -242,22 +248,22 @@ public class Fingerprint extends CordovaPlugin {
 
             } else {
                 mPluginResult = new PluginResult(PluginResult.Status.ERROR);
-                mCallbackContext.error("Fingerprint authentication not available");
+                mCallbackContext.error(errorResponse.put("message", "Fingerprint authentication not available"));
                 mCallbackContext.sendPluginResult(mPluginResult);
             }
             return true;
         } else if (action.equals("isAvailable")) {
-            if(isFingerprintAuthAvailable() && mFingerPrintManager.isHardwareDetected() && mFingerPrintManager.hasEnrolledFingerprints()){
-              mPluginResult = new PluginResult(PluginResult.Status.OK, "finger");
-              mCallbackContext.success("finger");
+            if(mFingerPrintManager.isHardwareDetected() && mFingerPrintManager.hasEnrolledFingerprints()){
+                mPluginResult = new PluginResult(PluginResult.Status.OK, "finger");
+                mCallbackContext.success("finger");
             }else{
-              mPluginResult = new PluginResult(PluginResult.Status.ERROR);
+                mPluginResult = new PluginResult(PluginResult.Status.ERROR);
 
-              if (mFingerPrintManager.isHardwareDetected() && !mFingerPrintManager.hasEnrolledFingerprints()) {
-                mCallbackContext.error("Fingerprint authentication not ready");
-              } else {
-                mCallbackContext.error("Fingerprint authentication not available");
-              }
+                if (mFingerPrintManager.isHardwareDetected() && !mFingerPrintManager.hasEnrolledFingerprints()) {
+                    mCallbackContext.error(errorResponse.put("message", "Fingerprint authentication not ready"));
+                } else {
+                    mCallbackContext.error(errorResponse.put("message", "Fingerprint authentication not available"));
+                }
             }
             mCallbackContext.sendPluginResult(mPluginResult);
             return true;
@@ -410,14 +416,22 @@ public class Fingerprint extends CordovaPlugin {
             mCallbackContext.success(resultJson);
             mPluginResult = new PluginResult(PluginResult.Status.OK);
         } else {
-            mCallbackContext.error(errorMessage);
+            try {
+                mCallbackContext.error(new JSONObject().put("message", errorMessage));
+            } catch (JSONException e) {
+                Log.e(TAG, "Failed to set JSON key value pair: " + e.getMessage());
+            }
             mPluginResult = new PluginResult(PluginResult.Status.ERROR);
         }
         mCallbackContext.sendPluginResult(mPluginResult);
     }
 
     public static void onCancelled() {
-        mCallbackContext.error("Cancelled");
+        try {
+            mCallbackContext.error(new JSONObject().put("message", "Cancelled"));
+        } catch (JSONException e) {
+            Log.e(TAG, "Failed to set JSON key value pair: " + e.getMessage());
+        }
     }
 
     /**
@@ -428,8 +442,12 @@ public class Fingerprint extends CordovaPlugin {
         return mCipher.doFinal(mClientSecret.getBytes());
     }
 
-    public static boolean setPluginResultError(String errorMessage) {
-        mCallbackContext.error(errorMessage);
+    private static boolean setPluginResultError(String errorMessage) {
+        try {
+            mCallbackContext.error(new JSONObject().put("message", errorMessage));
+        } catch (JSONException e) {
+            Log.e(TAG, "Failed to set JSON key value pair: " + e.getMessage());
+        }
         mPluginResult = new PluginResult(PluginResult.Status.ERROR);
         return false;
     }
