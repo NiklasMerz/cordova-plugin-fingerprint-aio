@@ -1,3 +1,7 @@
+# This Travis configuration file is built after a Cordova Paramedic 
+# specific template with minimal modifications and adaptations:
+# https://github.com/apache/cordova-paramedic/blob/master/.travis.yml
+
 sudo: false
 addons:
   jwt:
@@ -12,7 +16,6 @@ env:
 language: node_js
 node_js: 8
 
-# CI config from Apache under Apache license https://github.com/apache/cordova-plugin-inappbrowser/blob/master/.travis.yml
 # yaml anchor/alias: https://medium.com/@tommyvn/travis-yml-dry-with-anchors-8b6a3ac1b027
 
 _ios: &_ios
@@ -43,23 +46,12 @@ matrix:
 
     # many tests with saucelabs
     - env: PLATFORM=browser-chrome
-    - env: PLATFORM=browser-firefox
-    - env: PLATFORM=browser-safari
-    - env: PLATFORM=browser-edge
 
     - env: PLATFORM=ios-11.3
       <<: *_ios
     - env: PLATFORM=ios-12.0
       <<: *_ios
 
-    - env: PLATFORM=android-5.1
-      <<: *_android
-    - env: PLATFORM=android-6.0
-      <<: *_android
-    - env: PLATFORM=android-7.0
-      <<: *_android
-    - env: PLATFORM=android-7.1
-      <<: *_android
     - env: PLATFORM=android-8.0
       <<: *_android
     - env: PLATFORM=android-8.1
