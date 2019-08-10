@@ -7,7 +7,7 @@ env:
   - SAUCE_USERNAME=NiklasMerz
   - TRAVIS_NODE_VERSION="lts/*"
 language: node_js
-node_js: 6
+node_js: 8
 
 # yaml anchor/alias: https://medium.com/@tommyvn/travis-yml-dry-with-anchors-8b6a3ac1b027
 
@@ -32,15 +32,11 @@ _android: &_android
 matrix:
   include:
     # local tests, without saucelabs
-    - env: PLATFORM=local/ios-10.0
-      <<: *_ios
 
     # many tests with saucelabs
     - env: PLATFORM=ios-11.3
       <<: *_ios
     - env: PLATFORM=ios-12.0
-      <<: *_ios
-    - env: PLATFORM=ios-12.2
       <<: *_ios
 
     - env: PLATFORM=android-8.0
