@@ -101,3 +101,7 @@ script:
     else 
       $PARAMEDIC_COMMAND --config ./pr/$PLATFORM --plugin $PARAMEDIC_PLUGIN_TO_TEST --buildName $PARAMEDIC_BUILDNAME; 
     fi
+notifications:
+  email: false
+  slack:
+    secure: M2YnQ9ZNaAg86UnNWmWcEZ0vsi5UMJ+wYCpqvhYGBzs6UGhyy4vRx/dhrFT3zsJr4of5YmVYulidVbjfGBnubTbI3VHdtzP3KXqmCci3ioavMud6Luspw4h8+pCJXQIkoXM/n4Atx4S5Qyke6HrXX/IJrigOw4QXQYsU29n/j6SAHcVHckbO7hHCiDQMr6D5PwVUi6m02/zpE9B2FATar1JcVrVfX+d9ZbULf8w5iOVtfVPrnBl6RKAIXxNaFNnQyiAld0eCguePNeVuMU5QSS+VKc5b0HvJPeRydRAuL3Hlf8DJ3F6TR8kOfVUa7fTqvejweRaaqAvjYSVC2exgp79eV53/1vYRMAWgo4qAsRoH5m7xVvTJcgP0M97Bh1fZJzGWyKmiRvUw6tJdKh7Ig9vIM0FjXvzf3wfl/09u7Jh8KUBjqBZlZ+SLVaU7qLB8DaxeRvgymCInlKJd135lGsWj8+ZNl7eccfSJ3cjQIuYRKcgCAPyyo2Iydfi/q6ZBN4CJTgyuIt0ooI0aB5h9kDRQIxiODzAy363AtHEsnRL7wHtOSYikKGsrIz+vUN8gjpu4lSm1ePIf0ErP1kZBpB6rcvX28dSuKwBGbyoqJMjbYbgRSTiePcIS3VLLg8qfoNoBonEylLK6IpJA3ussjGS2sEyS1F8wln5L+y0C3pw=
