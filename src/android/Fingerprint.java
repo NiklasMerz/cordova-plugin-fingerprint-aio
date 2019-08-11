@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.app.KeyguardManager;
 
+import com.an.biometric.BiometricUtils;
 import com.an.biometric.BiometricManager;
 import com.an.biometric.BiometricCallback;
 import android.hardware.biometrics.BiometricPrompt;
@@ -46,7 +47,8 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
     public static PluginResult mPluginResult;
     private static boolean mDisableBackup = false;
     public KeyguardManager mKeyguardManager;
-    BiometricManager mBiometricManager;
+    public BiometricManager mBiometricManager;
+    public BiometricUtils mBiometricUtils;
     
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
 
@@ -97,7 +99,11 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
 	        mPluginResult.setKeepCallback(true);
             return true;
         }else if(action.equals("isAvailable")){
-	        showAuthenticationScreen();
+	        if(mBiometricUtils.isFingerprintAvailable(mContext)){
+		        mCallbackContext.success("biometric_available");
+	        }else{
+		        mCallbackContext.error("biometric_not_available");
+	        }
 	        return true;
         }
         return false;
@@ -162,16 +168,17 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
 
     @Override
     public void onAuthenticationCancelled() {
-        //mCallbackContext.error("biometric_cancelled");
         mBiometricManager.cancelAuthentication();
         if(!mDisableBackup){
 	        showAuthenticationScreen();
+        }else{
+	        mCallbackContext.error("biometric_cancelled");
         }
     }
 
     @Override
     public void onAuthenticationSuccessful() {
-        mCallbackContext.error("biometric_success");
+        mCallbackContext.success("biometric_success");
     }
 
     @Override
