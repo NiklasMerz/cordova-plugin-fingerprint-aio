@@ -1,7 +1,7 @@
 /*global cordova */
 
 var Fingerprint = function() {
-}
+};
 
 // Plugin Errors
 Fingerprint.prototype.BIOMETRIC_UNKNOWN_ERROR = -100;
