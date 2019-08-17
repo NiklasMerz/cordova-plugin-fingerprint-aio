@@ -9,11 +9,11 @@ exports.defineAutoTests = function() {
   });
 
   describe("isAvailable", function () {
-    it("isAvailable schould be defined", function () {
+    it("isAvailable should be defined", function () {
       expect(window.Fingerprint.isAvailable).toBeDefined();
     });
 
-    it("isAvailable schould return an result or error in callback", function (done) {
+    it("isAvailable should return an result or error in callback", function (done) {
       window.Fingerprint.isAvailable( function (result) {
         expect(result).toBeDefined();
         done();
@@ -25,7 +25,7 @@ exports.defineAutoTests = function() {
   });
 
   describe("show", function () {
-    it("show schould be defined", function () {
+    it("show should be defined", function () {
       expect(window.Fingerprint.show).toBeDefined();
     });
   });
@@ -41,41 +41,39 @@ exports.defineManualTests = function (contentEl, createActionButton) {
       alert("Fingerprint available (" + result + ")");
     }
 
-    function isAvailableError(message) {
-      alert(message);
+    function isAvailableError(error) {
+      console.log(error);
+      alert(error.message);
     }
   });
 
   createActionButton("show", function () {
     Fingerprint.show({
-      clientId: "Fingerprint-Tests",
-      clientSecret: "password",
       disableBackup: false
     }, successCallback, errorCallback);
 
     function successCallback() {
-      alert("Authentication successfull");
+      alert("Authentication successful");
     }
 
-    function errorCallback(err) {
-      alert("Authentication invalid " + err);
+    function errorCallback(error) {
+      console.log(error);
+      alert("Authentication invalid " + error.message);
     }
   });
 
   createActionButton("show-disablebackup", function () {
     Fingerprint.show({
-      clientId: "Fingerprint-Tests",
-      clientSecret: "password",
       disableBackup: true
     }, successCallback, errorCallback);
 
     function successCallback() {
-      alert("Authentication successfull");
+      alert("Authentication successful");
     }
 
     function errorCallback(err) {
-      alert("Authentication invalid " + err);
+      console.log(error);
+      alert("Authentication invalid " + error.message);
     }
   });
-
 };

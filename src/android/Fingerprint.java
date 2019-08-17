@@ -32,6 +32,9 @@ import android.util.Log;
 import android.content.Intent;
 import android.content.Context;
 import android.app.KeyguardManager;
+import android.content.pm.PackageManager;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.an.biometric.BiometricUtils;
 import com.an.biometric.BiometricManager;
@@ -48,6 +51,10 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
     private CallbackContext mCallbackContext = null;
     public static PluginResult mPluginResult;
     private static boolean mDisableBackup = false;
+    private static String mTitle;
+    private static String mSubtitle = null;
+    private static String mDescription = null;
+    private static String mFallbackButtonTitle = "Cancel";
     public KeyguardManager mKeyguardManager;
     public BiometricManager mBiometricManager;
     public BiometricUtils mBiometricUtils;
@@ -88,6 +95,15 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
         packageName = cordova.getActivity().getApplicationContext().getPackageName();
         mContext = cordova.getActivity().getApplicationContext();
         mKeyguardManager = cordova.getActivity().getSystemService(KeyguardManager.class);
+
+        PackageManager packageManager = cordova.getActivity().getPackageManager();
+        ApplicationInfo app = null;
+        try {
+            app = packageManager.getApplicationInfo(cordova.getActivity().getPackageName(), 0);
+            mTitle = (String)packageManager.getApplicationLabel(app) + " Biometric Sign On";
+        } catch (NameNotFoundException e) {
+            mTitle = "Biometric Sign On";
+        }
     }
 
     public boolean execute(final String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -102,20 +118,38 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
             cordova.getActivity().runOnUiThread(new Runnable() {
 	            public void run() {
 
-                    if (arg_object.has("disableBackup")) {
-			            try {
-							mDisableBackup = arg_object.getBoolean("disableBackup");
-			            } catch (JSONException e) {
+                    try {
+                        if (arg_object.has("disableBackup")) {
+                            mDisableBackup = arg_object.getBoolean("disableBackup");
+                        }
+                        if(arg_object.optString("title") != null && !arg_object.optString("title").isEmpty()){
+                            mTitle = arg_object.getString("title");
+                        }else{
 
-			            }
-		            }
+                        }
+                        if(arg_object.optString("subtitle") != null && !arg_object.optString("subtitle").isEmpty()){
+                            mSubtitle = arg_object.getString("subtitle");
+                        }
+                        if(arg_object.optString("description") != null && !arg_object.optString("description").isEmpty()){
+                            mDescription = arg_object.getString("description");
+                        }
+                        if(arg_object.optString("fallbackButtonTitle") != null && !arg_object.optString("fallbackButtonTitle").isEmpty()){
+                            mFallbackButtonTitle = arg_object.getString("fallbackButtonTitle");
+                        }else{
+                            if(!mDisableBackup){
+                                mFallbackButtonTitle = "Use Backup";
+                            }
+                        }
+                    } catch (JSONException e) {
+
+                    }
 
 					//set up the builder
 					mBiometricManager = new BiometricManager.BiometricBuilder(mContext)
-						.setTitle("Title")
-						.setSubtitle("Subtitle")
-						.setDescription("Description")
-						.setNegativeButtonText("Cancel")
+						.setTitle(mTitle)
+						.setSubtitle(mSubtitle)
+						.setDescription(mDescription)
+						.setNegativeButtonText(mFallbackButtonTitle)
 						.build();
 
 					//start authentication
@@ -214,13 +248,6 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
         sendError(PluginError.BIOMETRIC_INTERNAL_PLUGIN_ERROR.getValue(), error);
     }
 
-    @Override
-    public void onAuthenticationFailed() {
-        Log.e(TAG, " FAILED!!!!!!!! ");
-//        if (!mDisableBackup) {
-//            sendError(PluginError.BIOMETRIC_AUTHENTICATION_FAILED.getValue(), PluginError.BIOMETRIC_AUTHENTICATION_FAILED.name() + " | " + UUID.randomUUID().toString());
-//        }
-    }
 
     @Override
     public void onAuthenticationCancelled() {

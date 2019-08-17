@@ -84,17 +84,17 @@ import LocalAuthentication
                 authenticationContext.localizedFallbackTitle = "";
                 policy = .deviceOwnerAuthenticationWithBiometrics;
             } else {
-                if let localizedFallbackTitle = data?["localizedFallbackTitle"] as! String? {
-                    authenticationContext.localizedFallbackTitle = localizedFallbackTitle;
+                if let fallbackButtonTitle = data?["fallbackButtonTitle"] as! String? {
+                    authenticationContext.localizedFallbackTitle = fallbackButtonTitle;
+                }else{
+                    authenticationContext.localizedFallbackTitle = "Use Pin";
                 }
             }
         }
 
         // Localized reason
-        if let localizedReason = data?["localizedReason"] as! String? {
-            reason = localizedReason;
-        }else if let clientId = data?["clientId"] as! String? {
-            reason = clientId;
+        if let description = data?["description"] as! String? {
+            reason = description;
         }
 
         authenticationContext.evaluatePolicy(
