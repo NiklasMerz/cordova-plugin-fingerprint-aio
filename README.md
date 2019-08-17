@@ -134,7 +134,7 @@ Fingerprint.show({
 - **BIOMETRIC_LOCKED_OUT_PERMANENT** = `-112`;
 ***
 
- Thanks to the authors of the original fingerprint plugins
+Thanks to the authors of the original fingerprint plugins
 
 Some code is refactored from their projects and I learned how to make Cordova plugins from their great plugins:
 
@@ -144,7 +144,9 @@ Some code is refactored from their projects and I learned how to make Cordova pl
 
 [iOS](https://github.com/EddyVerbruggen/cordova-plugin-touch-id)
 
+Starting with version 3.0.0 the iOS and Android parts are written from scratch.
+
 ## License
 
-* Project and iOS source: [MIT](https://opensource.org/licenses/MIT)
-* Android source: [MIT](https://opensource.org/licenses/MIT) and [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+The project is MIT licensed: [MIT](https://opensource.org/licenses/MIT).
+
