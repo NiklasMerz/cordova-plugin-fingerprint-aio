@@ -3,7 +3,7 @@
 var Fingerprint = function() {
 }
 
-//Plugin Errors
+// Plugin Errors
 Fingerprint.prototype.BIOMETRIC_UNKNOWN_ERROR = -100;
 Fingerprint.prototype.BIOMETRIC_UNAVAILABLE = -101;
 Fingerprint.prototype.BIOMETRIC_AUTHENTICATION_FAILED = -102;
