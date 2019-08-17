@@ -274,16 +274,21 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
 
     @Override
     public void onAuthenticationError(int errorCode, CharSequence errString) {
-		if (errorCode == 7 || errorCode == 9) {
-            //mBiometricManager.cancelAuthentication();
-            if(!mDisableBackup) {
-                showAuthenticationScreen();
-            }else{
-                sendError(errorCode == 7 ? PluginError.BIOMETRIC_LOCKED_OUT.getValue() : PluginError.BIOMETRIC_LOCKED_OUT_PERMANENT.getValue(), errString.toString());
-            }
-	    }else{
-            Log.e(TAG, "onAuthenticationError: " + errorCode + " | " + errString);
-            sendError(errorCode, errString != null ? errString.toString() : "Error has no description.");
+        switch (errorCode)
+        {
+            case 7:
+            case 9:
+                if(!mDisableBackup) {
+                    showAuthenticationScreen();
+                }else{
+                    sendError(errorCode == 7 ? PluginError.BIOMETRIC_LOCKED_OUT.getValue() : PluginError.BIOMETRIC_LOCKED_OUT_PERMANENT.getValue(), errString.toString());
+                }
+                break;
+
+            default:
+                sendError(errorCode, (errString != null ? errString.toString() : "Error has no description."));
+                break;
+
         }
     }
 
