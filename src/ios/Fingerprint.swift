@@ -24,6 +24,10 @@ import LocalAuthentication
     func isAvailable(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
         var biometryType = "finger";
+        var errorResponse: [AnyHashable: Any] = [
+            "code": 0,
+            "message": "Not Available"
+        ];
         var error:NSError?;
         let policy:LAPolicy = .deviceOwnerAuthenticationWithBiometrics;
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
@@ -33,10 +37,11 @@ import LocalAuthentication
 
         if(error != nil){
             biometryType = "none";
+            errorResponse["code"] = error?.code;
+            errorResponse["message"] = error?.localizedDescription;
         }
 
         if (available == true) {
-
             if #available(iOS 11.0, *) {
                 switch(authenticationContext.biometryType) {
                 case .none:
@@ -74,7 +79,10 @@ import LocalAuthentication
     @objc(authenticate:)
     func authenticate(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
-        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Something went wrong");
+        var errorResponse: [AnyHashable: Any] = [
+            "message": "Something went wrong"
+        ];
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: errorResponse);
         var reason = "Authentication";
         var policy:LAPolicy = .deviceOwnerAuthentication;
         let data  = command.arguments[0] as AnyObject?;

@@ -56,9 +56,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
       alert("Authentication successful");
     }
 
-    function errorCallback(error) {
-      console.log(error);
-      alert("Authentication invalid " + error.message);
+    function errorCallback(err) {
+      alert("Authentication invalid " + JSON.stringify(err));
     }
   });
 
@@ -72,8 +71,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
 
     function errorCallback(err) {
-      console.log(error);
-      alert("Authentication invalid " + error.message);
+      alert("Authentication invalid " + JSON.stringify(err));
     }
   });
 };
