@@ -30,8 +30,6 @@
 
 ## How to use
 
----
-
 **[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday
 
 [Examples](https://github.com/NiklasMerz/fingerprint-aio-demo)
@@ -146,6 +144,12 @@ Some code is refactored from their projects and I learned how to make Cordova pl
 [iOS](https://github.com/EddyVerbruggen/cordova-plugin-touch-id)
 
 Starting with version 3.0.0 the iOS and Android parts are written from scratch.
+
+Special thanks also to @anitaa1990 for the biometric lib that aar the file in this plugin is based on and to @pabloerag's fork that removed the androidx requirements.
+
+[Biometric-Auth-Sample](https://github.com/anitaa1990/Biometric-Auth-Sample)
+
+[Forked version used to create aar](https://github.com/greaterking/Biometric-Auth-Sample/tree/changes-for-fingerprint-aio)
 
 ## License
 
