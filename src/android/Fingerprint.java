@@ -153,29 +153,15 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
              * other than "finger" if it's available even if face dection opens up.
              * @link https://source.android.com/security/biometric
              */
-            boolean passedAllChecks = true;
-
-	        if(!mBiometricUtils.isSdkVersionSupported()){
+            if(!mBiometricUtils.isSdkVersionSupported()){
                 onSdkVersionNotSupported();
-                passedAllChecks = true;
-            }
-
-	        if(!mBiometricUtils.isHardwareSupported(mContext)){
+            }else if(!mBiometricUtils.isHardwareSupported(mContext)){
                 onBiometricAuthenticationNotSupported();
-                passedAllChecks = true;
-            }
-
-	        if(!mBiometricUtils.isFingerprintAvailable(mContext)){
+            } elseif(!mBiometricUtils.isFingerprintAvailable(mContext)){
                 onBiometricAuthenticationNotAvailable();
-                passedAllChecks = true;
-            }
-
-	        if(!mBiometricUtils.isPermissionGranted(mContext)){
+            }else if(!mBiometricUtils.isPermissionGranted(mContext)){
                 onBiometricAuthenticationPermissionNotGranted();
-                passedAllChecks = true;
-            }
-
-            if (passedAllChecks) {
+            }else{
                 sendSuccess("finger");
             }
             return true;
