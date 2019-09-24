@@ -157,7 +157,7 @@ public class Fingerprint extends CordovaPlugin implements BiometricCallback {
                 onSdkVersionNotSupported();
             }else if(!mBiometricUtils.isHardwareSupported(mContext)){
                 onBiometricAuthenticationNotSupported();
-            } elseif(!mBiometricUtils.isFingerprintAvailable(mContext)){
+            } else if(!mBiometricUtils.isFingerprintAvailable(mContext)){
                 onBiometricAuthenticationNotAvailable();
             }else if(!mBiometricUtils.isPermissionGranted(mContext)){
                 onBiometricAuthenticationPermissionNotGranted();
