@@ -411,6 +411,7 @@ public class Fingerprint extends CordovaPlugin {
             errorMessage = "Failed to set resultJson key value pair: " + e.getMessage();
             Log.e(TAG, errorMessage);
         }
+        //TEST
 
         if (createdResultJson) {
             mCallbackContext.success(resultJson);

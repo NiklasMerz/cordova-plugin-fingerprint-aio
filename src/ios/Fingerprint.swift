@@ -48,6 +48,7 @@ import LocalAuthentication
         var errorResponse: [AnyHashable: Any] = [
             "message": "Something went wrong"
         ];
+        //TEST
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: errorResponse);
         var reason = "Authentication";
         var policy:LAPolicy = .deviceOwnerAuthentication;
