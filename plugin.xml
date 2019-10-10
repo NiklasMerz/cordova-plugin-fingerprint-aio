@@ -34,7 +34,7 @@
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="Fingerprint">
-        <param name="android-package" value="de.niklasmerz.cordova.fingerprint.Fingerprint"/>
+        <param name="android-package" value="de.niklasmerz.cordova.biometric.Fingerprint"/>
       </feature>
     </config-file>
     
