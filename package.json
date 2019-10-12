@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-fingerprint-aio",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Cordova plugin to use fingerprint authentication on Android and iOS",
   "cordova": {
     "id": "cordova-plugin-fingerprint-aio",
@@ -53,5 +53,10 @@
     "test-saucelabs-ios": "npx cordova-paramedic --config ./pr/ios-10.0 --plugin  $(pwd) --shouldUseSauce",
     "test-saucelabs-android": "npx cordova-paramedic --config ./pr/android-7.0 --plugin  $(pwd) --shouldUseSauce",
     "plugin-version": "cordova-plugin-xml setVersion"
+  },
+  "engines": {
+    "cordovaDependencies": {
+      ">=3.0.0":  { "cordova-android": ">=8.0.0" }
+    }
   }
 }
