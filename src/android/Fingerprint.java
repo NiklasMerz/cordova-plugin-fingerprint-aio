@@ -112,6 +112,10 @@ public class Fingerprint extends CordovaPlugin {
             if (error != null) {
                 sendError(error);
             } else {
+                /**
+                 * There is no method to get biometry type in Android, so
+                 * for compatibility always return "finger"
+                 */
                 sendSuccess("finger");
             }
             return true;
