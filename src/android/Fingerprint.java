@@ -274,7 +274,8 @@ public class Fingerprint extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS) {
             if (resultCode == Activity.RESULT_OK) {
-                sendSuccess();
+                Log.e(TAG, "biometric_success");
+                sendSuccess("biometric_success");
             } else {
                 sendError(
                         new Error(
