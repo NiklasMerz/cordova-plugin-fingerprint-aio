@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="3.0.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="1.7.0">
   <name>FingerprintAllInOne</name>
   <description>Cordova plugin to use fingerprint on Android and iOS</description>
   <license>MIT</license>
@@ -11,6 +11,7 @@
     <clobbers target="Fingerprint"/>
   </js-module>
 
+  
 
   <!-- ios -->
   <platform name="ios">
@@ -20,7 +21,7 @@
         <param name="ios-package" value="Fingerprint"/>
       </feature>
     </config-file>
-    <header-file src="src/ios/Bridging-Header.h"/>
+    <header-file src="src/ios/Bridging-Header.h" />
     <source-file src="src/ios/Fingerprint.swift"/>
 
     <!-- Usage description of Face ID for iOS 11+ -->
@@ -34,21 +35,40 @@
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="Fingerprint">
-        <param name="android-package" value="de.niklasmerz.cordova.biometric.Fingerprint"/>
+        <param name="android-package" value="de.niklasmerz.cordova.fingerprint.Fingerprint"/>
       </feature>
     </config-file>
-    
     <config-file target="AndroidManifest.xml" parent="/*">
-	  <uses-permission android:name="android.permission.USE_BIOMETRIC" />
       <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     </config-file>
-    
-    <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
-    <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-  </platform>
 
-  <engines>
-    <engine name="cordova-android" version=">=8.0.0" />
-  </engines>
+    <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
+    <source-file src="src/android/FingerprintAuthenticationDialogFragment.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
+    <source-file src="src/android/FingerprintUiHelper.java" target-dir="src/de/niklasmerz/cordova/fingerprint"/>
+    <source-file src="res/android/drawable/ic_fingerprint_error.xml" target-dir="res/drawable"/>
+    <source-file src="res/android/drawable/ic_fingerprint_success.xml" target-dir="res/drawable"/>
+    <resource-file src="res/android/drawable-hdpi/ic_fp_40px.png" target="res/drawable-hdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-mdpi/ic_fp_40px.png" target="res/drawable-mdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-nodpi/android_robot.png" target="res/drawable-nodpi/android_robot.png"/>
+    <resource-file src="res/android/drawable-xhdpi/ic_fp_40px.png" target="res/drawable-xhdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-xxhdpi/ic_fp_40px.png" target="res/drawable-xxhdpi/ic_fp_40px.png"/>
+    <resource-file src="res/android/drawable-xxxhdpi/ic_fp_40px.png" target="res/drawable-xxxhdpi/ic_fp_40px.png"/>
+    <source-file src="res/android/layout/fingerprint_dialog_container.xml" target-dir="res/layout"/>
+    <source-file src="res/android/layout/fingerprint_dialog_content.xml" target-dir="res/layout"/>
+    <source-file src="res/android/values/fpauth-colors.xml" target-dir="res/values"/>
+    <source-file src="res/android/values/fpauth-strings.xml" target-dir="res/values"/>
+    <source-file src="res/android/values-es/fpauth-strings.xml" target-dir="res/values-es"/>
+    <source-file src="res/android/values-de/fpauth-strings.xml" target-dir="res/values-de"/>
+    <source-file src="res/android/values-fr/fpauth-strings.xml" target-dir="res/values-fr"/>
+    <source-file src="res/android/values-zh/fpauth-strings.xml" target-dir="res/values-zh"/>
+    <source-file src="res/android/values-pt/fpauth-strings.xml" target-dir="res/values-pt"/>
+    <source-file src="res/android/values-it/fpauth-strings.xml" target-dir="res/values-it"/>
+    <source-file src="res/android/values-el/fpauth-strings.xml" target-dir="res/values-el"/>       
+    <source-file src="res/android/values-zh-rTW/fpauth-strings.xml" target-dir="res/values-zh-rTW"/>   
+    <source-file src="res/android/values-nl/fpauth-strings.xml" target-dir="res/values-nl"/>
+    <source-file src="res/android/values-da/fpauth-strings.xml" target-dir="res/values-da"/>
+    <source-file src="res/android/values-sv/fpauth-strings.xml" target-dir="res/values-sv"/>
+    <source-file src="res/android/values-ru/fpauth-strings.xml" target-dir="res/values-ru"/>
+  </platform>
 
 </plugin>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fingerprint_cancel">Ακύρωση</string>
+    <string name="fingerprint_use_backup">Χρήση αρχείου</string>
+    <string name="fingerprint_auth_dialog_title">Ελεγχος αποτυπώματος</string>
+    <string name="fingerprint_ok">Ok</string>
+    <string name="fingerprint_description">Επιβεβαίωση αποτυπώματος</string>
+    <string name="fingerprint_hint">Αιθηστήρας αφής</string>
+    <string name="fingerprint_not_recognized">Σφάλμα. Προσπαθήστε ξανά</string>
+    <string name="fingerprint_success">Σωστό αποτύπωμα</string>
+    <string name="new_fingerprint_enrolled_description">Νεο αποτύπωμα προστέθηκε , απαιτείται ο κωδικός σας.</string>
+    <string name="secure_lock_screen_required">Απαιτείται κλειδωμα οθόνης</string>
+</resources>

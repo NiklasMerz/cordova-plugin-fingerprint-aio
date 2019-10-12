@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fingerprint_cancel">Cancelar</string>
+    <string name="fingerprint_use_backup">Use o backup</string>
+    <string name="fingerprint_auth_dialog_title">Autenticação de impressão digital</string>
+    <string name="fingerprint_ok">Ok</string>
+    <string name="fingerprint_description">Confirme a impressão digital para continuar</string>
+    <string name="fingerprint_hint">Sensor de toque</string>
+    <string name="fingerprint_not_recognized">impressão digital não reconhecida. Tente novamente.</string>
+    <string name="fingerprint_success">impressão digital reconhecida</string>
+    <string name="new_fingerprint_enrolled_description">Uma nova impressão digital foi adicionada a este dispositivo, é necessário o seu código</string>
+    <string name="secure_lock_screen_required">É necessário um ecrã de bloqueio seguro!</string>
+</resources>

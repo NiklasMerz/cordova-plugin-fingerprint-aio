@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fingerprint_cancel">Cancella</string>
+    <string name="fingerprint_use_backup">Usa backup</string>
+    <string name="fingerprint_auth_dialog_title">Autenticazione impronta digitale</string>
+    <string name="fingerprint_ok">Ok</string>
+    <string name="fingerprint_description">Conferma l\'impronta digitale per continuare</string>
+    <string name="fingerprint_hint">Sensore Touch</string>
+    <string name="fingerprint_not_recognized">Impronta digitale non riconosciuta. Riprova.</string>
+    <string name="fingerprint_success">Impronta digitale riconosciuta</string>
+    <string name="new_fingerprint_enrolled_description">Una nuova impronta è stata aggiunta a questo dispositivo, quindi è necessaria la tua password</string>
+    <string name="secure_lock_screen_required">Blocco schermo richiesto!</string>
+</resources>
