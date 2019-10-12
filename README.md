@@ -30,8 +30,6 @@
 
 ## How to use
 
----
-
 **[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday
 
 [Examples](https://github.com/NiklasMerz/fingerprint-aio-demo)
@@ -84,33 +82,58 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
       alert("Fingerprint available");
     }
 
-    function isAvailableError(message) {
-      alert(message);
+    function isAvailableError(error) {
+      // 'error' will be an object with an error code and message
+      alert(error.message);
     }
 ```
 
 ### Show authentication dialogue
 ```javascript
 Fingerprint.show({
-      clientId: "Fingerprint-Demo", //Android: Used for encryption. iOS: used for dialogue if no `localizedReason` is given.
-      clientSecret: "o7aoOMYUbyxaD23oFAnJ" //Necessary for Android encrpytion of keys. Use random secret key.
+      description: "Some biometric description"
     }, successCallback, errorCallback);
 
     function successCallback(){
-      alert("Authentication successfull");
+      alert("Authentication successful");
     }
 
-    function errorCallback(err){
-      alert("Authentication invalid " + err);
+    function errorCallback(error){
+      alert("Authentication invalid " + error.message);
     }
 ```
-**Optional parameters**
+### Optional parameters
 
-* __disableBackup__: If `true` remove backup option on authentication dialogue for Android. Default: `false`.
-* __localizedFallbackTitle__ (iOS only): Title of fallback button.
-* __localizedReason__ (iOS only): Description in authentication dialogue.
+* __title__: Title in authentication dialogue. Default: `"<APP_NAME> Biometric Sign On"`
+* __subtitle__: Subtitle in authentication dialogue. Default: `null`
+* __description__: Description in authentication dialogue. Defaults:
+  * iOS: `"Authenticate"` (iOS' [evaluatePolicy()](https://developer.apple.com/documentation/localauthentication/lacontext/1514176-evaluatepolicy?language=objc) requires this field)
+  * Android: `null`
+* __fallbackButtonTitle__: Title of fallback button. Defaults:
+  * When **disableBackup** is true
+     *  `"Cancel"`
+  * When **disableBackup** is false
+     * iOS: `"Use PIN"`
+     * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
+* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback.
 
-## Thanks to the authors of the original fingerprint plugins
+### Constants
+- **BIOMETRIC_UNKNOWN_ERROR** = `-100`;
+- **BIOMETRIC_UNAVAILABLE** = `-101`;
+- **BIOMETRIC_AUTHENTICATION_FAILED** = `-102`;
+- **BIOMETRIC_SDK_NOT_SUPPORTED** = `-103`;
+- **BIOMETRIC_HARDWARE_NOT_SUPPORTED** = `-104`;
+- **BIOMETRIC_PERMISSION_NOT_GRANTED** = `-105`;
+- **BIOMETRIC_FINGERPRINT_NOT_ENROLLED** = `-106`;
+- **BIOMETRIC_INTERNAL_PLUGIN_ERROR** = `-107`;
+- **BIOMETRIC_FINGERPRINT_DISMISSED** = `-108`;
+- **BIOMETRIC_PIN_OR_PATTERN_DISMISSED** = `-109`;
+- **BIOMETRIC_SCREEN_GUARD_UNSECURED** = `-110`;
+- **BIOMETRIC_LOCKED_OUT** = `-111`;
+- **BIOMETRIC_LOCKED_OUT_PERMANENT** = `-112`;
+***
+
+Thanks to the authors of the original fingerprint plugins
 
 Some code is refactored from their projects and I learned how to make Cordova plugins from their great plugins:
 
@@ -120,7 +143,15 @@ Some code is refactored from their projects and I learned how to make Cordova pl
 
 [iOS](https://github.com/EddyVerbruggen/cordova-plugin-touch-id)
 
+Starting with version 3.0.0 the iOS and Android parts are written from scratch.
+
+Special thanks also to @anitaa1990 for the biometric lib that aar the file in this plugin is based on and to @pabloerag's fork that removed the androidx requirements.
+
+[Biometric-Auth-Sample](https://github.com/anitaa1990/Biometric-Auth-Sample)
+
+[Forked version used to create aar](https://github.com/greaterking/Biometric-Auth-Sample/tree/changes-for-fingerprint-aio)
+
 ## License
 
-* Project and iOS source: [MIT](https://opensource.org/licenses/MIT)
-* Android source: [MIT](https://opensource.org/licenses/MIT) and [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+The project is MIT licensed: [MIT](https://opensource.org/licenses/MIT).
+

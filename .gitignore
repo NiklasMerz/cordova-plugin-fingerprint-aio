@@ -1,2 +1,9 @@
 node_modules/
 package-lock.json
+/.idea/$CACHE_FILE$
+/.idea/.gitignore
+/.idea/cordova-plugin-fingerprint-aio.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
