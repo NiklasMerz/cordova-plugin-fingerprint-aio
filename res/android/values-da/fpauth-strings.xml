@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fingerprint_cancel">Annuller</string>
+    <string name="fingerprint_use_backup">Brug backup</string>
+    <string name="fingerprint_auth_dialog_title">Fingeraftryk Login</string>
+    <string name="fingerprint_ok">Ok</string>
+    <string name="fingerprint_description">Bekræft fingeraftryk for at fortsætte</string>
+    <string name="fingerprint_hint">Rør sensor</string>
+    <string name="fingerprint_not_recognized">Fingeraftryk ikke genkendt. Prøv igen.</string>
+    <string name="fingerprint_success">Fingeraftryk godkendt</string>
+    <string name="new_fingerprint_enrolled_description">Et nyt fingeraftryk blev tilføjet til denne enhed så din adgangskode er krævet.</string>
+    <string name="secure_lock_screen_required">Sikring af skærmlås krævet!</string>
+</resources>

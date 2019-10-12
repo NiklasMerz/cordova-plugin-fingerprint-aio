@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="fingerprint_cancel">取消</string>
+  <string name="fingerprint_use_backup">使用手勢密碼</string>
+  <string name="fingerprint_auth_dialog_title">指紋識別</string>
+  <string name="fingerprint_ok">確認</string><string name="fingerprint_description">指紋識別</string>
+  <string name="fingerprint_hint">請觸摸指紋識別傳感器</string>
+  <string name="fingerprint_not_recognized">指紋無法識別，請再試一次</string>
+  <string name="fingerprint_success">指紋識別成功</string>
+  <string name="new_fingerprint_enrolled_description">添加一個新的指紋，需要設置密碼</string>
+  <string name="secure_lock_screen_required">需要安全鎖屏</string>
+</resources>

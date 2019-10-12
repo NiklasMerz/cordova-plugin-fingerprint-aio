@@ -1,0 +1,12 @@
+<resources>
+    <string name="fingerprint_cancel">Annuleer</string>
+    <string name="fingerprint_use_backup">Back-up gebruiken</string>
+    <string name="fingerprint_auth_dialog_title">Authenticatie met vingerafdruk</string>
+    <string name="fingerprint_ok">OK</string>
+    <string name="fingerprint_description">Vingerafdruk bevestigen om verder te gaan</string>
+    <string name="fingerprint_hint">Aanraaksensor</string>
+    <string name="fingerprint_not_recognized">Vingerafdruk niet herkend.Opnieuw proberen.</string>
+    <string name="fingerprint_success">Vingerafdruk herkend</string>
+    <string name="new_fingerprint_enrolled_description">Er werd een nieuwe vingerafdruk aan dit apparaat toegevoegd, waardoor uw wachtwoord is vereist.</string>
+    <string name="secure_lock_screen_required">Beveiligd vergrendelingsscherm vereist!</string>
+</resources>

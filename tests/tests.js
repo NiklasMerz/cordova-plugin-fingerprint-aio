@@ -9,11 +9,11 @@ exports.defineAutoTests = function() {
   });
 
   describe("isAvailable", function () {
-    it("isAvailable should be defined", function () {
+    it("isAvailable schould be defined", function () {
       expect(window.Fingerprint.isAvailable).toBeDefined();
     });
 
-    it("isAvailable should return an result or error in callback", function (done) {
+    it("isAvailable schould return an result or error in callback", function (done) {
       window.Fingerprint.isAvailable( function (result) {
         expect(result).toBeDefined();
         done();
@@ -25,7 +25,7 @@ exports.defineAutoTests = function() {
   });
 
   describe("show", function () {
-    it("show should be defined", function () {
+    it("show schould be defined", function () {
       expect(window.Fingerprint.show).toBeDefined();
     });
   });
@@ -41,37 +41,41 @@ exports.defineManualTests = function (contentEl, createActionButton) {
       alert("Fingerprint available (" + result + ")");
     }
 
-    function isAvailableError(error) {
-      console.log(error);
-      alert(error.message);
+    function isAvailableError(message) {
+      alert(message);
     }
   });
 
   createActionButton("show", function () {
     Fingerprint.show({
+      clientId: "Fingerprint-Tests",
+      clientSecret: "password",
       disableBackup: false
     }, successCallback, errorCallback);
 
     function successCallback() {
-      alert("Authentication successful");
+      alert("Authentication successfull");
     }
 
     function errorCallback(err) {
-      alert("Authentication invalid " + JSON.stringify(err));
+      alert("Authentication invalid " + err);
     }
   });
 
   createActionButton("show-disablebackup", function () {
     Fingerprint.show({
+      clientId: "Fingerprint-Tests",
+      clientSecret: "password",
       disableBackup: true
     }, successCallback, errorCallback);
 
     function successCallback() {
-      alert("Authentication successful");
+      alert("Authentication successfull");
     }
 
     function errorCallback(err) {
-      alert("Authentication invalid " + JSON.stringify(err));
+      alert("Authentication invalid " + err);
     }
   });
+
 };
