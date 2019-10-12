@@ -9,7 +9,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -101,7 +100,12 @@ public class Fingerprint extends CordovaPlugin {
                 sendError(error);
                 return true;
             }
-            cordova.getActivity().runOnUiThread(() -> authenticate(args));
+            try {
+                parseArgs(args);
+            } catch (JSONException e) {
+                Log.e(TAG, "Can't parse args. Default parameters will be used.", e);
+            }
+            cordova.getActivity().runOnUiThread(() -> authenticate());
             PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
             pluginResult.setKeepCallback(true);
             this.mCallbackContext.sendPluginResult(pluginResult);
@@ -129,39 +133,8 @@ public class Fingerprint extends CordovaPlugin {
 
                 @Override
                 public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-
                     super.onAuthenticationError(errorCode, errString);
-
-                    switch (errorCode)
-                    {
-                        case BiometricPrompt.ERROR_CANCELED:
-                            break;
-                        case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
-                            if(!mDisableBackup){
-                                showAuthenticationScreen();
-                            } else{
-                                sendError(new Error(
-                                        PluginError.BIOMETRIC_FINGERPRINT_DISMISSED.getValue(),
-                                        PluginError.BIOMETRIC_FINGERPRINT_DISMISSED.name()));
-                            }
-                            break;
-                        case BiometricPrompt.ERROR_LOCKOUT:
-                        case BiometricConstants.ERROR_LOCKOUT_PERMANENT:
-                            if(!mDisableBackup) {
-                                showAuthenticationScreen();
-                            } else {
-                                sendError(new Error(errorCode == BiometricPrompt.ERROR_LOCKOUT
-                                        ? PluginError.BIOMETRIC_LOCKED_OUT.getValue()
-                                        : PluginError.BIOMETRIC_LOCKED_OUT_PERMANENT.getValue(),
-                                        errString.toString()));
-                            }
-                            break;
-
-                        default:
-                            sendError(new Error(errorCode, errString.toString()));
-                            break;
-                    }
-
+                    onError(errorCode, errString);
                 }
 
                 @Override
@@ -180,35 +153,36 @@ public class Fingerprint extends CordovaPlugin {
                 }
             };
 
-    private void authenticate(JSONArray args) {
-        try {
-            JSONObject argsObject = args.getJSONObject(0);
-            if (argsObject.has("disableBackup")) {
-                mDisableBackup = argsObject.getBoolean("disableBackup");
-            }
-            if (argsObject.optString("title") != null
-                    && !argsObject.optString("title").isEmpty()){
-                mTitle = argsObject.getString("title");
-            }
-            if (argsObject.optString("subtitle") != null
-                    && !argsObject.optString("subtitle").isEmpty()){
-                mSubtitle = argsObject.getString("subtitle");
-            }
-            if (argsObject.optString("description") != null
-                    && !argsObject.optString("description").isEmpty()){
-                mDescription = argsObject.getString("description");
-            }
-            if (argsObject.optString("fallbackButtonTitle") != null
-                    && !argsObject.optString("fallbackButtonTitle").isEmpty()){
-                mFallbackButtonTitle = argsObject.getString("fallbackButtonTitle");
-            } else if (!mDisableBackup){
-                mFallbackButtonTitle = "Use Backup";
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, "Can't parse args. Default parameters will be used.", e);
+    private void onError(int errorCode, @NonNull CharSequence errString) {
+        Error error;
+        switch (errorCode)
+        {
+            case BiometricPrompt.ERROR_CANCELED:
+                return;
+            case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
+                error = new Error(
+                        PluginError.BIOMETRIC_FINGERPRINT_DISMISSED.getValue(),
+                        PluginError.BIOMETRIC_FINGERPRINT_DISMISSED.name());
+                break;
+            case BiometricPrompt.ERROR_LOCKOUT:
+            case BiometricConstants.ERROR_LOCKOUT_PERMANENT:
+                error = new Error(errorCode == BiometricPrompt.ERROR_LOCKOUT
+                        ? PluginError.BIOMETRIC_LOCKED_OUT.getValue()
+                        : PluginError.BIOMETRIC_LOCKED_OUT_PERMANENT.getValue(),
+                        errString.toString());
+                break;
+            default:
+                sendError(new Error(errorCode, errString.toString()));
+                return;
         }
+        if(!mDisableBackup) {
+            showAuthenticationScreen();
+        } else {
+            sendError(error);
+        }
+    }
 
-
+    private void authenticate() {
         Executor executor;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             executor = cordova.getActivity().getMainExecutor();
@@ -229,6 +203,31 @@ public class Fingerprint extends CordovaPlugin {
                 .build();
 
         biometricPrompt.authenticate(promptInfo);
+    }
+
+    private void parseArgs(JSONArray args) throws JSONException {
+        JSONObject argsObject = args.getJSONObject(0);
+        if (argsObject.has("disableBackup")) {
+            mDisableBackup = argsObject.getBoolean("disableBackup");
+        }
+        if (argsObject.optString("title") != null
+                && !argsObject.optString("title").isEmpty()){
+            mTitle = argsObject.getString("title");
+        }
+        if (argsObject.optString("subtitle") != null
+                && !argsObject.optString("subtitle").isEmpty()){
+            mSubtitle = argsObject.getString("subtitle");
+        }
+        if (argsObject.optString("description") != null
+                && !argsObject.optString("description").isEmpty()){
+            mDescription = argsObject.getString("description");
+        }
+        if (argsObject.optString("fallbackButtonTitle") != null
+                && !argsObject.optString("fallbackButtonTitle").isEmpty()){
+            mFallbackButtonTitle = argsObject.getString("fallbackButtonTitle");
+        } else if (!mDisableBackup){
+            mFallbackButtonTitle = "Use Backup";
+        }
     }
 
     private Error canAuthenticate() {
