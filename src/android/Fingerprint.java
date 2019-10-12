@@ -112,7 +112,7 @@ public class Fingerprint extends CordovaPlugin {
             if (error != null) {
                 sendError(error);
             } else {
-                sendSuccess();
+                sendSuccess("finger");
             }
             return true;
         }
@@ -163,7 +163,8 @@ public class Fingerprint extends CordovaPlugin {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    sendSuccess();
+                    Log.e(TAG, "biometric_success");
+                    sendSuccess("biometric_success");
                 }
 
                 @Override
@@ -295,9 +296,8 @@ public class Fingerprint extends CordovaPlugin {
         }
     }
 
-    private void sendSuccess() {
-        Log.e(TAG, "biometric_success");
+    private void sendSuccess(String message) {
         cordova.getActivity().runOnUiThread(() ->
-                this.mCallbackContext.success("biometric_success"));
+                this.mCallbackContext.success(message));
     }
 }
