@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.exxbrain.android.biometric.BiometricConstants;
 import com.exxbrain.android.biometric.BiometricManager;
 import com.exxbrain.android.biometric.BiometricPrompt;
 
@@ -39,43 +38,6 @@ public class Fingerprint extends CordovaPlugin {
 
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
 
-    public enum PluginError {
-
-        BIOMETRIC_UNKNOWN_ERROR(-100),
-        BIOMETRIC_UNAVAILABLE(-101),
-        BIOMETRIC_AUTHENTICATION_FAILED(-102),
-        BIOMETRIC_SDK_NOT_SUPPORTED(-103),
-        BIOMETRIC_HARDWARE_NOT_SUPPORTED(-104),
-        BIOMETRIC_PERMISSION_NOT_GRANTED(-105),
-        BIOMETRIC_FINGERPRINT_NOT_ENROLLED(-106),
-        BIOMETRIC_INTERNAL_PLUGIN_ERROR(-107),
-        BIOMETRIC_FINGERPRINT_DISMISSED(-108),
-        BIOMETRIC_PIN_OR_PATTERN_DISMISSED(-109),
-        BIOMETRIC_SCREEN_GUARD_UNSECURED(-110),
-        BIOMETRIC_LOCKED_OUT(-111),
-        BIOMETRIC_LOCKED_OUT_PERMANENT(-112);
-
-        private int value;
-
-        PluginError(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
-
-    static class Error {
-        private final int code;
-        private final String message;
-
-        Error(int code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-    }
-
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         Log.v(TAG, "Init Fingerprint");
@@ -95,37 +57,36 @@ public class Fingerprint extends CordovaPlugin {
         Log.v(TAG, "Fingerprint action: " + action);
 
         if (action.equals("authenticate")) {
-            Error error = canAuthenticate();
-            if (error != null) {
-                sendError(error);
-                return true;
-            }
-            try {
-                parseArgs(args);
-            } catch (JSONException e) {
-                Log.e(TAG, "Can't parse args. Default parameters will be used.", e);
-            }
-            cordova.getActivity().runOnUiThread(() -> authenticate());
-            PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
-            pluginResult.setKeepCallback(true);
-            this.mCallbackContext.sendPluginResult(pluginResult);
+            executeAuthenticate(args);
             return true;
 
         } else if (action.equals("isAvailable")){
-            Error error = canAuthenticate();
-            if (error != null) {
-                sendError(error);
-            } else {
-                /**
-                 * There is no method to get biometry type in Android, so
-                 * for compatibility always return "finger"
-                 */
-                sendSuccess("finger");
-            }
+            executeIsAvailable();
             return true;
         }
 
         return false;
+    }
+
+    private void executeIsAvailable() {
+        PluginError error = canAuthenticate();
+        if (error != null) {
+            sendError(error);
+        } else {
+            sendSuccess("finger");
+        }
+    }
+
+    private void executeAuthenticate(JSONArray args) {
+        PluginError error = canAuthenticate();
+        if (error != null) {
+            sendError(error);
+            return;
+        }
+        cordova.getActivity().runOnUiThread(() -> this.authenticate(args));
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        pluginResult.setKeepCallback(true);
+        this.mCallbackContext.sendPluginResult(pluginResult);
     }
 
     private BiometricPrompt.AuthenticationCallback mAuthenticationCallback =
@@ -140,49 +101,49 @@ public class Fingerprint extends CordovaPlugin {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    Log.e(TAG, "biometric_success");
                     sendSuccess("biometric_success");
                 }
 
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
-                    sendError(
-                            new Error(PluginError.BIOMETRIC_AUTHENTICATION_FAILED.getValue(),
-                                    "Authentication failed"));
+                    sendError(PluginError.BIOMETRIC_AUTHENTICATION_FAILED);
                 }
             };
 
     private void onError(int errorCode, @NonNull CharSequence errString) {
-        Error error;
+
+        if (errorCode == BiometricPrompt.ERROR_CANCELED) {
+            return;
+        }
+
+        if (!mDisableBackup && (
+                errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON
+                        || errorCode == BiometricPrompt.ERROR_LOCKOUT
+                        || errorCode == BiometricPrompt.ERROR_LOCKOUT_PERMANENT)) {
+            showAuthenticationScreen();
+            return;
+        }
+
         switch (errorCode)
         {
-            case BiometricPrompt.ERROR_CANCELED:
-                return;
             case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
-                error = new Error(
-                        PluginError.BIOMETRIC_FINGERPRINT_DISMISSED.getValue(),
-                        PluginError.BIOMETRIC_FINGERPRINT_DISMISSED.name());
+                sendError(PluginError.BIOMETRIC_FINGERPRINT_DISMISSED);
                 break;
             case BiometricPrompt.ERROR_LOCKOUT:
-            case BiometricConstants.ERROR_LOCKOUT_PERMANENT:
-                error = new Error(errorCode == BiometricPrompt.ERROR_LOCKOUT
-                        ? PluginError.BIOMETRIC_LOCKED_OUT.getValue()
-                        : PluginError.BIOMETRIC_LOCKED_OUT_PERMANENT.getValue(),
-                        errString.toString());
+                sendError(PluginError.BIOMETRIC_LOCKED_OUT.getValue(), errString.toString());
+                break;
+            case BiometricPrompt.ERROR_LOCKOUT_PERMANENT:
+                sendError(PluginError.BIOMETRIC_LOCKED_OUT_PERMANENT.getValue(), errString.toString());
                 break;
             default:
-                sendError(new Error(errorCode, errString.toString()));
-                return;
-        }
-        if(!mDisableBackup) {
-            showAuthenticationScreen();
-        } else {
-            sendError(error);
+                sendError(errorCode, errString.toString());
         }
     }
 
-    private void authenticate() {
+    private void authenticate(JSONArray args) {
+        parseArgs(args);
+
         Executor executor;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             executor = cordova.getActivity().getMainExecutor();
@@ -190,7 +151,6 @@ public class Fingerprint extends CordovaPlugin {
             final Handler handler = new Handler(Looper.getMainLooper());
             executor = handler::post;
         }
-
 
         BiometricPrompt biometricPrompt =
                 new BiometricPrompt(cordova.getActivity(), executor, mAuthenticationCallback);
@@ -205,43 +165,53 @@ public class Fingerprint extends CordovaPlugin {
         biometricPrompt.authenticate(promptInfo);
     }
 
-    private void parseArgs(JSONArray args) throws JSONException {
-        JSONObject argsObject = args.getJSONObject(0);
-        if (argsObject.has("disableBackup")) {
-            mDisableBackup = argsObject.getBoolean("disableBackup");
+    private void parseArgs(JSONArray args) {
+        JSONObject argsObject;
+        try {
+            argsObject = args.getJSONObject(0);
+        } catch (JSONException e) {
+            Log.e(TAG, "Can't parse args. Defaults will be used.", e);
+            return;
         }
-        if (argsObject.optString("title") != null
-                && !argsObject.optString("title").isEmpty()){
-            mTitle = argsObject.getString("title");
-        }
-        if (argsObject.optString("subtitle") != null
-                && !argsObject.optString("subtitle").isEmpty()){
-            mSubtitle = argsObject.getString("subtitle");
-        }
-        if (argsObject.optString("description") != null
-                && !argsObject.optString("description").isEmpty()){
-            mDescription = argsObject.getString("description");
-        }
-        if (argsObject.optString("fallbackButtonTitle") != null
-                && !argsObject.optString("fallbackButtonTitle").isEmpty()){
-            mFallbackButtonTitle = argsObject.getString("fallbackButtonTitle");
-        } else if (!mDisableBackup){
-            mFallbackButtonTitle = "Use Backup";
-        }
+        mDisableBackup = getBooleanArg(argsObject, "disableBackup", mDisableBackup);
+        mTitle = getStringArg(argsObject, "title", mTitle);
+        mSubtitle = getStringArg(argsObject, "subtitle", mSubtitle);
+        mDescription = getStringArg(argsObject, "description", mDescription);
+        mFallbackButtonTitle = getStringArg(argsObject, "fallbackButtonTitle",
+                !mDisableBackup ? "Use Backup" : mFallbackButtonTitle);
     }
 
-    private Error canAuthenticate() {
+    private Boolean getBooleanArg(JSONObject argsObject, String name, Boolean defaultValue) {
+        if (argsObject.has(name)){
+            try {
+                return argsObject.getBoolean(name);
+            } catch (JSONException e) {
+                Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
+            }
+        }
+        return defaultValue;
+    }
+
+    private String getStringArg(JSONObject argsObject, String name, String defaultValue) {
+        if (argsObject.optString(name) != null
+                && !argsObject.optString(name).isEmpty()){
+            try {
+                return argsObject.getString(name);
+            } catch (JSONException e) {
+                Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
+            }
+        }
+        return defaultValue;
+    }
+
+    private PluginError canAuthenticate() {
         int error = BiometricManager.from(cordova.getContext()).canAuthenticate();
         switch (error) {
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                return new Error(
-                        PluginError.BIOMETRIC_HARDWARE_NOT_SUPPORTED.getValue(),
-                        PluginError.BIOMETRIC_HARDWARE_NOT_SUPPORTED.name());
+                return PluginError.BIOMETRIC_HARDWARE_NOT_SUPPORTED;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                return new Error(
-                        PluginError.BIOMETRIC_FINGERPRINT_NOT_ENROLLED.getValue(),
-                        PluginError.BIOMETRIC_FINGERPRINT_NOT_ENROLLED.name());
+                return PluginError.BIOMETRIC_FINGERPRINT_NOT_ENROLLED;
             default:
                 return null;
         }
@@ -260,11 +230,7 @@ public class Fingerprint extends CordovaPlugin {
             cordova.getActivity().startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
         } else {
             // Show a message that the user hasn't set up a lock screen.
-            sendError(
-                    new Error(
-                            PluginError.BIOMETRIC_SCREEN_GUARD_UNSECURED.getValue(),
-                            "Go to 'Settings -> Security -> Screenlock' to set up a lock screen")
-            );
+            sendError(PluginError.BIOMETRIC_SCREEN_GUARD_UNSECURED);
         }
     }
 
@@ -273,23 +239,18 @@ public class Fingerprint extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS) {
             if (resultCode == Activity.RESULT_OK) {
-                Log.e(TAG, "biometric_success");
                 sendSuccess("biometric_success");
             } else {
-                sendError(
-                        new Error(
-                                PluginError.BIOMETRIC_PIN_OR_PATTERN_DISMISSED.getValue(),
-                                PluginError.BIOMETRIC_PIN_OR_PATTERN_DISMISSED.name())
-                );
+                sendError(PluginError.BIOMETRIC_PIN_OR_PATTERN_DISMISSED);
             }
         }
     }
 
-    private void sendError(Error error) {
+    private void sendError(int code, String message) {
         JSONObject resultJson = new JSONObject();
         try {
-            resultJson.put("code", error.code);
-            resultJson.put("message", error.message);
+            resultJson.put("code", code);
+            resultJson.put("message", message);
 
             PluginResult result = new PluginResult(PluginResult.Status.ERROR, resultJson);
             result.setKeepCallback(true);
@@ -300,7 +261,12 @@ public class Fingerprint extends CordovaPlugin {
         }
     }
 
+    private void sendError(PluginError error) {
+        sendError(error.getValue(), error.getMessage());
+    }
+
     private void sendSuccess(String message) {
+        Log.e(TAG, message);
         cordova.getActivity().runOnUiThread(() ->
                 this.mCallbackContext.success(message));
     }

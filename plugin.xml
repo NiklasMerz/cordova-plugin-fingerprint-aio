@@ -45,6 +45,7 @@
     
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
     <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
+    <source-file src="src/android/PluginError.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
   </platform>
 
   <engines>
