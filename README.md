@@ -145,12 +145,6 @@ Some code is refactored from their projects and I learned how to make Cordova pl
 
 Starting with version 3.0.0 the iOS and Android parts are written from scratch.
 
-Special thanks also to @anitaa1990 for the biometric lib that aar the file in this plugin is based on and to @pabloerag's fork that removed the androidx requirements.
-
-[Biometric-Auth-Sample](https://github.com/anitaa1990/Biometric-Auth-Sample)
-
-[Forked version used to create aar](https://github.com/greaterking/Biometric-Auth-Sample/tree/changes-for-fingerprint-aio)
-
 ## License
 
 The project is MIT licensed: [MIT](https://opensource.org/licenses/MIT).
