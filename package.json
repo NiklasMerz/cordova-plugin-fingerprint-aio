@@ -45,7 +45,7 @@
     "test-travis": "npm run test-ios",
     "test-appveyor": "npm run test-browser",
     "test-local": "npm run test-browser && npm run test-android && npm run test-ios",
-    "test-android": "npx cordova-paramedic --platform android --plugin  $(pwd)",
+    "test-android": "npx cordova-paramedic --platform android@8.1.0 --plugin  $(pwd)",
     "test-ios": "npx cordova-paramedic --platform ios --plugin  $(pwd) --verbose",
     "test-windows": "npx cordova-paramedic --platform windows --plugin  $(pwd)",
     "test-browser": "npx cordova-paramedic --platform browser --plugin  $(pwd)",
@@ -56,7 +56,9 @@
   },
   "engines": {
     "cordovaDependencies": {
-      ">=3.0.0":  { "cordova-android": ">=8.0.0" }
+      ">=3.0.0": {
+        "cordova-android": ">=8.0.0"
+      }
     }
   }
 }
