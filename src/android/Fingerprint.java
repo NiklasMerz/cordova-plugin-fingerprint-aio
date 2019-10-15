@@ -1,19 +1,14 @@
 package de.niklasmerz.cordova.biometric;
 
 import android.app.Activity;
-import android.app.KeyguardManager;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.exxbrain.android.biometric.BiometricManager;
-import com.exxbrain.android.biometric.BiometricPrompt;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -24,19 +19,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.Executor;
-
 public class Fingerprint extends CordovaPlugin {
 
     private static final String TAG = "Fingerprint";
     private CallbackContext mCallbackContext = null;
+    static final String DISABLE_BACKUP = "disableBackup";
+    static final String TITLE = "title";
+    static final String SUBTITLE = "subtitle";
+    static final String DESCRIPTION = "description";
+    static final String FALLBACK_BUTTON_TITLE = "fallbackButtonTitle";
+
     private static boolean mDisableBackup = false;
     private static String mTitle;
     private static String mSubtitle = null;
     private static String mDescription = null;
     private static String mFallbackButtonTitle = "Cancel";
 
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
+    private static final int REQUEST_CODE_BIOMETRIC = 1;
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -89,80 +88,28 @@ public class Fingerprint extends CordovaPlugin {
         this.mCallbackContext.sendPluginResult(pluginResult);
     }
 
-    private BiometricPrompt.AuthenticationCallback mAuthenticationCallback =
-            new BiometricPrompt.AuthenticationCallback() {
-
-                @Override
-                public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                    super.onAuthenticationError(errorCode, errString);
-                    onError(errorCode, errString);
-                }
-
-                @Override
-                public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                    super.onAuthenticationSucceeded(result);
-                    sendSuccess("biometric_success");
-                }
-
-                @Override
-                public void onAuthenticationFailed() {
-                    super.onAuthenticationFailed();
-                    sendError(PluginError.BIOMETRIC_AUTHENTICATION_FAILED);
-                }
-            };
-
-    private void onError(int errorCode, @NonNull CharSequence errString) {
-
-        if (errorCode == BiometricPrompt.ERROR_CANCELED) {
-            return;
-        }
-
-        if (!mDisableBackup && (
-                errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON
-                        || errorCode == BiometricPrompt.ERROR_LOCKOUT
-                        || errorCode == BiometricPrompt.ERROR_LOCKOUT_PERMANENT)) {
-            showAuthenticationScreen();
-            return;
-        }
-
-        switch (errorCode)
-        {
-            case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
-                sendError(PluginError.BIOMETRIC_FINGERPRINT_DISMISSED);
-                break;
-            case BiometricPrompt.ERROR_LOCKOUT:
-                sendError(PluginError.BIOMETRIC_LOCKED_OUT.getValue(), errString.toString());
-                break;
-            case BiometricPrompt.ERROR_LOCKOUT_PERMANENT:
-                sendError(PluginError.BIOMETRIC_LOCKED_OUT_PERMANENT.getValue(), errString.toString());
-                break;
-            default:
-                sendError(errorCode, errString.toString());
-        }
-    }
-
     private void authenticate(JSONArray args) {
         parseArgs(args);
-
-        Executor executor;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-            executor = cordova.getActivity().getMainExecutor();
-        } else {
-            final Handler handler = new Handler(Looper.getMainLooper());
-            executor = handler::post;
-        }
-
-        BiometricPrompt biometricPrompt =
-                new BiometricPrompt(cordova.getActivity(), executor, mAuthenticationCallback);
-
-        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle(mTitle)
-                .setSubtitle(mSubtitle)
-                .setDescription(mDescription)
-                .setNegativeButtonText(mFallbackButtonTitle)
-                .build();
-
-        biometricPrompt.authenticate(promptInfo);
+        Intent intent = new Intent(cordova.getActivity().getApplicationContext(), BiometricActivity.class);
+        intent.putExtra(DISABLE_BACKUP, mDisableBackup);
+        intent.putExtra(TITLE, mTitle);
+        intent.putExtra(SUBTITLE, mSubtitle);
+        intent.putExtra(DESCRIPTION, mDescription);
+        intent.putExtra(FALLBACK_BUTTON_TITLE, mFallbackButtonTitle);
+        this.cordova.startActivityForResult(new CordovaPlugin() {
+            @Override
+            public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+                super.onActivityResult(requestCode, resultCode, intent);
+                if (requestCode == REQUEST_CODE_BIOMETRIC) {
+                    if (resultCode == Activity.RESULT_OK) {
+                        sendSuccess("biometric_success");
+                    } else {
+                        Bundle extras = intent.getExtras();
+                        sendError(extras.getInt("code"), extras.getString("message"));
+                    }
+                }
+            }
+        }, intent, REQUEST_CODE_BIOMETRIC);
     }
 
     private void parseArgs(JSONArray args) {
@@ -173,12 +120,12 @@ public class Fingerprint extends CordovaPlugin {
             Log.e(TAG, "Can't parse args. Defaults will be used.", e);
             return;
         }
-        mDisableBackup = getBooleanArg(argsObject, "disableBackup", mDisableBackup);
-        mTitle = getStringArg(argsObject, "title", mTitle);
-        mSubtitle = getStringArg(argsObject, "subtitle", mSubtitle);
-        mDescription = getStringArg(argsObject, "description", mDescription);
-        mFallbackButtonTitle = getStringArg(argsObject, "fallbackButtonTitle",
-                !mDisableBackup ? "Use Backup" : mFallbackButtonTitle);
+        mDisableBackup = getBooleanArg(argsObject, DISABLE_BACKUP, mDisableBackup);
+        mTitle = getStringArg(argsObject, TITLE, mTitle);
+        mSubtitle = getStringArg(argsObject, SUBTITLE, mSubtitle);
+        mDescription = getStringArg(argsObject, DESCRIPTION, mDescription);
+        mFallbackButtonTitle = getStringArg(argsObject, FALLBACK_BUTTON_TITLE,
+                mDisableBackup ? "Cancel" : "Use Backup");
     }
 
     private Boolean getBooleanArg(JSONObject argsObject, String name, Boolean defaultValue) {
@@ -214,35 +161,6 @@ public class Fingerprint extends CordovaPlugin {
                 return PluginError.BIOMETRIC_FINGERPRINT_NOT_ENROLLED;
             default:
                 return null;
-        }
-    }
-
-    private void showAuthenticationScreen() {
-        KeyguardManager keyguardManager = ContextCompat
-                .getSystemService(cordova.getActivity(), KeyguardManager.class);
-        if (keyguardManager == null
-                || android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
-            return;
-        }
-        if (keyguardManager.isKeyguardSecure()) {
-            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(null, null);
-            cordova.setActivityResultCallback(this);
-            cordova.getActivity().startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
-        } else {
-            // Show a message that the user hasn't set up a lock screen.
-            sendError(PluginError.BIOMETRIC_SCREEN_GUARD_UNSECURED);
-        }
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS) {
-            if (resultCode == Activity.RESULT_OK) {
-                sendSuccess("biometric_success");
-            } else {
-                sendError(PluginError.BIOMETRIC_PIN_OR_PATTERN_DISMISSED);
-            }
         }
     }
 
