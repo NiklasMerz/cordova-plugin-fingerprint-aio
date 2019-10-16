@@ -19,11 +19,7 @@ import java.util.concurrent.Executor;
 public class BiometricActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 2;
-    private boolean mDeviceCredentialAllowed;
-    private String mTitle;
-    private String mDescription;
-    private String mSubtitile;
-    private String mFallbackButtonTitle;
+    private PromptInfo mPromptInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,13 +34,7 @@ public class BiometricActivity extends AppCompatActivity {
             return;
         }
 
-        Bundle extras = getIntent().getExtras();
-        mDeviceCredentialAllowed = !extras.getBoolean(Fingerprint.DISABLE_BACKUP);
-        mTitle = extras.getString(Fingerprint.TITLE);
-        mDescription = extras.getString(Fingerprint.DESCRIPTION);
-        mSubtitile = extras.getString(Fingerprint.SUBTITLE);
-        mFallbackButtonTitle = extras.getString(Fingerprint.FALLBACK_BUTTON_TITLE);
-
+        mPromptInfo = new PromptInfo.Builder(getIntent().getExtras()).build();
         authenticate();
 
     }
@@ -63,15 +53,15 @@ public class BiometricActivity extends AppCompatActivity {
                 new BiometricPrompt(this, executor, mAuthenticationCallback);
 
         BiometricPrompt.PromptInfo.Builder promptInfoBuilder = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle(mTitle)
-                .setSubtitle(mSubtitile)
-                .setDescription(mDescription);
+                .setTitle(mPromptInfo.getTitle())
+                .setSubtitle(mPromptInfo.getSubtitle())
+                .setDescription(mPromptInfo.getDescription());
 
-        if (mDeviceCredentialAllowed
+        if (mPromptInfo.isDeviceCredentialAllowed()
                 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) { // TODO: remove after fix https://issuetracker.google.com/issues/142740104
             promptInfoBuilder.setDeviceCredentialAllowed(true);
         } else {
-            promptInfoBuilder.setNegativeButtonText(mFallbackButtonTitle);
+            promptInfoBuilder.setNegativeButtonText(mPromptInfo.getFallbackButtonTitle());
         }
 
         biometricPrompt.authenticate(promptInfoBuilder.build());
@@ -89,8 +79,7 @@ public class BiometricActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    setResult(RESULT_OK);
-                    finish();
+                    finishWithSuccess();
                 }
 
                 @Override
@@ -109,7 +98,8 @@ public class BiometricActivity extends AppCompatActivity {
             return;
         }
         if (keyguardManager.isKeyguardSecure()) {
-            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(mTitle, mDescription);
+            Intent intent = keyguardManager
+                    .createConfirmDeviceCredentialIntent(mPromptInfo.getTitle(), mPromptInfo.getDescription());
             this.startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
         } else {
             // Show a message that the user hasn't set up a lock screen.
@@ -138,7 +128,7 @@ public class BiometricActivity extends AppCompatActivity {
                 return;
             case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
                 // TODO: remove after fix https://issuetracker.google.com/issues/142740104
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P && mDeviceCredentialAllowed) {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P && mPromptInfo.isDeviceCredentialAllowed()) {
                     showAuthenticationScreen();
                     return;
                 }
