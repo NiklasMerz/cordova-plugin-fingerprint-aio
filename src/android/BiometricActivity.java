@@ -40,14 +40,8 @@ public class BiometricActivity extends AppCompatActivity {
     }
 
     private void authenticate() {
-
-        Executor executor;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-            executor = this.getMainExecutor();
-        } else {
-            final Handler handler = new Handler(Looper.getMainLooper());
-            executor = handler::post;
-        }
+        final Handler handler = new Handler(Looper.getMainLooper());
+        Executor executor = handler::post;
 
         BiometricPrompt biometricPrompt =
                 new BiometricPrompt(this, executor, mAuthenticationCallback);
