@@ -34,6 +34,10 @@ public class BiometricActivity extends AppCompatActivity {
                 .getIdentifier("biometric_activity", "layout", getPackageName());
         setContentView(layout);
 
+        if (savedInstanceState != null) {
+            return;
+        }
+
         Bundle extras = getIntent().getExtras();
         mDeviceCredentialAllowed = !extras.getBoolean(Fingerprint.DISABLE_BACKUP);
         mTitle = extras.getString(Fingerprint.TITLE);
