@@ -96,7 +96,6 @@ public class BiometricActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
-                    finishWithError(PluginError.BIOMETRIC_AUTHENTICATION_FAILED);
                 }
             };
 
