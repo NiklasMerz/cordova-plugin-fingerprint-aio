@@ -117,6 +117,7 @@ public class BiometricActivity extends AppCompatActivity {
 
         switch (errorCode)
         {
+            case BiometricPrompt.ERROR_USER_CANCELED:
             case BiometricPrompt.ERROR_CANCELED:
                 finishWithError(PluginError.BIOMETRIC_FINGERPRINT_DISMISSED);
                 return;
