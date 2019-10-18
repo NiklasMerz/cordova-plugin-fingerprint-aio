@@ -18,6 +18,10 @@ Fingerprint.prototype.BIOMETRIC_SCREEN_GUARD_UNSECURED = -110;
 Fingerprint.prototype.BIOMETRIC_LOCKED_OUT = -111;
 Fingerprint.prototype.BIOMETRIC_LOCKED_OUT_PERMANENT = -112;
 
+// Biometric types
+Fingerprint.prototype.BIOMETRIC_TYPE_FINGERPRINT = "finger";
+Fingerprint.prototype.BIOMETRIC_TYPE_FACE = "face";
+Fingerprint.prototype.BIOMETRIC_TYPE_COMMON = "biometric";
 
 Fingerprint.prototype.show = function (params, successCallback, errorCallback) {
   cordova.exec(
