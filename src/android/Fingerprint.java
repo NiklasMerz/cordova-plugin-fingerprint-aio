@@ -2,6 +2,7 @@ package de.niklasmerz.cordova.biometric;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -51,6 +52,8 @@ public class Fingerprint extends CordovaPlugin {
         PluginError error = canAuthenticate();
         if (error != null) {
             sendError(error);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            sendSuccess("biometric");
         } else {
             sendSuccess("finger");
         }
