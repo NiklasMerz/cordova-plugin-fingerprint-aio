@@ -252,7 +252,7 @@ public class Fingerprint extends CordovaPlugin {
                 mCallbackContext.sendPluginResult(mPluginResult);
             }
             return true;
-        } else if (action.equals("isAvailable")) {
+        } else if (action.equals("isAvailable") && null != mFingerPrintManager) {
             if(mFingerPrintManager.isHardwareDetected() && mFingerPrintManager.hasEnrolledFingerprints()){
                 mPluginResult = new PluginResult(PluginResult.Status.OK, "finger");
                 mCallbackContext.success("finger");
@@ -272,7 +272,8 @@ public class Fingerprint extends CordovaPlugin {
     }
 
     private boolean isFingerprintAuthAvailable() {
-        return mFingerPrintManager.isHardwareDetected()
+        return null != mFingerPrintManager
+                && mFingerPrintManager.isHardwareDetected()
                 && mFingerPrintManager.hasEnrolledFingerprints();
     }
 
