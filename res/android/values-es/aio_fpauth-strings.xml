@@ -16,13 +16,13 @@
   -->
 <resources>
     <string name="aio_fingerprint_cancel">Cancelar</string>
-    <string name="aio_fingerprint_use_backup">El Respaldo</string>
+    <string name="aio_fingerprint_use_backup">Usar respaldo</string>
     <string name="aio_fingerprint_auth_dialog_title">Autenticación de Huellas Digitales</string>
     <string name="aio_fingerprint_ok">De Acuerdo</string>
     <string name="aio_fingerprint_description">Confirmar la huella digital para continuar</string>
-    <string name="aio_fingerprint_hint">Sensor tactil</string>
+    <string name="aio_fingerprint_hint">Sensor táctil</string>
     <string name="aio_fingerprint_not_recognized">No se reconoce la huella digital. Inténtalo de nuevo.</string>
-    <string name="aio_fingerprint_success">Reconocido de huella dactilar</string>
+    <string name="aio_fingerprint_success">Huella digital reconocida</string>
     <string name="aio_new_fingerprint_enrolled_description">Una nueva huella digital fue agregada a este dispositivo, por lo que se requiere la contraseña.</string>
     <string name="aio_secure_lock_screen_required">¡Requiere pantalla de bloqueo seguro!</string>
 </resources>
