@@ -9,8 +9,8 @@ import LocalAuthentication
         case BIOMETRIC_UNAVAILABLE = -101
         case BIOMETRIC_AUTHENTICATION_FAILED = -102
         case BIOMETRIC_PERMISSION_NOT_GRANTED = -105
-        case BIOMETRIC_FINGERPRINT_NOT_ENROLLED = -106
-        case BIOMETRIC_FINGERPRINT_DISMISSED = -108
+        case BIOMETRIC_NOT_ENROLLED = -106
+        case BIOMETRIC_DISMISSED = -108
         case BIOMETRIC_SCREEN_GUARD_UNSECURED = -110
         case BIOMETRIC_LOCKED_OUT = -111
     }
@@ -61,7 +61,7 @@ import LocalAuthentication
                     code = PluginError.BIOMETRIC_UNAVAILABLE.rawValue;
                     break;
                 case Int(kLAErrorBiometryNotEnrolled):
-                    code = PluginError.BIOMETRIC_FINGERPRINT_NOT_ENROLLED.rawValue;
+                    code = PluginError.BIOMETRIC_NOT_ENROLLED.rawValue;
                     break;
 
                 default:
@@ -118,10 +118,10 @@ import LocalAuthentication
                         var errorResult: [String : Any] = ["code":  PluginError.BIOMETRIC_UNKNOWN_ERROR.rawValue, "message": error?.localizedDescription ?? ""];
 
                         errorCodes[1] = ErrorCodes(code: PluginError.BIOMETRIC_AUTHENTICATION_FAILED.rawValue)
-                        errorCodes[2] = ErrorCodes(code: PluginError.BIOMETRIC_FINGERPRINT_DISMISSED.rawValue)
+                        errorCodes[2] = ErrorCodes(code: PluginError.BIOMETRIC_DISMISSED.rawValue)
                         errorCodes[5] = ErrorCodes(code: PluginError.BIOMETRIC_SCREEN_GUARD_UNSECURED.rawValue)
                         errorCodes[6] = ErrorCodes(code: PluginError.BIOMETRIC_UNAVAILABLE.rawValue)
-                        errorCodes[7] = ErrorCodes(code: PluginError.BIOMETRIC_FINGERPRINT_NOT_ENROLLED.rawValue)
+                        errorCodes[7] = ErrorCodes(code: PluginError.BIOMETRIC_NOT_ENROLLED.rawValue)
                         errorCodes[8] = ErrorCodes(code: PluginError.BIOMETRIC_LOCKED_OUT.rawValue)
 
                         let errorCode = abs(error!._code)

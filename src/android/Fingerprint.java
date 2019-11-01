@@ -96,7 +96,7 @@ public class Fingerprint extends CordovaPlugin {
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 return PluginError.BIOMETRIC_HARDWARE_NOT_SUPPORTED;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                return PluginError.BIOMETRIC_FINGERPRINT_NOT_ENROLLED;
+                return PluginError.BIOMETRIC_NOT_ENROLLED;
             default:
                 return null;
         }

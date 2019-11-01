@@ -119,7 +119,7 @@ public class BiometricActivity extends AppCompatActivity {
         {
             case BiometricPrompt.ERROR_USER_CANCELED:
             case BiometricPrompt.ERROR_CANCELED:
-                finishWithError(PluginError.BIOMETRIC_FINGERPRINT_DISMISSED);
+                finishWithError(PluginError.BIOMETRIC_DISMISSED);
                 return;
             case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
                 // TODO: remove after fix https://issuetracker.google.com/issues/142740104
@@ -127,7 +127,7 @@ public class BiometricActivity extends AppCompatActivity {
                     showAuthenticationScreen();
                     return;
                 }
-                finishWithError(PluginError.BIOMETRIC_FINGERPRINT_DISMISSED);
+                finishWithError(PluginError.BIOMETRIC_DISMISSED);
                 break;
             case BiometricPrompt.ERROR_LOCKOUT:
                 finishWithError(PluginError.BIOMETRIC_LOCKED_OUT.getValue(), errString.toString());
