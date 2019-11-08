@@ -157,7 +157,7 @@ public class Fingerprint extends CordovaPlugin {
                            CallbackContext callbackContext) throws JSONException {
         mCallbackContext = callbackContext;
         Log.v(TAG, "Fingerprint action: " + action);
-        JSONObject errorResponse = new JSONObject();
+        final JSONObject errorResponse = new JSONObject();
 
         if (android.os.Build.VERSION.SDK_INT < 23) {
             Log.e(TAG, "minimum SDK version 23 required");
