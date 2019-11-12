@@ -17,6 +17,7 @@ class PromptInfo {
     private static final String SUBTITLE = "subtitle";
     private static final String DESCRIPTION = "description";
     private static final String FALLBACK_BUTTON_TITLE = "fallbackButtonTitle";
+    private static final String CANCEL_BUTTON_TITLE = "cancelButtonTitle";
 
     private Bundle bundle = new Bundle();
 
@@ -44,6 +45,10 @@ class PromptInfo {
         return bundle.getString(FALLBACK_BUTTON_TITLE);
     }
 
+    String getCancelButtonTitle() {
+        return bundle.getString(CANCEL_BUTTON_TITLE);
+    }
+
     public static final class Builder {
         private static final String TAG = "PromptInfo.Builder";
         private Bundle bundle;
@@ -51,7 +56,8 @@ class PromptInfo {
         private String title;
         private String subtitle = null;
         private String description = null;
-        private String fallbackButtonTitle = "Cancel";
+        private String fallbackButtonTitle = "Use backup";
+        private String cancelButtonTitle = "Cancel";
 
         Builder(Context context) {
             PackageManager packageManager = context.getPackageManager();
@@ -81,6 +87,7 @@ class PromptInfo {
             bundle.putString(TITLE, this.title);
             bundle.putString(DESCRIPTION, this.description);
             bundle.putString(FALLBACK_BUTTON_TITLE, this.fallbackButtonTitle);
+            bundle.putString(CANCEL_BUTTON_TITLE, this.cancelButtonTitle);
             bundle.putBoolean(DISABLE_BACKUP, this.disableBackup);
             promptInfo.bundle = bundle;
 
@@ -99,8 +106,8 @@ class PromptInfo {
             title = getStringArg(argsObject, TITLE, title);
             subtitle = getStringArg(argsObject, SUBTITLE, subtitle);
             description = getStringArg(argsObject, DESCRIPTION, description);
-            fallbackButtonTitle = getStringArg(argsObject, FALLBACK_BUTTON_TITLE,
-                    disableBackup ? "Cancel" : "Use Backup");
+            fallbackButtonTitle = getStringArg(argsObject, FALLBACK_BUTTON_TITLE, "Use Backup");
+            cancelButtonTitle = getStringArg(argsObject, CANCEL_BUTTON_TITLE, "Cancel");
         }
 
         private Boolean getBooleanArg(JSONObject argsObject, String name, Boolean defaultValue) {

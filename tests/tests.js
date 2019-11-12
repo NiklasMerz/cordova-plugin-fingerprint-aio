@@ -63,7 +63,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
   createActionButton("show-disablebackup", function () {
     Fingerprint.show({
-      disableBackup: true
+      disableBackup: true,
+      cancelButtonTitle: "Abbrechen"
     }, successCallback, errorCallback);
 
     function successCallback() {

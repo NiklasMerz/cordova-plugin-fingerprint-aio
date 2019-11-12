@@ -55,7 +55,7 @@ public class BiometricActivity extends AppCompatActivity {
                 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) { // TODO: remove after fix https://issuetracker.google.com/issues/142740104
             promptInfoBuilder.setDeviceCredentialAllowed(true);
         } else {
-            promptInfoBuilder.setNegativeButtonText(mPromptInfo.getFallbackButtonTitle());
+            promptInfoBuilder.setNegativeButtonText(mPromptInfo.getCancelButtonTitle());
         }
 
         biometricPrompt.authenticate(promptInfoBuilder.build());
