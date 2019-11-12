@@ -1,0 +1,24 @@
+dependencies {
+
+    /**
+     * The android-biometric.aar file has been taken from com.github.exxbrain:android-biometric library.
+     * Android biometric library is a clone of androidx.biometric library adapted for non-androidx apps.
+     * This project could be found at https://github.com/exxbrain/android-biometric.
+     * It has Apache License 2.0.
+     *
+     * TODO: Temporary solution. Should be removed after moving cordova-android to androidx. Then use androidx.biometric.
+     */
+    implementation files('src/main/libs/android-biometric.aar')
+
+	implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:support-annotations:28.0.0'
+}
+
+android {
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}
