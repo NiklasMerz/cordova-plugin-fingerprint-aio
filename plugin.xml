@@ -69,6 +69,7 @@
     <source-file src="res/android/values-da/aio_fpauth-strings.xml" target-dir="res/values-da"/>
     <source-file src="res/android/values-sv/aio_fpauth-strings.xml" target-dir="res/values-sv"/>
     <source-file src="res/android/values-ru/aio_fpauth-strings.xml" target-dir="res/values-ru"/>
+    <source-file src="res/android/values-ms/aio_fpauth-strings.xml" target-dir="res/values-ms"/>
   </platform>
 
 </plugin>
