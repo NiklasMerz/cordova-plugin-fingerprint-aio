@@ -70,6 +70,20 @@ Get the latest development version. *Not recommended!*
 cordova plugin add https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio.git
 ```
 
+**Android integration (Capacitor and Cordova)**
+
+In you top level (project) ``build.gradle`` file add the maven repository url below.
+This will pull in the required androidx.biometric library adapted for non-androidx apps.
+
+```java
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
 ### Check if fingerprint authentication is available
 ```javascript
 Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
