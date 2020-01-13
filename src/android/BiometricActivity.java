@@ -23,7 +23,6 @@ public class BiometricActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setTitle(null);
         int layout = getResources()
                 .getIdentifier("biometric_activity", "layout", getPackageName());
@@ -35,7 +34,6 @@ public class BiometricActivity extends AppCompatActivity {
 
         mPromptInfo = new PromptInfo.Builder(getIntent().getExtras()).build();
         authenticate();
-
     }
 
     private void authenticate() {
@@ -58,7 +56,11 @@ public class BiometricActivity extends AppCompatActivity {
             promptInfoBuilder.setNegativeButtonText(mPromptInfo.getCancelButtonTitle());
         }
 
-        biometricPrompt.authenticate(promptInfoBuilder.build());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            biometricPrompt.authenticate(promptInfoBuilder.build(), Secret.getCryptoObject());
+        } else {
+            biometricPrompt.authenticate(promptInfoBuilder.build());
+        }
     }
 
     private BiometricPrompt.AuthenticationCallback mAuthenticationCallback =
@@ -73,7 +75,7 @@ public class BiometricActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    finishWithSuccess();
+                    finishWithSuccess(result);
                 }
 
                 @Override
@@ -141,6 +143,23 @@ public class BiometricActivity extends AppCompatActivity {
     }
 
     private void finishWithSuccess() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    private void finishWithSuccess(BiometricPrompt.AuthenticationResult result) {
+        BiometricPrompt.CryptoObject cryptoObject = result.getCryptoObject();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && cryptoObject != null) {
+            Secret secret = new Secret(this);
+            String secretStr = secret.load(cryptoObject.getCipher());
+            if (secretStr != null) {
+                Intent intent = new Intent();
+                intent.putExtra(Fingerprint.SECRET_EXTRA, secretStr);
+                setResult(RESULT_OK, intent);
+                finish();
+                return;
+            }
+        }
         setResult(RESULT_OK);
         finish();
     }
