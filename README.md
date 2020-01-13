@@ -70,7 +70,6 @@ Get the latest development version. *Not recommended!*
 cordova plugin add https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio.git
 ```
 
-
 ### Check if fingerprint authentication is available
 ```javascript
 Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
