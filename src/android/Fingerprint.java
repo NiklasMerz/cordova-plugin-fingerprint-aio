@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.exxbrain.android.biometric.BiometricManager;
@@ -20,10 +21,12 @@ import org.json.JSONObject;
 public class Fingerprint extends CordovaPlugin {
 
     private static final String TAG = "Fingerprint";
-    private CallbackContext mCallbackContext = null;
-
     private static final int REQUEST_CODE_BIOMETRIC = 1;
+
+    private CallbackContext mCallbackContext = null;
     private PromptInfo.Builder mPromptInfoBuilder;
+
+    static final String SECRET_EXTRA = "secret";
 
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -36,16 +39,46 @@ public class Fingerprint extends CordovaPlugin {
         this.mCallbackContext = callbackContext;
         Log.v(TAG, "Fingerprint action: " + action);
 
-        if (action.equals("authenticate")) {
+        if ("authenticate".equals(action)) {
             executeAuthenticate(args);
             return true;
 
-        } else if (action.equals("isAvailable")){
+        } else if ("isAvailable".equals(action)){
             executeIsAvailable();
+            return true;
+
+        } else if ("saveSecret".equals(action) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            executeSaveSecret(args);
             return true;
         }
 
         return false;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void executeSaveSecret(JSONArray argsArray) {
+        PluginError error = canAuthenticate();
+        if (error != null) {
+            sendError(error);
+            return;
+        }
+        Args args = new Args(argsArray);
+        String secret;
+        try {
+            secret = args.getString("secret", null);
+        } catch (JSONException e) {
+            sendError(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
+            return;
+        }
+        if (secret == null) {
+            sendError(PluginError.BIOMETRIC_NO_SECRET);
+            return;
+        }
+        Secret secretObj = new Secret(cordova.getContext());
+        secretObj.save(secret);
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        pluginResult.setKeepCallback(true);
+        this.mCallbackContext.sendPluginResult(pluginResult);
     }
 
     private void executeIsAvailable() {
@@ -66,7 +99,12 @@ public class Fingerprint extends CordovaPlugin {
             return;
         }
         cordova.getActivity().runOnUiThread(() -> {
-            mPromptInfoBuilder.parseArgs(args);
+            try {
+                mPromptInfoBuilder.parseArgs(args);
+            } catch (JSONException e) {
+                sendError(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
+                return;
+            }
             Intent intent = new Intent(cordova.getActivity().getApplicationContext(), BiometricActivity.class);
             intent.putExtras(mPromptInfoBuilder.build().getBundle());
             this.cordova.startActivityForResult(this, intent, REQUEST_CODE_BIOMETRIC);
@@ -82,7 +120,9 @@ public class Fingerprint extends CordovaPlugin {
         if (requestCode != REQUEST_CODE_BIOMETRIC) {
             return;
         }
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && intent != null && intent.getExtras() != null) {
+            sendSuccess(intent.getExtras().getString(SECRET_EXTRA));
+        } else if (resultCode == Activity.RESULT_OK) {
             sendSuccess("biometric_success");
         } else if (intent != null) {
             Bundle extras = intent.getExtras();
@@ -100,6 +140,7 @@ public class Fingerprint extends CordovaPlugin {
                 return PluginError.BIOMETRIC_HARDWARE_NOT_SUPPORTED;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 return PluginError.BIOMETRIC_NOT_ENROLLED;
+            case BiometricManager.BIOMETRIC_SUCCESS:
             default:
                 return null;
         }

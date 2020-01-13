@@ -94,43 +94,14 @@ class PromptInfo {
             return promptInfo;
         }
 
-        void parseArgs(JSONArray args) {
-            JSONObject argsObject;
-            try {
-                argsObject = args.getJSONObject(0);
-            } catch (JSONException e) {
-                Log.e(TAG, "Can't parse args. Defaults will be used.", e);
-                return;
-            }
-            disableBackup = getBooleanArg(argsObject, DISABLE_BACKUP, disableBackup);
-            title = getStringArg(argsObject, TITLE, title);
-            subtitle = getStringArg(argsObject, SUBTITLE, subtitle);
-            description = getStringArg(argsObject, DESCRIPTION, description);
-            fallbackButtonTitle = getStringArg(argsObject, FALLBACK_BUTTON_TITLE, "Use Backup");
-            cancelButtonTitle = getStringArg(argsObject, CANCEL_BUTTON_TITLE, "Cancel");
-        }
-
-        private Boolean getBooleanArg(JSONObject argsObject, String name, Boolean defaultValue) {
-            if (argsObject.has(name)){
-                try {
-                    return argsObject.getBoolean(name);
-                } catch (JSONException e) {
-                    Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
-                }
-            }
-            return defaultValue;
-        }
-
-        private String getStringArg(JSONObject argsObject, String name, String defaultValue) {
-            if (argsObject.optString(name) != null
-                    && !argsObject.optString(name).isEmpty()){
-                try {
-                    return argsObject.getString(name);
-                } catch (JSONException e) {
-                    Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
-                }
-            }
-            return defaultValue;
+        void parseArgs(JSONArray jsonArgs) throws JSONException {
+            Args args = new Args(jsonArgs);
+            disableBackup = args.getBoolean(DISABLE_BACKUP, disableBackup);
+            title = args.getString(TITLE, title);
+            subtitle = args.getString(SUBTITLE, subtitle);
+            description = args.getString(DESCRIPTION, description);
+            fallbackButtonTitle = args.getString(FALLBACK_BUTTON_TITLE, "Use Backup");
+            cancelButtonTitle = args.getString(CANCEL_BUTTON_TITLE, "Cancel");
         }
     }
 }
