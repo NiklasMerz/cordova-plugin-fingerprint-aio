@@ -18,6 +18,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.InvalidKeyException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+
 public class Fingerprint extends CordovaPlugin {
 
     private static final String TAG = "Fingerprint";
@@ -43,42 +48,31 @@ public class Fingerprint extends CordovaPlugin {
             executeAuthenticate(args);
             return true;
 
-        } else if ("isAvailable".equals(action)){
+        } else if ("isAvailable".equals(action)) {
             executeIsAvailable();
             return true;
 
-        } else if ("saveSecret".equals(action) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            executeSaveSecret(args);
+        } else if ("saveSecret".equals(action)) {
+            saveSecret(args);
             return true;
         }
 
         return false;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void executeSaveSecret(JSONArray argsArray) {
-        PluginError error = canAuthenticate();
-        if (error != null) {
-            sendError(error);
-            return;
-        }
+    private void saveSecret(JSONArray argsArray) {
         Args args = new Args(argsArray);
-        String secret;
         try {
-            secret = args.getString("secret", null);
+            String secretStr = args.getString("secret", null);
+            Secret.save(secretStr, cordova.getContext());
+            sendSuccess("saved");
+        } catch (CryptoException e) {
+            sendError(PluginError.BIOMETRIC_CRYPTO_ERROR);
+        } catch (KeyInvalidatedException e) {
+            sendError(PluginError.BIOMETRIC_KEY_INVALIDATED);
         } catch (JSONException e) {
             sendError(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
-            return;
         }
-        if (secret == null) {
-            sendError(PluginError.BIOMETRIC_NO_SECRET);
-            return;
-        }
-        Secret secretObj = new Secret(cordova.getContext());
-        secretObj.save(secret);
-        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
-        pluginResult.setKeepCallback(true);
-        this.mCallbackContext.sendPluginResult(pluginResult);
     }
 
     private void executeIsAvailable() {

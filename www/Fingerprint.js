@@ -43,4 +43,14 @@ Fingerprint.prototype.isAvailable = function (successCallback, errorCallback) {
   );
 };
 
+Fingerprint.prototype.saveSecret = function (secret, successCallback, errorCallback) {
+  cordova.exec(
+    successCallback,
+    errorCallback,
+    "Fingerprint",
+    "saveSecret",
+    [{ secret: secret }]
+  );
+};
+
 module.exports = new Fingerprint();
