@@ -19,6 +19,7 @@ class PromptInfo {
     private static final String FALLBACK_BUTTON_TITLE = "fallbackButtonTitle";
     private static final String CANCEL_BUTTON_TITLE = "cancelButtonTitle";
     private static final String CONFIRMATION_REQUIRED = "confirmationRequired";
+    private static final String LOAD_SECRET = "loadSecret";
 
     private Bundle bundle = new Bundle();
 
@@ -54,6 +55,10 @@ class PromptInfo {
         return bundle.getBoolean(CONFIRMATION_REQUIRED);
     }
 
+    boolean loadSecret() {
+        return bundle.getBoolean(LOAD_SECRET);
+    }
+
     public static final class Builder {
         private static final String TAG = "PromptInfo.Builder";
         private Bundle bundle;
@@ -64,6 +69,7 @@ class PromptInfo {
         private String fallbackButtonTitle = "Use backup";
         private String cancelButtonTitle = "Cancel";
         private boolean confirmationRequired = true;
+        private boolean loadSecret = false;
 
         Builder(Context context) {
             PackageManager packageManager = context.getPackageManager();
@@ -96,6 +102,7 @@ class PromptInfo {
             bundle.putString(CANCEL_BUTTON_TITLE, this.cancelButtonTitle);
             bundle.putBoolean(DISABLE_BACKUP, this.disableBackup);
             bundle.putBoolean(CONFIRMATION_REQUIRED, this.confirmationRequired);
+            bundle.putBoolean(LOAD_SECRET, this.loadSecret);
             promptInfo.bundle = bundle;
 
             return promptInfo;
@@ -110,6 +117,7 @@ class PromptInfo {
             fallbackButtonTitle = args.getString(FALLBACK_BUTTON_TITLE, "Use Backup");
             cancelButtonTitle = args.getString(CANCEL_BUTTON_TITLE, "Cancel");
             confirmationRequired = args.getBooleanArg(CONFIRMATION_REQUIRED, confirmationRequired);
+            loadSecret = args.getBoolean(LOAD_SECRET, false);
         }
     }
 }

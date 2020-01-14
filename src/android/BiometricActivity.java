@@ -15,8 +15,11 @@ import androidx.core.content.ContextCompat;
 
 import java.util.concurrent.Executor;
 
+import javax.crypto.Cipher;
+
 public class BiometricActivity extends AppCompatActivity {
 
+    private static final String TAG = BiometricActivity.class.getName();
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 2;
     private PromptInfo mPromptInfo;
 
@@ -43,6 +46,22 @@ public class BiometricActivity extends AppCompatActivity {
         BiometricPrompt biometricPrompt =
                 new BiometricPrompt(this, executor, mAuthenticationCallback);
 
+        if (!mPromptInfo.loadSecret()) {
+            biometricPrompt.authenticate(createPromptInfo());
+            return;
+        }
+
+        try {
+            Cipher decryptionCipher = Secret.getDecryptionCipher(this);
+            biometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(decryptionCipher));
+        } catch (KeyInvalidatedException e) {
+            finishWithError(PluginError.BIOMETRIC_KEY_INVALIDATED);
+        } catch (CryptoException e) {
+            biometricPrompt.authenticate(createPromptInfo());
+        }
+    }
+
+    private BiometricPrompt.PromptInfo createPromptInfo() {
         BiometricPrompt.PromptInfo.Builder promptInfoBuilder = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle(mPromptInfo.getTitle())
                 .setSubtitle(mPromptInfo.getSubtitle())
@@ -55,12 +74,7 @@ public class BiometricActivity extends AppCompatActivity {
         } else {
             promptInfoBuilder.setNegativeButtonText(mPromptInfo.getCancelButtonTitle());
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            biometricPrompt.authenticate(promptInfoBuilder.build(), Secret.getCryptoObject());
-        } else {
-            biometricPrompt.authenticate(promptInfoBuilder.build());
-        }
+        return promptInfoBuilder.build();
     }
 
     private BiometricPrompt.AuthenticationCallback mAuthenticationCallback =
@@ -148,20 +162,36 @@ public class BiometricActivity extends AppCompatActivity {
     }
 
     private void finishWithSuccess(BiometricPrompt.AuthenticationResult result) {
-        BiometricPrompt.CryptoObject cryptoObject = result.getCryptoObject();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && cryptoObject != null) {
-            Secret secret = new Secret(this);
-            String secretStr = secret.load(cryptoObject.getCipher());
-            if (secretStr != null) {
-                Intent intent = new Intent();
-                intent.putExtra(Fingerprint.SECRET_EXTRA, secretStr);
-                setResult(RESULT_OK, intent);
-                finish();
+        Intent intent = null;
+        if (mPromptInfo.loadSecret()) {
+            try {
+                intent = getSecretIntent(result.getCryptoObject());
+            } catch (KeyInvalidatedException e) {
+                finishWithError(PluginError.BIOMETRIC_KEY_INVALIDATED);
                 return;
             }
         }
-        setResult(RESULT_OK);
+        if (intent == null) {
+            setResult(RESULT_OK);
+        } else {
+            setResult(RESULT_OK, intent);
+        }
         finish();
+    }
+
+    private Intent getSecretIntent(BiometricPrompt.CryptoObject cryptoObject) throws KeyInvalidatedException {
+        String secretStr = null;
+        try {
+            secretStr = Secret.load(cryptoObject == null ? null : cryptoObject.getCipher(), this);
+        } catch (CryptoException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        if (secretStr != null) {
+            Intent intent = new Intent();
+            intent.putExtra(Fingerprint.SECRET_EXTRA, secretStr);
+            return intent;
+        }
+        return null;
     }
 
     private void finishWithError(PluginError error) {

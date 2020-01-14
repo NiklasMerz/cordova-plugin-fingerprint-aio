@@ -4,221 +4,215 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
-import android.support.annotation.Nullable;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
 
 import com.exxbrain.android.biometric.BiometricPrompt;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.KeyFactory;
+import java.security.Key;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.MGF1ParameterSpec;
-import java.security.spec.X509EncodedKeySpec;
+import java.util.Calendar;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.OAEPParameterSpec;
-import javax.crypto.spec.PSource;
+import javax.crypto.spec.IvParameterSpec;
+import javax.security.auth.x500.X500Principal;
 
-@RequiresApi(api = Build.VERSION_CODES.M)
 public class Secret {
 
-    private static final String TAG = Secret.class.getSimpleName();
-
-    private static final String KEY_ALIAS = "key_for_secret";
+    private static final String KEY_NAME = "key_for_secret";
     private static final String KEY_STORE = "AndroidKeyStore";
-    private static final String TRANSFORMATION = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
 
-    private static KeyStore sKeyStore;
-    private static KeyPairGenerator sKeyPairGenerator;
-    private static Cipher sCipher;
+    private static final String SECRET_KEY_NAME = "__biometric-aio-secret";
+    private static final String IV_KEY_NAME = "__biometric-aio-iv";
 
-    private final SharedPreferences mPreferences;
-    private static final String SECRET_KEY_NAME = "__secret";
+    public static void save(String secret, Context context) throws CryptoException, KeyInvalidatedException {
+        if (secret == null) {
+            return;
+        }
+        Cipher cipher = getEncryptionCipher(context);
+        try {
+            byte[] bytes = cipher.doFinal(secret.getBytes());
+            String encrypted = Base64.encodeToString(bytes, Base64.NO_WRAP);
 
-    Secret(Context context) {
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            preferences.edit()
+                    .putString(SECRET_KEY_NAME, encrypted)
+                    .apply();
+
+        } catch (BadPaddingException | IllegalBlockSizeException e) {
+            throw new CryptoException("Couldn't save secret", e);
+        }
     }
 
-    public void save(String secret) {
-        String encrypted = encrypt(secret);
-        mPreferences.edit().putString(SECRET_KEY_NAME, encrypted).apply();
-    }
-
-    public String load(Cipher cipher) {
-        String encryptedSecret = mPreferences.getString(SECRET_KEY_NAME, null);
+    public static String load(Cipher cipher, Context context) throws CryptoException, KeyInvalidatedException {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String encryptedSecret = preferences.getString(SECRET_KEY_NAME, null);
         if (encryptedSecret == null) {
             return null;
         }
-        return decrypt(encryptedSecret, cipher);
-    }
-
-    private static String encrypt(String inputString) {
         try {
-            if (prepare() && initCipher(Cipher.ENCRYPT_MODE)) {
-                byte[] bytes = sCipher.doFinal(inputString.getBytes());
-                return Base64.encodeToString(bytes, Base64.NO_WRAP);
+            if (cipher == null) {
+                cipher = getDecryptionCipher(context);
             }
-        } catch (IllegalBlockSizeException | BadPaddingException exception) {
-            exception.printStackTrace();
-        }
-        return null;
-    }
-
-
-    private static String decrypt(String encodedString, Cipher cipher) {
-        try {
-            byte[] bytes = Base64.decode(encodedString, Base64.NO_WRAP);
+            byte[] bytes = Base64.decode(encryptedSecret, Base64.NO_WRAP);
             return new String(cipher.doFinal(bytes));
-        } catch (IllegalBlockSizeException | BadPaddingException exception) {
-            exception.printStackTrace();
+        } catch (BadPaddingException | IllegalBlockSizeException e) {
+            throw new CryptoException("Couldn't load secret", e);
         }
-        return null;
+
     }
 
-    private static boolean prepare() {
-        return getKeyStore() && getCipher() && getKey();
+    private static Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
+        return Cipher.getInstance("AES/CBC/PKCS7Padding");
     }
 
+    private static Key getSecretKey(Context context)
+            throws KeyStoreException, CertificateException,
+            NoSuchAlgorithmException,
+            IOException, UnrecoverableKeyException, NoSuchProviderException, InvalidAlgorithmParameterException {
+        KeyStore keyStore = KeyStore.getInstance(KEY_STORE);
 
-    private static boolean getKeyStore() {
-        try {
-            sKeyStore = KeyStore.getInstance(KEY_STORE);
-            sKeyStore.load(null);
-            return true;
-        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e) {
-            e.printStackTrace();
+        // Before the keystore can be accessed, it must be loaded.
+        keyStore.load(null);
+        if (!keyStore.containsAlias(KEY_NAME)) {
+            generateSecretKey(context);
         }
-        return false;
+        return keyStore.getKey(KEY_NAME, null);
     }
 
-    private static boolean getKeyPairGenerator() {
-        try {
-            sKeyPairGenerator = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, KEY_STORE);
-            return true;
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-            e.printStackTrace();
+    private static void generateSecretKey(Context context) throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            generateSecretKeyM();
+        } else {
+            generateSecretKeyOld(context);
         }
-        return false;
     }
 
-    private static boolean getCipher() {
-        try {
-            sCipher = Cipher.getInstance(TRANSFORMATION);
-            return true;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            e.printStackTrace();
+    private static void generateSecretKeyOld(Context context) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        end.add(Calendar.YEAR, 1);
+        KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
+                .setAlias(KEY_NAME)
+                .setSubject(new X500Principal("CN=BSS ," +
+                        " O=BSS" +
+                        " C=Russia"))
+                .setSerialNumber(BigInteger.ONE)
+                .setStartDate(start.getTime())
+                .setEndDate(end.getTime())
+                .build();
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", KEY_STORE);
+
+        generator.initialize(spec);
+        generator.generateKeyPair();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private static void generateSecretKeyM() throws NoSuchProviderException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance(
+                KeyProperties.KEY_ALGORITHM_AES, KEY_STORE);
+
+        KeyGenParameterSpec.Builder specBuilder = new KeyGenParameterSpec.Builder(
+                KEY_NAME,
+                KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                .setUserAuthenticationValidityDurationSeconds(60)
+                .setUserAuthenticationRequired(true);
+
+        // Invalidate the keys if the user has registered a new biometric
+        // credential, such as a new fingerprint. Can call this method only
+        // on Android 7.0 (API level 24) or higher. The variable
+        // "invalidatedByBiometricEnrollment" is true by default.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            specBuilder.setInvalidatedByBiometricEnrollment(true);
         }
-        return false;
-    }
 
-    private static boolean getKey() {
-        try {
-            return sKeyStore.containsAlias(KEY_ALIAS) || generateNewKey();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        }
-        return false;
-
-    }
-
-    private static boolean generateNewKey() {
-
-        if (getKeyPairGenerator()) {
-
-            try {
-                sKeyPairGenerator.initialize(
-                        new KeyGenParameterSpec.Builder(KEY_ALIAS, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-                                .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
-                                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-                                .setUserAuthenticationRequired(true)
-                                .build());
-                sKeyPairGenerator.generateKeyPair();
-                return true;
-            } catch (InvalidAlgorithmParameterException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-
-    private static boolean initCipher(int mode) {
-        try {
-            sKeyStore.load(null);
-
-            switch (mode) {
-                case Cipher.ENCRYPT_MODE:
-                    initEncodeCipher(mode);
-                    break;
-
-                case Cipher.DECRYPT_MODE:
-                    initDecodeCipher(mode);
-                    break;
-                default:
-                    return false; //this cipher is only for encrypt\decrypt
-            }
-            return true;
-
-        } catch (KeyPermanentlyInvalidatedException exception) {
-            deleteInvalidKey();
-
-        } catch (KeyStoreException | CertificateException | UnrecoverableKeyException | IOException |
-                NoSuchAlgorithmException | InvalidKeyException | InvalidKeySpecException | InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private static void initDecodeCipher(int mode) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, InvalidKeyException {
-        PrivateKey key = (PrivateKey) sKeyStore.getKey(KEY_ALIAS, null);
-        sCipher.init(mode, key);
-    }
-
-    private static void initEncodeCipher(int mode) throws KeyStoreException, InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, InvalidAlgorithmParameterException {
-        PublicKey key = sKeyStore.getCertificate(KEY_ALIAS).getPublicKey();
-
-        // workaround for using public key
-        // from https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.html
-        PublicKey unrestricted = KeyFactory.getInstance(key.getAlgorithm()).generatePublic(new X509EncodedKeySpec(key.getEncoded()));
-        // from https://code.google.com/p/android/issues/detail?id=197719
-        OAEPParameterSpec spec = new OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec.SHA1, PSource.PSpecified.DEFAULT);
-
-        sCipher.init(mode, unrestricted, spec);
+        keyGenerator.init(specBuilder.build());
+        keyGenerator.generateKey();
     }
 
     private static void deleteInvalidKey() {
-        if (getKeyStore()) {
-            try {
-                sKeyStore.deleteEntry(KEY_ALIAS);
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            }
+        try {
+            KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+            keyStore.load(null);
+            keyStore.deleteEntry(KEY_NAME);
+        } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
 
-    @Nullable
-    static BiometricPrompt.CryptoObject getCryptoObject() {
-        if (prepare() && initCipher(Cipher.DECRYPT_MODE)) {
-            return new BiometricPrompt.CryptoObject(sCipher);
+    static Cipher getEncryptionCipher(Context context) throws CryptoException, KeyInvalidatedException {
+        try {
+            Cipher cipher = getCipher();
+            Key secretKey = getSecretKey(context);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+
+            byte[] iv = cipher.getIV();
+            String ivString = Base64.encodeToString(iv, Base64.NO_WRAP);
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            preferences.edit()
+                    .putString(IV_KEY_NAME, ivString)
+                    .apply();
+
+            return cipher;
+        } catch (InvalidKeyException e) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (e instanceof KeyPermanentlyInvalidatedException) {
+                    deleteInvalidKey();
+                    throw new KeyInvalidatedException();
+                }
+            }
+            throw new CryptoException("Couldn't create Crypto Object", e);
+        } catch (IOException | CertificateException | UnrecoverableKeyException | NoSuchProviderException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | NoSuchAlgorithmException e) {
+            throw new CryptoException("Couldn't create Crypto Object", e);
         }
-        return null;
     }
+
+    static Cipher getDecryptionCipher(Context context) throws CryptoException, KeyInvalidatedException {
+        try {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String ivEncoded = preferences.getString(IV_KEY_NAME, null);
+            if (ivEncoded == null) {
+                throw new InvalidKeyException();
+            }
+            Cipher cipher = getCipher();
+            Key secretKey = getSecretKey(context);
+            IvParameterSpec ivSpec = new IvParameterSpec(Base64.decode(ivEncoded, Base64.DEFAULT));
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
+
+            return cipher;
+        } catch (InvalidKeyException e) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (e instanceof KeyPermanentlyInvalidatedException) {
+                    deleteInvalidKey();
+                    throw new KeyInvalidatedException();
+                }
+            }
+            throw new CryptoException("Couldn't create Crypto Object", e);
+        } catch (IOException | CertificateException | UnrecoverableKeyException | NoSuchProviderException | KeyStoreException | InvalidAlgorithmParameterException | NoSuchPaddingException | NoSuchAlgorithmException e) {
+            throw new CryptoException("Couldn't create Crypto Object", e);
+        }
+    }
+
 }

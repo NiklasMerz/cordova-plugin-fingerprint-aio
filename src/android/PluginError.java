@@ -11,8 +11,9 @@ public enum PluginError {
             "Go to 'Settings -> Security -> Screenlock' to set up a lock screen"),
     BIOMETRIC_LOCKED_OUT(-111),
     BIOMETRIC_LOCKED_OUT_PERMANENT(-112),
-    BIOMETRIC_ARGS_PARSING_FAILED(-113, "Couldn't parse args"),
-    BIOMETRIC_NO_SECRET(-114, "No secret");
+    BIOMETRIC_KEY_INVALIDATED(-113, "Key was invalidated. Probably biometric was changed."),
+    BIOMETRIC_CRYPTO_ERROR(-114),
+    BIOMETRIC_ARGS_PARSING_FAILED(-115);
 
     private int value;
     private String message;
