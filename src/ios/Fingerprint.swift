@@ -60,7 +60,7 @@ import LocalAuthentication
     }
 
     @objc(handleError:)
-    func handleError(error: Error?) -> CDVPluginResult? {
+    private func handleError(error: Error?) -> CDVPluginResult? {
         let errorResponse: [AnyHashable: Any] = [
             "message": "Something went wrong"
         ];
