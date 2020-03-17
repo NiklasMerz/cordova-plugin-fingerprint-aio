@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="3.0.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="3.0.2-dev">
   <name>FingerprintAllInOne</name>
   <description>Cordova plugin to use fingerprint on Android and iOS</description>
   <license>MIT</license>
@@ -53,7 +53,6 @@
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
     <resource-file src="src/android/res/biometric_activity.xml" target="res/layout/biometric_activity.xml" />
     <resource-file src="src/android/res/styles.xml" target="res/values/biometric-styles.xml" />
-    <resource-file src="src/android/android-biometric.aar" target="libs/android-biometric.aar" />
     <source-file src="src/android/PromptInfo.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
     <source-file src="src/android/BiometricActivity.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
     <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
