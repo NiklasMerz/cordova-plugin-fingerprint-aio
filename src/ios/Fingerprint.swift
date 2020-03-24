@@ -85,7 +85,7 @@ import LocalAuthentication
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: errorResponse);
         var reason = "Authentication";
         var policy:LAPolicy = .deviceOwnerAuthentication;
-        let data  = command.arguments[0] as AnyObject?;
+        let data  = command.arguments[0] as? [String: Any];
 
         if let disableBackup = data?["disableBackup"] as! Bool? {
             if disableBackup {
