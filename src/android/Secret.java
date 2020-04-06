@@ -8,11 +8,8 @@ import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
-import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
-
-import com.exxbrain.android.biometric.BiometricPrompt;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -113,9 +110,9 @@ public class Secret {
         end.add(Calendar.YEAR, 1);
         KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
                 .setAlias(KEY_NAME)
-                .setSubject(new X500Principal("CN=BSS ," +
-                        " O=BSS" +
-                        " C=Russia"))
+                .setSubject(new X500Principal("CN=FINGERPRINT_AIO ," +
+                        " O=FINGERPRINT_AIO" +
+                        " C=World"))
                 .setSerialNumber(BigInteger.ONE)
                 .setStartDate(start.getTime())
                 .setEndDate(end.getTime())
@@ -136,7 +133,7 @@ public class Secret {
                 KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                .setUserAuthenticationValidityDurationSeconds(60)
+                .setUserAuthenticationValidityDurationSeconds(-1)
                 .setUserAuthenticationRequired(true);
 
         // Invalidate the keys if the user has registered a new biometric
@@ -153,7 +150,7 @@ public class Secret {
 
     private static void deleteInvalidKey() {
         try {
-            KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+            KeyStore keyStore = KeyStore.getInstance(KEY_STORE);
             keyStore.load(null);
             keyStore.deleteEntry(KEY_NAME);
         } catch (KeyStoreException | CertificateException | IOException | NoSuchAlgorithmException e) {
