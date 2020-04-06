@@ -14,7 +14,7 @@ dependencies {
      *
      * TODO: Temporary solution. Should be removed after moving cordova-android to androidx. Then use androidx.biometric.
      */
-    implementation 'com.github.exxbrain:android-biometric:0.4'
+    implementation 'com.github.exxbrain:android-biometric:1.0.1'
 
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
