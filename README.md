@@ -121,6 +121,8 @@ Fingerprint.show({
 * __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback.
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
+* __secret__: String secret to encrypt and save
+* __loadSecret__: If `true` previously saved secret will be loaded as a result of successful authentication. 
 
 ### Constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;

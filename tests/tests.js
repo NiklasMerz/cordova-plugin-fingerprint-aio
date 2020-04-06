@@ -106,7 +106,21 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
   });
 
-  createActionButton("show-loadsecret", function () {
+  createActionButton("Save secret", function () {
+    Fingerprint.show({
+      secret: "secret"
+    }, successCallback, errorCallback);
+
+    function successCallback() {
+      alert("Secret saved successfully");
+    }
+
+    function errorCallback(err) {
+      alert("Error while saving secret: " + JSON.stringify(err));
+    }
+  });
+
+  createActionButton("Load Secret", function () {
     Fingerprint.show({
       disableBackup: true,
       loadSecret: true,
@@ -118,20 +132,6 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     function errorCallback(err) {
       alert("Error while loading secret: " + JSON.stringify(err));
-    }
-  });
-
-  createActionButton("saveSecret", function () {
-    Fingerprint.saveSecret({
-      secret: "secret"
-    }, successCallback, errorCallback);
-
-    function successCallback() {
-      alert("Secret saved successfully");
-    }
-
-    function errorCallback(err) {
-      alert("Error while saving secret: " + JSON.stringify(err));
     }
   });
 };

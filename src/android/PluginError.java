@@ -13,7 +13,8 @@ public enum PluginError {
     BIOMETRIC_LOCKED_OUT_PERMANENT(-112),
     BIOMETRIC_KEY_INVALIDATED(-113, "Key was invalidated. Probably biometric was changed."),
     BIOMETRIC_CRYPTO_ERROR(-114),
-    BIOMETRIC_ARGS_PARSING_FAILED(-115);
+    BIOMETRIC_ARGS_PARSING_FAILED(-115),
+    NO_SECRET_FOUND(-115);
 
     private int value;
     private String message;
