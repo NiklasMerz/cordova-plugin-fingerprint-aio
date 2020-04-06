@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 class PromptInfo {
 
@@ -19,6 +17,7 @@ class PromptInfo {
     private static final String FALLBACK_BUTTON_TITLE = "fallbackButtonTitle";
     private static final String CANCEL_BUTTON_TITLE = "cancelButtonTitle";
     private static final String LOAD_SECRET = "loadSecret";
+    private static final String SECRET = "secret";
 
     private Bundle bundle = new Bundle();
 
@@ -50,6 +49,10 @@ class PromptInfo {
         return bundle.getString(CANCEL_BUTTON_TITLE);
     }
 
+    String getSecret() {
+        return bundle.getString(SECRET);
+    }
+
     boolean loadSecret() {
         return bundle.getBoolean(LOAD_SECRET);
     }
@@ -64,6 +67,7 @@ class PromptInfo {
         private String fallbackButtonTitle = "Use backup";
         private String cancelButtonTitle = "Cancel";
         private boolean loadSecret = false;
+        private String secret = null;
 
         Builder(Context context) {
             PackageManager packageManager = context.getPackageManager();
@@ -94,6 +98,7 @@ class PromptInfo {
             bundle.putString(DESCRIPTION, this.description);
             bundle.putString(FALLBACK_BUTTON_TITLE, this.fallbackButtonTitle);
             bundle.putString(CANCEL_BUTTON_TITLE, this.cancelButtonTitle);
+            bundle.putString(SECRET, this.secret);
             bundle.putBoolean(DISABLE_BACKUP, this.disableBackup);
             bundle.putBoolean(LOAD_SECRET, this.loadSecret);
             promptInfo.bundle = bundle;
@@ -110,6 +115,7 @@ class PromptInfo {
             fallbackButtonTitle = args.getString(FALLBACK_BUTTON_TITLE, "Use Backup");
             cancelButtonTitle = args.getString(CANCEL_BUTTON_TITLE, "Cancel");
             loadSecret = args.getBoolean(LOAD_SECRET, false);
+            secret = args.getString(SECRET, null);
         }
     }
 }

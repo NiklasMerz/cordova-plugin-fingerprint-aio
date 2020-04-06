@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.exxbrain.android.biometric.BiometricManager;
@@ -17,11 +16,6 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.security.InvalidKeyException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
 
 public class Fingerprint extends CordovaPlugin {
 
@@ -51,28 +45,8 @@ public class Fingerprint extends CordovaPlugin {
         } else if ("isAvailable".equals(action)) {
             executeIsAvailable();
             return true;
-
-        } else if ("saveSecret".equals(action)) {
-            saveSecret(args);
-            return true;
         }
-
         return false;
-    }
-
-    private void saveSecret(JSONArray argsArray) {
-        Args args = new Args(argsArray);
-        try {
-            String secretStr = args.getString("secret", null);
-            Secret.save(secretStr, cordova.getContext());
-            sendSuccess("saved");
-        } catch (CryptoException e) {
-            sendError(PluginError.BIOMETRIC_CRYPTO_ERROR);
-        } catch (KeyInvalidatedException e) {
-            sendError(PluginError.BIOMETRIC_KEY_INVALIDATED);
-        } catch (JSONException e) {
-            sendError(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
-        }
     }
 
     private void executeIsAvailable() {

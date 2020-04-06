@@ -58,7 +58,9 @@
     <source-file src="src/android/Fingerprint.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
     <source-file src="src/android/PluginError.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
     <source-file src="src/android/Args.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
-    <source-file src="src/android/Secret.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
+    <source-file src="src/android/CryptographyManager.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
+    <source-file src="src/android/CryptographyManagerImpl.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
+    <source-file src="src/android/EncryptedData.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
     <source-file src="src/android/CryptoException.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
     <source-file src="src/android/KeyInvalidatedException.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
   </platform>

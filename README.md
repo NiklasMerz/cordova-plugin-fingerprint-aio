@@ -117,6 +117,8 @@ Fingerprint.show({
      * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
 * __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback.
 * __cancelButtonTitle__: For cancel button on Android
+* __secret__: String secret to encrypt and save
+* __loadSecret__: If `true` previously saved secret will be loaded as a result of successful authentication. 
 
 ### Constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;

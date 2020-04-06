@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.exxbrain.android.biometric.BiometricPrompt;
 
@@ -21,9 +20,11 @@ import javax.crypto.Cipher;
 
 public class BiometricActivity extends AppCompatActivity {
 
-    private static final String TAG = BiometricActivity.class.getName();
     private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 2;
     private PromptInfo mPromptInfo;
+    private CryptographyManager mCryptographyManager;
+    private static final String SECRET_KEY = "__aio_secret_key";
+    private BiometricPrompt mBiometricPrompt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,30 +38,42 @@ public class BiometricActivity extends AppCompatActivity {
             return;
         }
 
+        mCryptographyManager = new CryptographyManagerImpl();
         mPromptInfo = new PromptInfo.Builder(getIntent().getExtras()).build();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        Executor executor = handler::post;
+        mBiometricPrompt =
+                new BiometricPrompt(this, executor, mAuthenticationCallback);
         authenticate();
     }
 
     private void authenticate() {
-        final Handler handler = new Handler(Looper.getMainLooper());
-        Executor executor = handler::post;
-
-        BiometricPrompt biometricPrompt =
-                new BiometricPrompt(this, executor, mAuthenticationCallback);
-
-        if (!mPromptInfo.loadSecret()) {
-            biometricPrompt.authenticate(createPromptInfo());
+        if (mPromptInfo.getSecret() == null && !mPromptInfo.loadSecret()) {
+            justAuthenticate();
             return;
         }
-
-        try {
-            Cipher decryptionCipher = Secret.getDecryptionCipher(this);
-            biometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(decryptionCipher));
-        } catch (KeyInvalidatedException e) {
-            finishWithError(PluginError.BIOMETRIC_KEY_INVALIDATED);
-        } catch (CryptoException e) {
-            biometricPrompt.authenticate(createPromptInfo());
+        if (mPromptInfo.getSecret() == null) {
+            authenticateToDecrypt();
+            return;
         }
+        authenticateToEncrypt();
+    }
+
+    private void authenticateToEncrypt() {
+        Cipher cipher = mCryptographyManager
+                .getInitializedCipherForEncryption(SECRET_KEY, this);
+        mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
+    }
+
+    private void justAuthenticate() {
+        mBiometricPrompt.authenticate(createPromptInfo());
+    }
+
+    private void authenticateToDecrypt() {
+        byte[] initializationVector = EncryptedData.loadInitializationVector(this);
+        Cipher cipher = mCryptographyManager
+                .getInitializedCipherForDecryption(SECRET_KEY, initializationVector, this);
+        mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
     }
 
     private BiometricPrompt.PromptInfo createPromptInfo() {
@@ -90,7 +103,7 @@ public class BiometricActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    finishWithSuccess(result);
+                    finishWithSuccess(result.getCryptoObject());
                 }
 
                 @Override
@@ -162,15 +175,12 @@ public class BiometricActivity extends AppCompatActivity {
         finish();
     }
 
-    private void finishWithSuccess(BiometricPrompt.AuthenticationResult result) {
+    private void finishWithSuccess(BiometricPrompt.CryptoObject cryptoObject) {
         Intent intent = null;
         if (mPromptInfo.loadSecret()) {
-            try {
-                intent = getSecretIntent(result.getCryptoObject());
-            } catch (KeyInvalidatedException e) {
-                finishWithError(PluginError.BIOMETRIC_KEY_INVALIDATED);
-                return;
-            }
+            intent = getDecryptedIntent(cryptoObject);
+        } else if (mPromptInfo.getSecret() != null) {
+            encrypt(cryptoObject);
         }
         if (intent == null) {
             setResult(RESULT_OK);
@@ -180,16 +190,18 @@ public class BiometricActivity extends AppCompatActivity {
         finish();
     }
 
-    private Intent getSecretIntent(BiometricPrompt.CryptoObject cryptoObject) throws KeyInvalidatedException {
-        String secretStr = null;
-        try {
-            secretStr = Secret.load(cryptoObject == null ? null : cryptoObject.getCipher(), this);
-        } catch (CryptoException e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
-        if (secretStr != null) {
+    private void encrypt(BiometricPrompt.CryptoObject cryptoObject) {
+        String text = mPromptInfo.getSecret();
+        EncryptedData encryptedData = mCryptographyManager.encryptData(text, cryptoObject.getCipher());
+        encryptedData.save(this);
+    }
+
+    private Intent getDecryptedIntent(BiometricPrompt.CryptoObject cryptoObject) {
+        byte[] ciphertext = EncryptedData.loadCiphertext(this);
+        String secret = mCryptographyManager.decryptData(ciphertext, cryptoObject.getCipher());
+        if (secret != null) {
             Intent intent = new Intent();
-            intent.putExtra(Fingerprint.SECRET_EXTRA, secretStr);
+            intent.putExtra(Fingerprint.SECRET_EXTRA, secret);
             return intent;
         }
         return null;
