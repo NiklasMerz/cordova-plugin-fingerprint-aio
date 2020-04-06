@@ -39,6 +39,12 @@ exports.defineAutoTests = function() {
       expect(window.Fingerprint.show).toBeDefined();
     });
   });
+
+  describe("saveSecret", function () {
+    it("saveSecret should be defined", function () {
+      expect(window.Fingerprint.saveSecret).toBeDefined();
+    });
+  });
 };
 
 exports.defineManualTests = function (contentEl, createActionButton) {
@@ -97,6 +103,35 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
     function errorCallback(err) {
       alert("Authentication invalid " + JSON.stringify(err));
+    }
+  });
+
+  createActionButton("show-loadsecret", function () {
+    Fingerprint.show({
+      disableBackup: true,
+      loadSecret: true,
+    }, successCallback, errorCallback);
+
+    function successCallback(secret) {
+      alert("Secret loaded successfully: " + secret);
+    }
+
+    function errorCallback(err) {
+      alert("Error while loading secret: " + JSON.stringify(err));
+    }
+  });
+
+  createActionButton("saveSecret", function () {
+    Fingerprint.saveSecret({
+      secret: "secret"
+    }, successCallback, errorCallback);
+
+    function successCallback() {
+      alert("Secret saved successfully");
+    }
+
+    function errorCallback(err) {
+      alert("Error while saving secret: " + JSON.stringify(err));
     }
   });
 };
