@@ -105,13 +105,17 @@ class CryptographyManagerImpl implements CryptographyManager {
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return cipher;
         } catch (Exception e) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (e instanceof KeyPermanentlyInvalidatedException) {
-                    removeKey(keyName);
-                    throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
-                }
-            }
+            handleException(e, keyName);
             throw new CryptoException(e.getMessage(), e);
+        }
+    }
+
+    private void handleException(Exception e, String keyName) throws CryptoException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (e instanceof KeyPermanentlyInvalidatedException) {
+                removeKey(keyName);
+                throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
+            }
         }
     }
 
@@ -123,12 +127,7 @@ class CryptographyManagerImpl implements CryptographyManager {
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, initializationVector));
             return cipher;
         } catch (Exception e) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (e instanceof KeyPermanentlyInvalidatedException) {
-                    removeKey(keyName);
-                    throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
-                }
-            }
+            handleException(e, keyName);
             throw new CryptoException(e.getMessage(), e);
         }
     }
