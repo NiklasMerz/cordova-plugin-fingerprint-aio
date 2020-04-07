@@ -88,11 +88,23 @@ public class Fingerprint extends CordovaPlugin {
         if (requestCode != REQUEST_CODE_BIOMETRIC) {
             return;
         }
-        if (resultCode == Activity.RESULT_OK && intent != null && intent.getExtras() != null) {
+        if (resultCode != Activity.RESULT_OK) {
+            sendError(intent);
+            return;
+        }
+        sendSuccess(intent);
+    }
+
+    private void sendSuccess(Intent intent) {
+        if (intent != null && intent.getExtras() != null) {
             sendSuccess(intent.getExtras().getString(SECRET_EXTRA));
-        } else if (resultCode == Activity.RESULT_OK) {
+        } else {
             sendSuccess("biometric_success");
-        } else if (intent != null) {
+        }
+    }
+
+    private void sendError(Intent intent) {
+        if (intent != null) {
             Bundle extras = intent.getExtras();
             sendError(extras.getInt("code"), extras.getString("message"));
         } else {
