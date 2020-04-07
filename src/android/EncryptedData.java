@@ -18,11 +18,11 @@ class EncryptedData {
         this.initializationVector = initializationVector;
     }
 
-    static byte[] loadInitializationVector(Context context) {
+    static byte[] loadInitializationVector(Context context) throws CryptoException {
         return load(IV_KEY_NAME, context);
     }
 
-    static byte[] loadCiphertext(Context context) {
+    static byte[] loadCiphertext(Context context) throws CryptoException {
         return load(CIPHERTEXT_KEY_NAME, context);
     }
 
@@ -38,7 +38,7 @@ class EncryptedData {
                 .apply();
     }
 
-    private static byte[] load(String key, Context context) {
+    private static byte[] load(String key, Context context) throws CryptoException {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String res = preferences.getString(key, null);
         if (res == null) throw new CryptoException(PluginError.NO_SECRET_FOUND);

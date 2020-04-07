@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.RequiresApi;
 
@@ -34,7 +35,7 @@ class CryptographyManagerImpl implements CryptographyManager {
         return Cipher.getInstance(transformation);
     }
 
-    private SecretKey getOrCreateSecretKey(String keyName, Context context) {
+    private SecretKey getOrCreateSecretKey(String keyName, Context context) throws CryptoException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return getOrCreateSecretKeyNew(keyName);
         } else {
@@ -42,7 +43,7 @@ class CryptographyManagerImpl implements CryptographyManager {
         }
     }
 
-    private SecretKey getOrCreateSecretKeyOld(String keyName, Context context) {
+    private SecretKey getOrCreateSecretKeyOld(String keyName, Context context) throws CryptoException {
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
         end.add(Calendar.YEAR, 1);
@@ -65,7 +66,7 @@ class CryptographyManagerImpl implements CryptographyManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private SecretKey getOrCreateSecretKeyNew(String keyName) {
+    private SecretKey getOrCreateSecretKeyNew(String keyName) throws CryptoException {
         try {
             // If Secretkey was previously created for that keyName, then grab and return it.
             KeyStore keyStore = KeyStore.getInstance(ANDROID_KEYSTORE);
@@ -97,31 +98,53 @@ class CryptographyManagerImpl implements CryptographyManager {
     }
 
     @Override
-    public Cipher getInitializedCipherForEncryption(String keyName, Context context) {
+    public Cipher getInitializedCipherForEncryption(String keyName, Context context) throws CryptoException {
         try {
             Cipher cipher = getCipher();
             SecretKey secretKey = getOrCreateSecretKey(keyName, context);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return cipher;
         } catch (Exception e) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (e instanceof KeyPermanentlyInvalidatedException) {
+                    removeKey(keyName);
+                    throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
+                }
+            }
             throw new CryptoException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Cipher getInitializedCipherForDecryption(String keyName, byte[] initializationVector, Context context) {
+    public Cipher getInitializedCipherForDecryption(String keyName, byte[] initializationVector, Context context) throws CryptoException {
         try {
             Cipher cipher = getCipher();
             SecretKey secretKey = getOrCreateSecretKey(keyName, context);
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, initializationVector));
             return cipher;
         } catch (Exception e) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (e instanceof KeyPermanentlyInvalidatedException) {
+                    removeKey(keyName);
+                    throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
+                }
+            }
+            throw new CryptoException(e.getMessage(), e);
+        }
+    }
+
+    private void removeKey(String keyName) throws CryptoException {
+        try {
+            KeyStore keyStore = KeyStore.getInstance(ANDROID_KEYSTORE);
+            keyStore.load(null); // Keystore must be loaded before it can be accessed
+            keyStore.deleteEntry(keyName);
+        } catch (Exception e) {
             throw new CryptoException(e.getMessage(), e);
         }
     }
 
     @Override
-    public EncryptedData encryptData(String plaintext, Cipher cipher) {
+    public EncryptedData encryptData(String plaintext, Cipher cipher) throws CryptoException {
         try {
             byte[] ciphertext = cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
             return new EncryptedData(ciphertext, cipher.getIV());
@@ -131,7 +154,7 @@ class CryptographyManagerImpl implements CryptographyManager {
     }
 
     @Override
-    public String decryptData(byte[] ciphertext, Cipher cipher) {
+    public String decryptData(byte[] ciphertext, Cipher cipher) throws CryptoException {
         try {
             byte[] plaintext = cipher.doFinal(ciphertext);
             return new String(plaintext, StandardCharsets.UTF_8);

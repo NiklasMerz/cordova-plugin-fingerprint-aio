@@ -44,10 +44,14 @@ public class BiometricActivity extends AppCompatActivity {
         Executor executor = handler::post;
         mBiometricPrompt =
                 new BiometricPrompt(this, executor, mAuthenticationCallback);
-        authenticate();
+        try {
+            authenticate();
+        } catch (CryptoException e) {
+            finishWithError(e);
+        }
     }
 
-    private void authenticate() {
+    private void authenticate() throws CryptoException {
         if (mPromptInfo.getSecret() == null && !mPromptInfo.loadSecret()) {
             justAuthenticate();
             return;
@@ -59,7 +63,7 @@ public class BiometricActivity extends AppCompatActivity {
         authenticateToEncrypt();
     }
 
-    private void authenticateToEncrypt() {
+    private void authenticateToEncrypt() throws CryptoException {
         Cipher cipher = mCryptographyManager
                 .getInitializedCipherForEncryption(SECRET_KEY, this);
         mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
@@ -69,7 +73,7 @@ public class BiometricActivity extends AppCompatActivity {
         mBiometricPrompt.authenticate(createPromptInfo());
     }
 
-    private void authenticateToDecrypt() {
+    private void authenticateToDecrypt() throws CryptoException {
         byte[] initializationVector = EncryptedData.loadInitializationVector(this);
         Cipher cipher = mCryptographyManager
                 .getInitializedCipherForDecryption(SECRET_KEY, initializationVector, this);
@@ -103,7 +107,11 @@ public class BiometricActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    finishWithSuccess(result.getCryptoObject());
+                    try {
+                        finishWithSuccess(result.getCryptoObject());
+                    } catch (CryptoException e) {
+                        finishWithError(e);
+                    }
                 }
 
                 @Override
@@ -175,7 +183,7 @@ public class BiometricActivity extends AppCompatActivity {
         finish();
     }
 
-    private void finishWithSuccess(BiometricPrompt.CryptoObject cryptoObject) {
+    private void finishWithSuccess(BiometricPrompt.CryptoObject cryptoObject) throws CryptoException {
         Intent intent = null;
         if (mPromptInfo.loadSecret()) {
             intent = getDecryptedIntent(cryptoObject);
@@ -190,13 +198,13 @@ public class BiometricActivity extends AppCompatActivity {
         finish();
     }
 
-    private void encrypt(BiometricPrompt.CryptoObject cryptoObject) {
+    private void encrypt(BiometricPrompt.CryptoObject cryptoObject) throws CryptoException {
         String text = mPromptInfo.getSecret();
         EncryptedData encryptedData = mCryptographyManager.encryptData(text, cryptoObject.getCipher());
         encryptedData.save(this);
     }
 
-    private Intent getDecryptedIntent(BiometricPrompt.CryptoObject cryptoObject) {
+    private Intent getDecryptedIntent(BiometricPrompt.CryptoObject cryptoObject) throws CryptoException {
         byte[] ciphertext = EncryptedData.loadCiphertext(this);
         String secret = mCryptographyManager.decryptData(ciphertext, cryptoObject.getCipher());
         if (secret != null) {
@@ -205,6 +213,10 @@ public class BiometricActivity extends AppCompatActivity {
             return intent;
         }
         return null;
+    }
+
+    private void finishWithError(CryptoException e) {
+        finishWithError(e.getError().getValue(), e.getMessage());
     }
 
     private void finishWithError(PluginError error) {
