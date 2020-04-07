@@ -1,14 +1,22 @@
 package de.niklasmerz.cordova.biometric;
 
-class CryptoException extends RuntimeException {
+class CryptoException extends Exception {
     private PluginError error;
 
-    CryptoException(String s, Exception e) {
-        super(s, e);
+    CryptoException(String message, Exception cause) {
+        this(PluginError.BIOMETRIC_CRYPTO_ERROR, message, cause);
     }
 
     CryptoException(PluginError error) {
-        super(error.getMessage());
+        this(error, error.getMessage(), null);
+    }
+
+    CryptoException(PluginError error, Exception cause) {
+        this(error, error.getMessage(), cause);
+    }
+
+    private CryptoException(PluginError error, String message, Exception cause) {
+        super(message, cause);
         this.error = error;
     }
 
