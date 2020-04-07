@@ -111,11 +111,10 @@ class CryptographyManagerImpl implements CryptographyManager {
     }
 
     private void handleException(Exception e, String keyName) throws CryptoException {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (e instanceof KeyPermanentlyInvalidatedException) {
-                removeKey(keyName);
-                throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && e instanceof KeyPermanentlyInvalidatedException) {
+            removeKey(keyName);
+            throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
         }
     }
 
