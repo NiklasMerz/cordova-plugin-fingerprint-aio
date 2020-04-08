@@ -122,7 +122,8 @@ Fingerprint.show({
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 * __secret__: String secret to encrypt and save
-* __loadSecret__: If `true` previously saved secret will be loaded as a result of successful authentication. 
+* __loadSecret__: If `true` previously saved secret will be loaded as a result of successful authentication.
+* __invalidateOnEnrollment__: If `true` secret will be deleted when biometry items are deleted or enrolled 
 
 ### Constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;
@@ -138,6 +139,7 @@ Fingerprint.show({
 - **BIOMETRIC_SCREEN_GUARD_UNSECURED** = `-110`;
 - **BIOMETRIC_LOCKED_OUT** = `-111`;
 - **BIOMETRIC_LOCKED_OUT_PERMANENT** = `-112`;
+- **BIOMETRIC_SECRET_NOT_FOUND** = `-113`;
 ***
 
 Thanks to the authors of the original fingerprint plugins

@@ -18,6 +18,7 @@ class PromptInfo {
     private static final String CANCEL_BUTTON_TITLE = "cancelButtonTitle";
     private static final String CONFIRMATION_REQUIRED = "confirmationRequired";
     private static final String LOAD_SECRET = "loadSecret";
+    private static final String INVALIDATE_ON_ENROLLMENT = "invalidateOnEnrollment";
     private static final String SECRET = "secret";
 
     private Bundle bundle = new Bundle();
@@ -62,6 +63,10 @@ class PromptInfo {
         return bundle.getBoolean(LOAD_SECRET);
     }
 
+    boolean invalidateOnEnrollment() {
+        return bundle.getBoolean(INVALIDATE_ON_ENROLLMENT);
+    }
+
     public static final class Builder {
         private static final String TAG = "PromptInfo.Builder";
         private Bundle bundle;
@@ -73,6 +78,7 @@ class PromptInfo {
         private String cancelButtonTitle = "Cancel";
         private boolean confirmationRequired = true;
         private boolean loadSecret = false;
+        private boolean invalidateOnEnrollment = false;
         private String secret = null;
 
         Builder(Context context) {
@@ -107,6 +113,7 @@ class PromptInfo {
             bundle.putString(SECRET, this.secret);
             bundle.putBoolean(DISABLE_BACKUP, this.disableBackup);
             bundle.putBoolean(CONFIRMATION_REQUIRED, this.confirmationRequired);
+            bundle.putBoolean(INVALIDATE_ON_ENROLLMENT, this.invalidateOnEnrollment);
             bundle.putBoolean(LOAD_SECRET, this.loadSecret);
             promptInfo.bundle = bundle;
 
@@ -123,6 +130,7 @@ class PromptInfo {
             cancelButtonTitle = args.getString(CANCEL_BUTTON_TITLE, "Cancel");
             confirmationRequired = args.getBooleanArg(CONFIRMATION_REQUIRED, confirmationRequired);
             loadSecret = args.getBoolean(LOAD_SECRET, false);
+            invalidateOnEnrollment = args.getBoolean(INVALIDATE_ON_ENROLLMENT, false);
             secret = args.getString(SECRET, null);
         }
     }

@@ -35,9 +35,9 @@ class CryptographyManagerImpl implements CryptographyManager {
         return Cipher.getInstance(transformation);
     }
 
-    private SecretKey getOrCreateSecretKey(String keyName, Context context) throws CryptoException {
+    private SecretKey getOrCreateSecretKey(String keyName, boolean invalidateOnEnrollment, Context context) throws CryptoException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getOrCreateSecretKeyNew(keyName);
+            return getOrCreateSecretKeyNew(keyName, invalidateOnEnrollment);
         } else {
             return getOrCreateSecretKeyOld(keyName, context);
         }
@@ -66,7 +66,7 @@ class CryptographyManagerImpl implements CryptographyManager {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private SecretKey getOrCreateSecretKeyNew(String keyName) throws CryptoException {
+    private SecretKey getOrCreateSecretKeyNew(String keyName, boolean invalidateOnEnrollment) throws CryptoException {
         try {
             // If Secretkey was previously created for that keyName, then grab and return it.
             KeyStore keyStore = KeyStore.getInstance(ANDROID_KEYSTORE);
@@ -79,17 +79,20 @@ class CryptographyManagerImpl implements CryptographyManager {
             }
 
             // if you reach here, then a new SecretKey must be generated for that keyName
-            KeyGenParameterSpec keyGenParams = new KeyGenParameterSpec.Builder(keyName,
+            KeyGenParameterSpec.Builder keyGenParamsBuilder = new KeyGenParameterSpec.Builder(keyName,
                     KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                     .setKeySize(KEY_SIZE)
-                    .setUserAuthenticationRequired(true)
-                    .build();
+                    .setUserAuthenticationRequired(true);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                keyGenParamsBuilder.setInvalidatedByBiometricEnrollment(invalidateOnEnrollment);
+            }
 
             KeyGenerator keyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM_AES,
                     ANDROID_KEYSTORE);
-            keyGenerator.init(keyGenParams);
+            keyGenerator.init(keyGenParamsBuilder.build());
 
             return keyGenerator.generateKey();
         } catch (Exception e) {
@@ -98,14 +101,19 @@ class CryptographyManagerImpl implements CryptographyManager {
     }
 
     @Override
-    public Cipher getInitializedCipherForEncryption(String keyName, Context context) throws CryptoException {
+    public Cipher getInitializedCipherForEncryption(String keyName, boolean invalidateOnEnrollment, Context context) throws CryptoException {
         try {
             Cipher cipher = getCipher();
-            SecretKey secretKey = getOrCreateSecretKey(keyName, context);
+            SecretKey secretKey = getOrCreateSecretKey(keyName, invalidateOnEnrollment, context);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return cipher;
         } catch (Exception e) {
-            handleException(e, keyName);
+            try {
+                handleException(e, keyName);
+            } catch (KeyInvalidatedException kie) {
+                removeKey(keyName);
+                return getInitializedCipherForEncryption(keyName, invalidateOnEnrollment, context);
+            }
             throw new CryptoException(e.getMessage(), e);
         }
     }
@@ -114,7 +122,7 @@ class CryptographyManagerImpl implements CryptographyManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && e instanceof KeyPermanentlyInvalidatedException) {
             removeKey(keyName);
-            throw new CryptoException(PluginError.BIOMETRIC_KEY_INVALIDATED, e);
+            throw new KeyInvalidatedException();
         }
     }
 
@@ -122,7 +130,7 @@ class CryptographyManagerImpl implements CryptographyManager {
     public Cipher getInitializedCipherForDecryption(String keyName, byte[] initializationVector, Context context) throws CryptoException {
         try {
             Cipher cipher = getCipher();
-            SecretKey secretKey = getOrCreateSecretKey(keyName, context);
+            SecretKey secretKey = getOrCreateSecretKey(keyName, true, context);
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, initializationVector));
             return cipher;
         } catch (Exception e) {

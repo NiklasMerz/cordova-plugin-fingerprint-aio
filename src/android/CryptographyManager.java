@@ -10,7 +10,7 @@ interface CryptographyManager {
      * This method first gets or generates an instance of SecretKey and then initializes the Cipher
      * with the key. The secret key uses [ENCRYPT_MODE][Cipher.ENCRYPT_MODE] is used.
      */
-    Cipher getInitializedCipherForEncryption(String keyName, Context context) throws CryptoException;
+    Cipher getInitializedCipherForEncryption(String keyName, boolean invalidateOnEnrollment, Context context) throws CryptoException;
 
     /**
      * This method first gets or generates an instance of SecretKey and then initializes the Cipher
