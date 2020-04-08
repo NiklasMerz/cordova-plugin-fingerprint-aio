@@ -60,12 +60,12 @@ public class BiometricActivity extends AppCompatActivity {
             authenticateToDecrypt();
             return;
         }
-        authenticateToEncrypt();
+        authenticateToEncrypt(mPromptInfo.invalidateOnEnrollment());
     }
 
-    private void authenticateToEncrypt() throws CryptoException {
+    private void authenticateToEncrypt(boolean invalidateOnEnrollment) throws CryptoException {
         Cipher cipher = mCryptographyManager
-                .getInitializedCipherForEncryption(SECRET_KEY, this);
+                .getInitializedCipherForEncryption(SECRET_KEY, invalidateOnEnrollment, this);
         mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
     }
 

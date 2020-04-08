@@ -4,7 +4,7 @@ class CryptoException extends Exception {
     private PluginError error;
 
     CryptoException(String message, Exception cause) {
-        this(PluginError.BIOMETRIC_CRYPTO_ERROR, message, cause);
+        this(PluginError.BIOMETRIC_UNKNOWN_ERROR, message, cause);
     }
 
     CryptoException(PluginError error) {
