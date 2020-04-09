@@ -156,9 +156,13 @@ enum PluginError:Int {
 
 
     func loadSecret(_ command: CDVInvokedUrlCommand) {
+        let data  = command.arguments[0] as AnyObject?;
+        var prompt = "Authentication"
+        if let description = data?["description"] as! String? {
+            prompt = description;
+        }
         var pluginResult: CDVPluginResult
         do {
-            let prompt = "Authentication"
             let result = try Secret().load(prompt)
             pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: result);
         } catch {
