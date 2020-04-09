@@ -39,12 +39,6 @@ exports.defineAutoTests = function() {
       expect(window.Fingerprint.show).toBeDefined();
     });
   });
-
-  describe("saveSecret", function () {
-    it("saveSecret should be defined", function () {
-      expect(window.Fingerprint.saveSecret).toBeDefined();
-    });
-  });
 };
 
 exports.defineManualTests = function (contentEl, createActionButton) {
