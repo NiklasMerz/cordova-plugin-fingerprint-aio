@@ -77,7 +77,7 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
     function isAvailableSuccess(result) {
       /*
       result depends on device and os. 
-      iPhone X will return 'face' other Android or iOS devices will return 'finger'  
+      iPhone X will return 'face' other Android or iOS devices will return 'finger' Android P+ will return 'biometric'
       */
       alert("Fingerprint available");
     }
