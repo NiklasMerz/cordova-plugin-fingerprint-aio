@@ -6,8 +6,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.exxbrain.android.biometric.BiometricManager;
 
+import androidx.biometric.BiometricManager;
+import com.exxbrain.android.biometric.BiometricManager;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
