@@ -18,6 +18,7 @@ class PromptInfo {
     private static final String DESCRIPTION = "description";
     private static final String FALLBACK_BUTTON_TITLE = "fallbackButtonTitle";
     private static final String CANCEL_BUTTON_TITLE = "cancelButtonTitle";
+    private static final String CONFIRMATION_REQUIRED = "confirmationRequired";
 
     private Bundle bundle = new Bundle();
 
@@ -49,6 +50,10 @@ class PromptInfo {
         return bundle.getString(CANCEL_BUTTON_TITLE);
     }
 
+    boolean getConfirmationRequired() {
+        return bundle.getBoolean(CONFIRMATION_REQUIRED);
+    }
+
     public static final class Builder {
         private static final String TAG = "PromptInfo.Builder";
         private Bundle bundle;
@@ -58,6 +63,7 @@ class PromptInfo {
         private String description = null;
         private String fallbackButtonTitle = "Use backup";
         private String cancelButtonTitle = "Cancel";
+        private boolean confirmationRequired = true;
 
         Builder(Context context) {
             PackageManager packageManager = context.getPackageManager();
@@ -89,6 +95,7 @@ class PromptInfo {
             bundle.putString(FALLBACK_BUTTON_TITLE, this.fallbackButtonTitle);
             bundle.putString(CANCEL_BUTTON_TITLE, this.cancelButtonTitle);
             bundle.putBoolean(DISABLE_BACKUP, this.disableBackup);
+            bundle.putBoolean(CONFIRMATION_REQUIRED, this.confirmationRequired);
             promptInfo.bundle = bundle;
 
             return promptInfo;
@@ -108,6 +115,7 @@ class PromptInfo {
             description = getStringArg(argsObject, DESCRIPTION, description);
             fallbackButtonTitle = getStringArg(argsObject, FALLBACK_BUTTON_TITLE, "Use Backup");
             cancelButtonTitle = getStringArg(argsObject, CANCEL_BUTTON_TITLE, "Cancel");
+            confirmationRequired = getBooleanArg(argsObject, CONFIRMATION_REQUIRED, confirmationRequired);
         }
 
         private Boolean getBooleanArg(JSONObject argsObject, String name, Boolean defaultValue) {
