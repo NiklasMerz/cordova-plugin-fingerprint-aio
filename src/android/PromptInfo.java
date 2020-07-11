@@ -137,9 +137,9 @@ class PromptInfo {
             fallbackButtonTitle = getStringArg(argsObject, FALLBACK_BUTTON_TITLE, "Use Backup");
             cancelButtonTitle = getStringArg(argsObject, CANCEL_BUTTON_TITLE, "Cancel");
             confirmationRequired = getBooleanArg(argsObject, CONFIRMATION_REQUIRED, confirmationRequired);
-            loadSecret = getBooleanArg(LOAD_SECRET, false);
-            invalidateOnEnrollment =getBooleanArg(INVALIDATE_ON_ENROLLMENT, false);
-            secret = getStringArg(SECRET, null);
+            loadSecret = getBooleanArg(argsObject, LOAD_SECRET, loadSecret);
+            invalidateOnEnrollment =getBooleanArg(argsObject, INVALIDATE_ON_ENROLLMENT, invalidateOnEnrollment);
+            secret = getStringArg(argsObject, SECRET, secret);
         }
     }
 }
