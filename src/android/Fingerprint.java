@@ -67,12 +67,7 @@ public class Fingerprint extends CordovaPlugin {
             return;
         }
         cordova.getActivity().runOnUiThread(() -> {
-            try {
-                mPromptInfoBuilder.parseArgs(args);
-            } catch (JSONException e) {
-                sendError(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
-                return;
-            }
+            mPromptInfoBuilder.parseArgs(args);
             Intent intent = new Intent(cordova.getActivity().getApplicationContext(), BiometricActivity.class);
             intent.putExtras(mPromptInfoBuilder.build().getBundle());
             this.cordova.startActivityForResult(this, intent, REQUEST_CODE_BIOMETRIC);
