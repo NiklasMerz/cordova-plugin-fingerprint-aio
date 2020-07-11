@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 class PromptInfo {
 
@@ -135,9 +137,9 @@ class PromptInfo {
             fallbackButtonTitle = getStringArg(argsObject, FALLBACK_BUTTON_TITLE, "Use Backup");
             cancelButtonTitle = getStringArg(argsObject, CANCEL_BUTTON_TITLE, "Cancel");
             confirmationRequired = getBooleanArg(argsObject, CONFIRMATION_REQUIRED, confirmationRequired);
-            loadSecret = args.getBoolean(LOAD_SECRET, false);
-            invalidateOnEnrollment = args.getBoolean(INVALIDATE_ON_ENROLLMENT, false);
-            secret = args.getString(SECRET, null);
+            loadSecret = getBooleanArg(LOAD_SECRET, false);
+            invalidateOnEnrollment =getBooleanArg(INVALIDATE_ON_ENROLLMENT, false);
+            secret = getStringArg(SECRET, null);
         }
 
         private Boolean getBooleanArg(JSONObject argsObject, String name, Boolean defaultValue) {
