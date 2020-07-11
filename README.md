@@ -77,7 +77,7 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
     function isAvailableSuccess(result) {
       /*
       result depends on device and os. 
-      iPhone X will return 'face' other Android or iOS devices will return 'finger'  
+      iPhone X will return 'face' other Android or iOS devices will return 'finger' Android P+ will return 'biometric'
       */
       alert("Fingerprint available");
     }
@@ -120,6 +120,7 @@ Fingerprint.show({
 * __secret__: String secret to encrypt and save
 * __loadSecret__: If `true` previously saved secret will be loaded as a result of successful authentication.
 * __invalidateOnEnrollment__: If `true` secret will be deleted when biometry items are deleted or enrolled 
+* __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
 ### Constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;
@@ -153,4 +154,3 @@ Starting with version 3.0.0 the iOS and Android parts are written from scratch.
 ## License
 
 The project is MIT licensed: [MIT](https://opensource.org/licenses/MIT).
-

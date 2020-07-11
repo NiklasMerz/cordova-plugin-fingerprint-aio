@@ -84,6 +84,7 @@ public class BiometricActivity extends AppCompatActivity {
         BiometricPrompt.PromptInfo.Builder promptInfoBuilder = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle(mPromptInfo.getTitle())
                 .setSubtitle(mPromptInfo.getSubtitle())
+                .setConfirmationRequired(mPromptInfo.getConfirmationRequired())
                 .setDescription(mPromptInfo.getDescription());
 
         if (mPromptInfo.isDeviceCredentialAllowed()
