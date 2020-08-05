@@ -72,7 +72,7 @@ cordova plugin add https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio.
 
 ### Check if fingerprint authentication is available
 ```javascript
-Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
+Fingerprint.isAvailable(isAvailableSuccess, isAvailableError, optionalParams);
 
     function isAvailableSuccess(result) {
       /*
@@ -87,6 +87,9 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
       alert(error.message);
     }
 ```
+### Optional parameters
+
+* __allowBackup (iOS)__: If `true` checks if backup authentication option is available, e.g. passcode. Default: `false`, which means check for biometrics only.
 
 ### Show authentication dialogue
 ```javascript
