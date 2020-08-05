@@ -29,7 +29,9 @@ import LocalAuthentication
             "message": "Not Available"
         ];
         var error:NSError?;
-        let policy:LAPolicy = .deviceOwnerAuthenticationWithBiometrics;
+        let params = command.argument(at: 0) as? [AnyHashable: Any] ?? [:]
+        let allowBackup = params["allowBackup"] as? Bool ?? false
+        let policy:LAPolicy = allowBackup ? .deviceOwnerAuthentication : .deviceOwnerAuthenticationWithBiometrics;
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
         let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
 
