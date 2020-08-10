@@ -25,6 +25,7 @@
     "ios"
   ],
   "author": "Niklas Merz",
+  "funding": "https://github.com/sponsors/NiklasMerz",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/niklasmerz/cordova-plugin-fingerprint-aio/issues"
