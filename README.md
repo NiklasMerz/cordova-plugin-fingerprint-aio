@@ -77,7 +77,7 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
     function isAvailableSuccess(result) {
       /*
       result depends on device and os. 
-      iPhone X will return 'face' other Android or iOS devices will return 'finger'  
+      iPhone X will return 'face' other Android or iOS devices will return 'finger' Android P+ will return 'biometric'
       */
       alert("Fingerprint available");
     }
@@ -117,6 +117,7 @@ Fingerprint.show({
      * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
 * __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback.
 * __cancelButtonTitle__: For cancel button on Android
+* __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
 ### Constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;
@@ -149,4 +150,3 @@ Starting with version 3.0.0 the iOS and Android parts are written from scratch.
 ## License
 
 The project is MIT licensed: [MIT](https://opensource.org/licenses/MIT).
-
