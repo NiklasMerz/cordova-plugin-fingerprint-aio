@@ -32,6 +32,8 @@
 
   <!-- android -->
   <platform name="android">
+    <preference name="AndroidXEnabled" value="true" />
+
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="Fingerprint">
         <param name="android-package" value="de.niklasmerz.cordova.biometric.Fingerprint"/>
@@ -60,7 +62,7 @@
   </platform>
 
   <engines>
-    <engine name="cordova-android" version=">=8.0.0" />
+    <engine name="cordova-android" version=">=9.0.0" />
   </engines>
 
 </plugin>
