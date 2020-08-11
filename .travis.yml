@@ -14,7 +14,7 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=28.0.3
 
 language: node_js
-node_js: 8
+node_js: 12
 
 # yaml anchor/alias: https://medium.com/@tommyvn/travis-yml-dry-with-anchors-8b6a3ac1b027
 
