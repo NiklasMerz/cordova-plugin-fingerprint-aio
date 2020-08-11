@@ -33,13 +33,17 @@ Fingerprint.prototype.show = function (params, successCallback, errorCallback) {
   );
 };
 
-Fingerprint.prototype.isAvailable = function (successCallback, errorCallback) {
+Fingerprint.prototype.isAvailable = function (arg0, arg1, arg2) {
+  const hasParams = typeof arg0 === 'object';
+  const params = hasParams ? arg0 : {};
+  const successCallback = hasParams ? arg1 : arg0;
+  const errorCallback = hasParams ? arg2 : arg1;
   cordova.exec(
     successCallback,
     errorCallback,
     "Fingerprint",
     "isAvailable",
-    [{}]
+    [params]
   );
 };
 
