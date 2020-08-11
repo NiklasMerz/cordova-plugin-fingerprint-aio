@@ -22,6 +22,16 @@ exports.defineAutoTests = function() {
         done();
       });
     });
+
+    it("isAvailable (allowBackup) should return an result or error in callback", function (done) {
+      window.Fingerprint.isAvailable( function (result) {
+        expect(result).toBeDefined();
+        done();
+      }, function(result) {
+        expect(result).toBeDefined();
+        done();
+      }, {allowBackup: true});
+    });
   });
 
   describe("show", function () {
@@ -35,6 +45,20 @@ exports.defineManualTests = function (contentEl, createActionButton) {
 
   createActionButton("isAvailable", function () {
     window.Fingerprint.isAvailable(isAvailableSuccess, isAvailableError);
+
+    function isAvailableSuccess(result) {
+      console.log(result);
+      alert("Fingerprint available (" + result + ")");
+    }
+
+    function isAvailableError(error) {
+      console.log(error);
+      alert(error.message);
+    }
+  });
+
+  createActionButton("isAvailable (allowBackup)", function () {
+    window.Fingerprint.isAvailable(isAvailableSuccess, isAvailableError, {allowBackup: true});
 
     function isAvailableSuccess(result) {
       console.log(result);
