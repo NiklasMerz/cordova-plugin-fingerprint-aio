@@ -35,7 +35,7 @@
     "cordova-plugin-add-swift-support": "^2.0.2"
   },
   "devDependencies": {
-    "cordova-paramedic": "git+https://github.com/apache/cordova-paramedic.git",
+    "cordova-paramedic": "git+https://github.com/erisu/cordova-paramedic#chore/test-with-latest",
     "cordova-plugin-xml": "^0.1.2",
     "eslint": "^6.5.1",
     "jasmine": "^3.2.0"
@@ -46,7 +46,7 @@
     "test-travis": "npm run test-ios",
     "test-appveyor": "npm run test-browser",
     "test-local": "npm run test-browser && npm run test-android && npm run test-ios",
-    "test-android": "npx cordova-paramedic --platform android --plugin  $(pwd)",
+    "test-android": "npx cordova-paramedic --platform android --plugin  $(pwd) --verbose",
     "test-ios": "npx cordova-paramedic --platform ios --plugin  $(pwd) --verbose",
     "test-windows": "npx cordova-paramedic --platform windows --plugin  $(pwd)",
     "test-browser": "npx cordova-paramedic --platform browser --plugin  $(pwd)",

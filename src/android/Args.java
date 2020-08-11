@@ -15,25 +15,25 @@ public class Args {
         this.jsonArray = jsonArray;
     }
 
-    public Boolean getBoolean(String name, Boolean defaultValue) throws JSONException {
-        if (getArgsObject().has(name)){
-            try {
+    public Boolean getBoolean(String name, Boolean defaultValue) {
+        try {
+            if (getArgsObject().has(name)){
                 return getArgsObject().getBoolean(name);
-            } catch (JSONException e) {
-                Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
             }
+        } catch (JSONException e) {
+            Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
         }
         return defaultValue;
     }
 
-    public String getString(String name, String defaultValue) throws JSONException {
-        if (getArgsObject().optString(name) != null
+    public String getString(String name, String defaultValue) {
+        try {
+            if (getArgsObject().optString(name) != null
                 && !getArgsObject().optString(name).isEmpty()){
-            try {
                 return getArgsObject().getString(name);
-            } catch (JSONException e) {
-                Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
             }
+        } catch (JSONException e) {
+            Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
         }
         return defaultValue;
     }
