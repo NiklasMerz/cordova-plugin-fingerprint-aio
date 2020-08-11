@@ -12,7 +12,4 @@
 
   <js-module src="tests.js" name="tests">
   </js-module>
-
-  <preference name="AndroidXEnabled" value="true" />
-
 </plugin>

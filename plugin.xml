@@ -50,6 +50,8 @@
           android:exported="true" />
     </config-file>
     
+    <preference name="AndroidXEnabled" value="true" />
+
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
     <resource-file src="src/android/res/biometric_activity.xml" target="res/layout/biometric_activity.xml" />
     <resource-file src="src/android/res/styles.xml" target="res/values/biometric-styles.xml" />
