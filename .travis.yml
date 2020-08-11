@@ -9,8 +9,8 @@ addons:
 env:
   global:
     - SAUCE_USERNAME=NiklasMerz
-    - TRAVIS_NODE_VERSION=8
-    - ANDROID_API_LEVEL=28
+    - TRAVIS_NODE_VERSION=12
+    - ANDROID_API_LEVEL=29
     - ANDROID_BUILD_TOOLS_VERSION=28.0.3
 
 language: node_js
