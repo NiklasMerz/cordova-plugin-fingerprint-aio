@@ -32,7 +32,11 @@
 
   <!-- android -->
   <platform name="android">
-    <preference name="AndroidXEnabled" value="true" />
+    <config-file target="config.xml" parent="/*">
+			<platform name="android">
+				<preference name="AndroidXEnabled" value="true" />
+			</platform>
+		</config-file>
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="Fingerprint">
