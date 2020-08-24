@@ -35,8 +35,6 @@ import LocalAuthentication
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
         let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
 
-        var results: [String : Any]
-
         if(error != nil){
             biometryType = "none";
             errorResponse["code"] = error?.code;
@@ -57,31 +55,45 @@ import LocalAuthentication
 
             pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: biometryType);
         }else{
-            var code: Int;
-            switch(error!._code) {
-                case Int(kLAErrorBiometryNotAvailable):
-                    code = PluginError.BIOMETRIC_UNAVAILABLE.rawValue;
-                    break;
-                case Int(kLAErrorBiometryNotEnrolled):
-                    code = PluginError.BIOMETRIC_NOT_ENROLLED.rawValue;
-                    break;
-
-                default:
-                    code = PluginError.BIOMETRIC_UNKNOWN_ERROR.rawValue;
-                    break;
-            }
-            results = ["code": code, "message": error!.localizedDescription];
-            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: results);
+            pluginResult = self.handleError(error: error);
         }
 
         commandDelegate.send(pluginResult, callbackId:command.callbackId);
+    }
+
+    @objc(handleError:)
+    private func handleError(error: Error?) -> CDVPluginResult? {
+        let errorResponse: [AnyHashable: Any] = [
+            "message": "Something went wrong"
+        ];
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: errorResponse);
+        if (error != nil) {
+
+            var errorCodes = [Int: ErrorCodes]()
+            var errorResult: [String : Any] = ["code":  PluginError.BIOMETRIC_UNKNOWN_ERROR.rawValue, "message": error?.localizedDescription ?? ""];
+
+            errorCodes[1] = ErrorCodes(code: PluginError.BIOMETRIC_AUTHENTICATION_FAILED.rawValue)
+            errorCodes[2] = ErrorCodes(code: PluginError.BIOMETRIC_DISMISSED.rawValue)
+            errorCodes[5] = ErrorCodes(code: PluginError.BIOMETRIC_SCREEN_GUARD_UNSECURED.rawValue)
+            errorCodes[6] = ErrorCodes(code: PluginError.BIOMETRIC_UNAVAILABLE.rawValue)
+            errorCodes[7] = ErrorCodes(code: PluginError.BIOMETRIC_NOT_ENROLLED.rawValue)
+            errorCodes[8] = ErrorCodes(code: PluginError.BIOMETRIC_LOCKED_OUT.rawValue)
+
+            let errorCode = abs(error!._code)
+            if let e = errorCodes[errorCode] {
+               errorResult = ["code": e.code, "message": error!.localizedDescription];
+            }
+
+            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: errorResult);
+        }
+        return pluginResult;
     }
 
 
     @objc(authenticate:)
     func authenticate(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
-        var errorResponse: [AnyHashable: Any] = [
+        let errorResponse: [AnyHashable: Any] = [
             "message": "Something went wrong"
         ];
         var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: errorResponse);
@@ -114,25 +126,7 @@ import LocalAuthentication
                 if( success ) {
                     pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Success");
                 }else {
-                    if (error != nil) {
-
-                        var errorCodes = [Int: ErrorCodes]()
-                        var errorResult: [String : Any] = ["code":  PluginError.BIOMETRIC_UNKNOWN_ERROR.rawValue, "message": error?.localizedDescription ?? ""];
-
-                        errorCodes[1] = ErrorCodes(code: PluginError.BIOMETRIC_AUTHENTICATION_FAILED.rawValue)
-                        errorCodes[2] = ErrorCodes(code: PluginError.BIOMETRIC_DISMISSED.rawValue)
-                        errorCodes[5] = ErrorCodes(code: PluginError.BIOMETRIC_SCREEN_GUARD_UNSECURED.rawValue)
-                        errorCodes[6] = ErrorCodes(code: PluginError.BIOMETRIC_UNAVAILABLE.rawValue)
-                        errorCodes[7] = ErrorCodes(code: PluginError.BIOMETRIC_NOT_ENROLLED.rawValue)
-                        errorCodes[8] = ErrorCodes(code: PluginError.BIOMETRIC_LOCKED_OUT.rawValue)
-
-                        let errorCode = abs(error!._code)
-                        if let e = errorCodes[errorCode] {
-                           errorResult = ["code": e.code, "message": error!.localizedDescription];
-                        }
-
-                        pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: errorResult);
-                    }
+                    pluginResult = self.handleError(error: error);
                 }
                 self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
             }
