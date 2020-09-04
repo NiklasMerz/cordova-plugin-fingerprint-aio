@@ -180,16 +180,21 @@ enum PluginError:Int {
 
     @objc(authenticate:)
     func authenticate(_ command: CDVInvokedUrlCommand){
+        justAuthenticate(command)
+    }
+
+    @objc(registerBiometricsSecret:)
+    func registerBiometricsSecret(_ command: CDVInvokedUrlCommand){
         let data  = command.arguments[0] as AnyObject?;
         if let secret = data?["secret"] as? String {
             self.saveSecret(secret, command: command)
             return
         }
-        if let loadSecret = data?["loadSecret"] as? Bool, loadSecret {
-            self.loadSecret(command)
-            return
-        }
-        justAuthenticate(command)
+    }
+
+    @objc(loadBiometricsSecret:)
+    func loadBiometricsSecret(_ command: CDVInvokedUrlCommand){
+        self.loadSecret(command)
     }
 
     override func pluginInitialize() {

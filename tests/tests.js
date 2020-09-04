@@ -101,7 +101,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
   });
 
   createActionButton("Save secret", function () {
-    Fingerprint.show({
+    Fingerprint.registerBiometricSecret({
       secret: "secret"
     }, successCallback, errorCallback);
 
@@ -115,7 +115,7 @@ exports.defineManualTests = function (contentEl, createActionButton) {
   });
 
   createActionButton("Save secret (invalidate on enrollment)", function () {
-    Fingerprint.show({
+    Fingerprint.registerBiometricSecret({
       secret: "secret",
       invalidateOnEnrollment: true
     }, successCallback, errorCallback);
@@ -130,9 +130,8 @@ exports.defineManualTests = function (contentEl, createActionButton) {
   });
 
   createActionButton("Load secret", function () {
-    Fingerprint.show({
+    Fingerprint.loadBiometricSecret({
       disableBackup: true,
-      loadSecret: true,
     }, successCallback, errorCallback);
 
     function successCallback(secret) {

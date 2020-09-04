@@ -111,7 +111,6 @@ class CryptographyManagerImpl implements CryptographyManager {
             try {
                 handleException(e, keyName);
             } catch (KeyInvalidatedException kie) {
-                removeKey(keyName);
                 return getInitializedCipherForEncryption(keyName, invalidateOnEnrollment, context);
             }
             throw new CryptoException(e.getMessage(), e);
