@@ -183,8 +183,8 @@ enum PluginError:Int {
         justAuthenticate(command)
     }
 
-    @objc(registerBiometricsSecret:)
-    func registerBiometricsSecret(_ command: CDVInvokedUrlCommand){
+    @objc(registerBiometricSecret:)
+    func registerBiometricSecret(_ command: CDVInvokedUrlCommand){
         let data  = command.arguments[0] as AnyObject?;
         if let secret = data?["secret"] as? String {
             self.saveSecret(secret, command: command)
@@ -192,8 +192,8 @@ enum PluginError:Int {
         }
     }
 
-    @objc(loadBiometricsSecret:)
-    func loadBiometricsSecret(_ command: CDVInvokedUrlCommand){
+    @objc(loadBiometricSecret:)
+    func loadBiometricSecret(_ command: CDVInvokedUrlCommand){
         self.loadSecret(command)
     }
 
