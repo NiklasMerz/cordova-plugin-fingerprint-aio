@@ -46,6 +46,8 @@ public class BiometricActivity extends AppCompatActivity {
             authenticate();
         } catch (CryptoException e) {
             finishWithError(e);
+        } catch (Exception e) {
+            finishWithError(PluginError.BIOMETRIC_UNKNOWN_ERROR, e.getMessage());
         }
     }
 
@@ -92,6 +94,7 @@ public class BiometricActivity extends AppCompatActivity {
                 .setDescription(mPromptInfo.getDescription());
 
         if (mPromptInfo.isDeviceCredentialAllowed()
+                && mPromptInfo.getType() == BiometricActivityType.JUST_AUTHENTICATE
                 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) { // TODO: remove after fix https://issuetracker.google.com/issues/142740104
             promptInfoBuilder.setDeviceCredentialAllowed(true);
         } else {
@@ -229,6 +232,10 @@ public class BiometricActivity extends AppCompatActivity {
 
     private void finishWithError(PluginError error) {
         finishWithError(error.getValue(), error.getMessage());
+    }
+
+    private void finishWithError(PluginError error, String message) {
+        finishWithError(error.getValue(), message);
     }
 
     private void finishWithError(int code, String message) {

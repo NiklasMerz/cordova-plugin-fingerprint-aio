@@ -127,7 +127,8 @@ Fingerprint.show({
 Fingerprint.registerBiometricSecret({
       description: "Some biometric description",
       secret: "my-super-secret",
-      invalidateOnEnrollment: true
+      invalidateOnEnrollment: true,
+      disableBackup: true, // always disabled on Android
     }, successCallback, errorCallback);
 
     function successCallback(){
@@ -151,7 +152,7 @@ Fingerprint.registerBiometricSecret({
   * When **disableBackup** is false
      * iOS: `"Use PIN"`
      * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
-* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback.
+* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback. NOTE: it will be disabled on Android
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 * __secret__: String secret to encrypt and save, use simple strings matching the regex [a-zA-Z0-9\-]+
@@ -160,7 +161,8 @@ Fingerprint.registerBiometricSecret({
 ### Show authentication dialogue and load secret
 ```javascript
 Fingerprint.loadBiometricSecret({
-      description: "Some biometric description"
+      description: "Some biometric description",
+      disableBackup: true, // always disabled on Android
     }, successCallback, errorCallback);
 
     function successCallback(secret){
@@ -184,7 +186,7 @@ Fingerprint.loadBiometricSecret({
   * When **disableBackup** is false
      * iOS: `"Use PIN"`
      * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
-* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback.
+* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback. NOTE: it will be disabled on Android
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
