@@ -121,9 +121,74 @@ Fingerprint.show({
 * __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback.
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
-* __secret__: String secret to encrypt and save
-* __loadSecret__: If `true` previously saved secret will be loaded as a result of successful authentication.
+
+### Show authentication dialogue and register secret
+```javascript
+Fingerprint.registerBiometricSecret({
+      description: "Some biometric description",
+      secret: "my-super-secret",
+      invalidateOnEnrollment: true,
+      disableBackup: true, // always disabled on Android
+    }, successCallback, errorCallback);
+
+    function successCallback(){
+      alert("Authentication successful");
+    }
+
+    function errorCallback(error){
+      alert("Authentication invalid " + error.message);
+    }
+```
+### Optional parameters
+
+* __title__: Title in authentication dialogue. Default: `"<APP_NAME> Biometric Sign On"`
+* __subtitle__: Subtitle in authentication dialogue. Default: `null`
+* __description__: Description in authentication dialogue. Defaults:
+  * iOS: `"Authenticate"` (iOS' [evaluatePolicy()](https://developer.apple.com/documentation/localauthentication/lacontext/1514176-evaluatepolicy?language=objc) requires this field)
+  * Android: `null`
+* __fallbackButtonTitle__: Title of fallback button. Defaults:
+  * When **disableBackup** is true
+     *  `"Cancel"`
+  * When **disableBackup** is false
+     * iOS: `"Use PIN"`
+     * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
+* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback. NOTE: it will be disabled on Android
+* __cancelButtonTitle__: For cancel button on Android
+* __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
+* __secret__: String secret to encrypt and save, use simple strings matching the regex [a-zA-Z0-9\-]+
 * __invalidateOnEnrollment__: If `true` secret will be deleted when biometry items are deleted or enrolled 
+
+### Show authentication dialogue and load secret
+```javascript
+Fingerprint.loadBiometricSecret({
+      description: "Some biometric description",
+      disableBackup: true, // always disabled on Android
+    }, successCallback, errorCallback);
+
+    function successCallback(secret){
+      alert("Authentication successful, secret: " + secret);
+    }
+
+    function errorCallback(error){
+      alert("Authentication invalid " + error.message);
+    }
+```
+### Optional parameters
+
+* __title__: Title in authentication dialogue. Default: `"<APP_NAME> Biometric Sign On"`
+* __subtitle__: Subtitle in authentication dialogue. Default: `null`
+* __description__: Description in authentication dialogue. Defaults:
+  * iOS: `"Authenticate"` (iOS' [evaluatePolicy()](https://developer.apple.com/documentation/localauthentication/lacontext/1514176-evaluatepolicy?language=objc) requires this field)
+  * Android: `null`
+* __fallbackButtonTitle__: Title of fallback button. Defaults:
+  * When **disableBackup** is true
+     *  `"Cancel"`
+  * When **disableBackup** is false
+     * iOS: `"Use PIN"`
+     * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
+* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback. NOTE: it will be disabled on Android
+* __cancelButtonTitle__: For cancel button on Android
+* __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
 ### Constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;

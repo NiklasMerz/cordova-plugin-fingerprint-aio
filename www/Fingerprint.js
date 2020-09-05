@@ -44,4 +44,24 @@ Fingerprint.prototype.isAvailable = function (successCallback, errorCallback, op
   );
 };
 
+Fingerprint.prototype.registerBiometricSecret = function (params, successCallback, errorCallback) {
+  cordova.exec(
+      successCallback,
+      errorCallback,
+      "Fingerprint",
+      "registerBiometricSecret",
+      [params]
+  );
+};
+
+Fingerprint.prototype.loadBiometricSecret = function (params, successCallback, errorCallback) {
+  cordova.exec(
+      successCallback,
+      errorCallback,
+      "Fingerprint",
+      "loadBiometricSecret",
+      [params]
+  );
+};
+
 module.exports = new Fingerprint();
