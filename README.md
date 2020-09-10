@@ -25,7 +25,7 @@
 
 * Android - Minimum SDK 23
 * iOS - **XCode 9.2 or higher** required
-  * _Please set `<preference name="UseSwiftLanguageVersion" value="4.0" />` in your config.xml_
+  * _Please set `<preference name="SwiftVersion" value="4.0" />` in your config.xml_
 
 
 ## How to use
