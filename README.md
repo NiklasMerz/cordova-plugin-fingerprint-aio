@@ -27,7 +27,7 @@ Version 4.0 of this plugin is a significant upgrade over the previous versions. 
 
 _Version 4 was developed almost 100% by other people than me (@NiklasMerz)._ **Please thank these awesome people for their work: @exxbrain, @leolio86400**. This is a community driven plugin and I don't do any real development anymore. But triaging issues and rewiewing and testing PRs is cumbersome work. If you depend on this plugin for your product please consider becoming my sponsor on Github to keep it going for a while. Some day I may consider stop working on it and pass it on to somebody interested. 
 
-**Version 4.0 is awesome so please us it and let us fix it:smile:. **
+**Version 4.0 is awesome so please us it and let us fix it:smile:.**
 
 ### Platforms
 
