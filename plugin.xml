@@ -14,10 +14,10 @@
 
   <!-- ios -->
   <platform name="ios">
-    <preference name="SwiftVersion" default="4.0"/>
     <header-file src="src/ios/Bridging-Header.h" type="BridgingHeader"/>
     <source-file src="src/ios/Fingerprint.swift"/>
     <config-file target="config.xml" parent="/*">
+      <preference name="SwiftVersion" value="4"/>
       <feature name="Fingerprint">
         <param name="ios-package" value="Fingerprint"/>
       </feature>

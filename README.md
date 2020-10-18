@@ -24,8 +24,7 @@
 ### Platforms
 
 * Android - Minimum SDK 23
-* iOS - **XCode 9.2 or higher** required
-  * _Please set `<preference name="UseSwiftLanguageVersion" value="4.0" />` in your config.xml_
+* iOS - **latest XCode** is required. Plugin sets Swift version 4.
 
 
 ## How to use
