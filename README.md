@@ -34,8 +34,6 @@
 
 [Examples](https://github.com/NiklasMerz/fingerprint-aio-demo)
 
-[ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)
-
 [Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)
 
 ---
