@@ -14,14 +14,14 @@
 
   <!-- ios -->
   <platform name="ios">
-    <dependency id="cordova-plugin-add-swift-support" version="^2.0.2"/>
+    <header-file src="src/ios/Bridging-Header.h" type="BridgingHeader"/>
+    <source-file src="src/ios/Fingerprint.swift"/>
     <config-file target="config.xml" parent="/*">
+      <preference name="SwiftVersion" value="4"/>
       <feature name="Fingerprint">
         <param name="ios-package" value="Fingerprint"/>
       </feature>
     </config-file>
-    <header-file src="src/ios/Bridging-Header.h"/>
-    <source-file src="src/ios/Fingerprint.swift"/>
 
     <!-- Usage description of Face ID for iOS 11+ -->
     <preference name="FACEID_USAGE_DESCRIPTION" default=" "/>
