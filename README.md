@@ -16,10 +16,10 @@
 * Check if a fingerprint scanner is available
 * Fingerprint authentication
 * Ionic Native support
-* ngCordova support
 * Fallback options
-* Now with **FaceID** on iPhone X
+* **FaceID** support
 * **⚡️ Works with [Capacitor](https://capacitor.ionicframework.com/). [Try it out](https://github.com/NiklasMerz/capacitor-fingerprint-app) ⚡️**
+* [Encrypt and save secrets behind a biometric prompt](#show-authentication-dialogue-and-register-secret
 
 ### Platforms
 
