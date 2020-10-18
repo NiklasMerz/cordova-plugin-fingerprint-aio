@@ -2,6 +2,7 @@ package de.niklasmerz.cordova.biometric;
 
 public enum PluginError {
 
+    BIOMETRIC_UNKNOWN_ERROR(-100),
     BIOMETRIC_AUTHENTICATION_FAILED(-102, "Authentication failed"),
     BIOMETRIC_HARDWARE_NOT_SUPPORTED(-104),
     BIOMETRIC_NOT_ENROLLED(-106),
@@ -10,7 +11,9 @@ public enum PluginError {
     BIOMETRIC_SCREEN_GUARD_UNSECURED(-110,
             "Go to 'Settings -> Security -> Screenlock' to set up a lock screen"),
     BIOMETRIC_LOCKED_OUT(-111),
-    BIOMETRIC_LOCKED_OUT_PERMANENT(-112);
+    BIOMETRIC_LOCKED_OUT_PERMANENT(-112),
+    BIOMETRIC_NO_SECRET_FOUND(-113),
+    BIOMETRIC_ARGS_PARSING_FAILED(-115);
 
     private int value;
     private String message;

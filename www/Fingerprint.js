@@ -17,6 +17,7 @@ Fingerprint.prototype.BIOMETRIC_PIN_OR_PATTERN_DISMISSED = -109;
 Fingerprint.prototype.BIOMETRIC_SCREEN_GUARD_UNSECURED = -110;
 Fingerprint.prototype.BIOMETRIC_LOCKED_OUT = -111;
 Fingerprint.prototype.BIOMETRIC_LOCKED_OUT_PERMANENT = -112;
+Fingerprint.prototype.BIOMETRIC_NO_SECRET_FOUND = -113;
 
 // Biometric types
 Fingerprint.prototype.BIOMETRIC_TYPE_FINGERPRINT = "finger";
@@ -40,6 +41,26 @@ Fingerprint.prototype.isAvailable = function (successCallback, errorCallback, op
     "Fingerprint",
     "isAvailable",
     [optionalParams]
+  );
+};
+
+Fingerprint.prototype.registerBiometricSecret = function (params, successCallback, errorCallback) {
+  cordova.exec(
+      successCallback,
+      errorCallback,
+      "Fingerprint",
+      "registerBiometricSecret",
+      [params]
+  );
+};
+
+Fingerprint.prototype.loadBiometricSecret = function (params, successCallback, errorCallback) {
+  cordova.exec(
+      successCallback,
+      errorCallback,
+      "Fingerprint",
+      "loadBiometricSecret",
+      [params]
   );
 };
 
