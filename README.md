@@ -19,7 +19,7 @@
 * Fallback options
 * **FaceID** support
 * **⚡️ Works with [Capacitor](https://capacitor.ionicframework.com/). [Try it out](https://github.com/NiklasMerz/capacitor-fingerprint-app) ⚡️**
-* [Encrypt and save secrets behind a biometric prompt](#show-authentication-dialogue-and-register-secret
+* [Encrypt and save secrets behind a biometric prompt](#show-authentication-dialogue-and-register-secret)
 
 ### Platforms
 
