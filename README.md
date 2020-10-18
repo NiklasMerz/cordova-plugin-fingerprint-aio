@@ -25,7 +25,9 @@
 
 Version 4.0 of this plugin is a significant upgrade over the previous versions. Previous versions only allowed a visual fingerprint prompt. Version 4.0 allows **saving an encrypted secret behind the biometric prompt** for true security. Please test it out and report any issues. If this plugin has security issues please check the [security policy](https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/security/policy). If you do audits using this plugin please let me know the results. My email is on my Github profile.
 
-Version 4 was developed almost 100% by other people than me (@NiklasMerz). Please thank these awesome people for their work: @exxbrain, @leolio86400. This is a community driven plugin and I don't do any real development anymore. But triaging issues and rewiewing and testing PRs is cumbersome work. If you depend on this plugin for your product please consider becoming my sponsor on Github to keep it going for a while. Some day I may consider stop working on it and pass it on to somebody interested. But version 4.0 is awesome so please us it and let us fix :smile:. 
+_Version 4 was developed almost 100% by other people than me (@NiklasMerz)._ **Please thank these awesome people for their work: @exxbrain, @leolio86400**. This is a community driven plugin and I don't do any real development anymore. But triaging issues and rewiewing and testing PRs is cumbersome work. If you depend on this plugin for your product please consider becoming my sponsor on Github to keep it going for a while. Some day I may consider stop working on it and pass it on to somebody interested. 
+
+**Version 4.0 is awesome so please us it and let us fix it:smile:. **
 
 ### Platforms
 
