@@ -1,6 +1,6 @@
 # Asking questions
 
-If you want to ask a question about the use of this plugin, please avoid submmitting an issue and ask on [Gitter](https://gitter.im/cordova-plugin-fingerprint-aio) instead.
+If you want to ask a question about the use of this plugin, please avoid submmitting an issue and ask on [Discussions]https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/discussions) instead.
 
 # Submitting bugs
 

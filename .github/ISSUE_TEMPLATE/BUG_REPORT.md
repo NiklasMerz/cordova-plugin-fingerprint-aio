@@ -9,7 +9,7 @@ labels: bug
 <!-- 
 ## Do you have a question ?
 
-**Please go to [Gitter](https://gitter.im/cordova-plugin-fingerprint-aio) and ask here. Avoid submitting support requests as issues on Github. If you have trouble installing this plugin, please ask on Gitter first.**
+**Please go to [Discussions]https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/discussions) and ask there. Avoid submitting support requests as issues on Github. If you have trouble installing this plugin, please ask on Discussions first.**
 -->
 ## Description
 
