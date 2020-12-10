@@ -36,11 +36,7 @@ _Version 4 was developed almost 100% by other people than me (@NiklasMerz)._ **P
 
 ## How to use
 
-**[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday
-
-[Examples](https://github.com/NiklasMerz/fingerprint-aio-demo)
-
-[Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)
+**[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday (**old plugin version!!**)
 
 ---
 
