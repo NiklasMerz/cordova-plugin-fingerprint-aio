@@ -169,7 +169,6 @@ public class Fingerprint extends CordovaPlugin {
     }
 
     private void sendSuccess(String message) {
-        //Log.e(TAG, message);
         cordova.getActivity().runOnUiThread(() ->
                 this.mCallbackContext.success(message));
     }
