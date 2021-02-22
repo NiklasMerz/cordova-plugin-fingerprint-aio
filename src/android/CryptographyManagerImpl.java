@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.util.Calendar;
 
 import javax.crypto.Cipher;
@@ -35,9 +36,17 @@ class CryptographyManagerImpl implements CryptographyManager {
         return Cipher.getInstance(transformation);
     }
 
-    private SecretKey getOrCreateSecretKey(String keyName, boolean invalidateOnEnrollment, Context context) throws CryptoException {
+    private SecretKey createSecretKey(String keyName, boolean invalidateOnEnrollment, Context context) throws CryptoException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getOrCreateSecretKeyNew(keyName, invalidateOnEnrollment);
+            return createSecretKeyNew(keyName, invalidateOnEnrollment);
+        } else {
+            return getOrCreateSecretKeyOld(keyName, context);
+        }
+    }
+
+    private SecretKey getSecretKey(String keyName, Context context) throws CryptoException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return getSecretKey(keyName);
         } else {
             return getOrCreateSecretKeyOld(keyName, context);
         }
@@ -65,35 +74,35 @@ class CryptographyManagerImpl implements CryptographyManager {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private SecretKey getOrCreateSecretKeyNew(String keyName, boolean invalidateOnEnrollment) throws CryptoException {
+    private SecretKey getSecretKey(String keyName) throws  CryptoException {
         try {
-            // If Secretkey was previously created for that keyName, then grab and return it.
             KeyStore keyStore = KeyStore.getInstance(ANDROID_KEYSTORE);
             keyStore.load(null); // Keystore must be loaded before it can be accessed
+            return (SecretKey) keyStore.getKey(keyName, null);
+        } catch (Exception e){
+            throw new CryptoException(e.getMessage(), e);
+        }
+    }
 
-
-            SecretKey key = (SecretKey) keyStore.getKey(keyName, null);
-            if (key != null) {
-                return key;
-            }
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private SecretKey createSecretKeyNew(String keyName, boolean invalidateOnEnrollment) throws CryptoException {
+        try {
             // if you reach here, then a new SecretKey must be generated for that keyName
             KeyGenParameterSpec.Builder keyGenParamsBuilder = new KeyGenParameterSpec.Builder(keyName,
                     KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                     .setKeySize(KEY_SIZE)
+                    .setUserAuthenticationValidityDurationSeconds(-1)
+                    .setRandomizedEncryptionRequired(true)
                     .setUserAuthenticationRequired(true);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 keyGenParamsBuilder.setInvalidatedByBiometricEnrollment(invalidateOnEnrollment);
             }
 
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM_AES,
-                    ANDROID_KEYSTORE);
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM_AES, ANDROID_KEYSTORE);
             keyGenerator.init(keyGenParamsBuilder.build());
-
             return keyGenerator.generateKey();
         } catch (Exception e) {
             throw new CryptoException(e.getMessage(), e);
@@ -104,7 +113,16 @@ class CryptographyManagerImpl implements CryptographyManager {
     public Cipher getInitializedCipherForEncryption(String keyName, boolean invalidateOnEnrollment, Context context) throws CryptoException {
         try {
             Cipher cipher = getCipher();
-            SecretKey secretKey = getOrCreateSecretKey(keyName, invalidateOnEnrollment, context);
+            SecretKey secretKey;
+            try {
+                secretKey = getSecretKey(keyName, context);
+                if(secretKey == null) {
+                    secretKey = createSecretKey(keyName, invalidateOnEnrollment, context);
+                }
+            } catch (CryptoException e) {
+                EncryptedData.remove(context);
+                secretKey = createSecretKey(keyName, invalidateOnEnrollment, context);
+            }
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return cipher;
         } catch (Exception e) {
@@ -118,8 +136,7 @@ class CryptographyManagerImpl implements CryptographyManager {
     }
 
     private void handleException(Exception e, String keyName) throws CryptoException {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && e instanceof KeyPermanentlyInvalidatedException) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && e instanceof KeyPermanentlyInvalidatedException || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && e.getCause() instanceof UnrecoverableKeyException) {
             removeKey(keyName);
             throw new KeyInvalidatedException();
         }
@@ -129,7 +146,10 @@ class CryptographyManagerImpl implements CryptographyManager {
     public Cipher getInitializedCipherForDecryption(String keyName, byte[] initializationVector, Context context) throws CryptoException {
         try {
             Cipher cipher = getCipher();
-            SecretKey secretKey = getOrCreateSecretKey(keyName, true, context);
+            SecretKey secretKey = getSecretKey(keyName, context);
+            if(secretKey == null){
+                throw new KeyInvalidatedException();
+            }
             cipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, initializationVector));
             return cipher;
         } catch (Exception e) {
@@ -142,9 +162,9 @@ class CryptographyManagerImpl implements CryptographyManager {
         try {
             KeyStore keyStore = KeyStore.getInstance(ANDROID_KEYSTORE);
             keyStore.load(null); // Keystore must be loaded before it can be accessed
-            keyStore.deleteEntry(keyName);
+            keyStore.deleteEntry(keyName); //TODO Check why can't delete a key was previously invalidated by new enrollment or disable security pattern
         } catch (Exception e) {
-            throw new CryptoException(e.getMessage(), e);
+            throw new KeyInvalidatedException(); //TODO Manage proper exception after deal with deleteEntry issue instead return always BIOMETRIC_NO_SECRET_FOUND and retry flow
         }
     }
 

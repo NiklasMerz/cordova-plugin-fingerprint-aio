@@ -29,14 +29,12 @@ public class BiometricActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(null);
-        int layout = getResources()
-                .getIdentifier("biometric_activity", "layout", getPackageName());
+        int layout = getResources().getIdentifier("biometric_activity", "layout", getPackageName());
         setContentView(layout);
 
         if (savedInstanceState != null) {
             return;
         }
-
         mCryptographyManager = new CryptographyManagerImpl();
         mPromptInfo = new PromptInfo.Builder(getIntent().getExtras()).build();
         final Handler handler = new Handler(Looper.getMainLooper());
@@ -53,15 +51,15 @@ public class BiometricActivity extends AppCompatActivity {
 
     private void authenticate() throws CryptoException {
         switch (mPromptInfo.getType()) {
-          case JUST_AUTHENTICATE:
-            justAuthenticate();
-            return;
-          case REGISTER_SECRET:
-            authenticateToEncrypt(mPromptInfo.invalidateOnEnrollment());
-            return;
-          case LOAD_SECRET:
-            authenticateToDecrypt();
-            return;
+            case JUST_AUTHENTICATE:
+                justAuthenticate();
+                return;
+            case REGISTER_SECRET:
+                authenticateToEncrypt(mPromptInfo.invalidateOnEnrollment());
+                return;
+            case LOAD_SECRET:
+                authenticateToDecrypt();
+                return;
         }
         throw new CryptoException(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
     }
@@ -70,9 +68,12 @@ public class BiometricActivity extends AppCompatActivity {
         if (mPromptInfo.getSecret() == null) {
             throw new CryptoException(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
         }
-        Cipher cipher = mCryptographyManager
-                .getInitializedCipherForEncryption(SECRET_KEY, invalidateOnEnrollment, this);
-        mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
+        try {
+            Cipher cipher = mCryptographyManager.getInitializedCipherForEncryption(SECRET_KEY, invalidateOnEnrollment, this);
+            mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
+        } catch (Exception e){
+            throw new CryptoException(e.getMessage(), e);
+        }
     }
 
     private void justAuthenticate() {
@@ -81,9 +82,15 @@ public class BiometricActivity extends AppCompatActivity {
 
     private void authenticateToDecrypt() throws CryptoException {
         byte[] initializationVector = EncryptedData.loadInitializationVector(this);
-        Cipher cipher = mCryptographyManager
-                .getInitializedCipherForDecryption(SECRET_KEY, initializationVector, this);
-        mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
+        try {
+            Cipher cipher = mCryptographyManager.getInitializedCipherForDecryption(SECRET_KEY, initializationVector, this);
+            mBiometricPrompt.authenticate(createPromptInfo(), new BiometricPrompt.CryptoObject(cipher));
+        } catch (Exception e){
+            if(e.getCause() instanceof KeyInvalidatedException || e instanceof KeyInvalidatedException){
+                EncryptedData.remove(this);
+            }
+            throw new CryptoException(e.getMessage(), e);
+        }
     }
 
     private BiometricPrompt.PromptInfo createPromptInfo() {
@@ -93,9 +100,7 @@ public class BiometricActivity extends AppCompatActivity {
                 .setConfirmationRequired(mPromptInfo.getConfirmationRequired())
                 .setDescription(mPromptInfo.getDescription());
 
-        if (mPromptInfo.isDeviceCredentialAllowed()
-                && mPromptInfo.getType() == BiometricActivityType.JUST_AUTHENTICATE
-                && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) { // TODO: remove after fix https://issuetracker.google.com/issues/142740104
+        if (mPromptInfo.isDeviceCredentialAllowed() && mPromptInfo.getType() == BiometricActivityType.JUST_AUTHENTICATE && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) { // TODO: remove after fix https://issuetracker.google.com/issues/142740104
             promptInfoBuilder.setDeviceCredentialAllowed(true);
         } else {
             promptInfoBuilder.setNegativeButtonText(mPromptInfo.getCancelButtonTitle());
@@ -195,12 +200,12 @@ public class BiometricActivity extends AppCompatActivity {
     private void finishWithSuccess(BiometricPrompt.CryptoObject cryptoObject) throws CryptoException {
         Intent intent = null;
         switch (mPromptInfo.getType()) {
-          case REGISTER_SECRET:
-            encrypt(cryptoObject);
-            break;
-          case LOAD_SECRET:
-            intent = getDecryptedIntent(cryptoObject);
-            break;
+            case REGISTER_SECRET:
+                encrypt(cryptoObject);
+                break;
+            case LOAD_SECRET:
+                intent = getDecryptedIntent(cryptoObject);
+                break;
         }
         if (intent == null) {
             setResult(RESULT_OK);
