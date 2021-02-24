@@ -88,6 +88,7 @@ public class BiometricActivity extends AppCompatActivity {
         } catch (Exception e){
             if(e.getCause() instanceof KeyInvalidatedException || e instanceof KeyInvalidatedException){
                 EncryptedData.remove(this);
+                throw new CryptoException(PluginError.BIOMETRIC_NO_SECRET_FOUND);
             }
             throw new CryptoException(e.getMessage(), e);
         }

@@ -93,8 +93,6 @@ class CryptographyManagerImpl implements CryptographyManager {
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                     .setKeySize(KEY_SIZE)
-                    .setUserAuthenticationValidityDurationSeconds(-1)
-                    .setRandomizedEncryptionRequired(true)
                     .setUserAuthenticationRequired(true);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
