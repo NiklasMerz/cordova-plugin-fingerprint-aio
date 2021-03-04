@@ -121,7 +121,7 @@ Fingerprint.show({
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
-### Show authentication dialogue and register secret
+### Register secret
 ```javascript
 Fingerprint.registerBiometricSecret({
       description: "Some biometric description",
@@ -138,6 +138,9 @@ Fingerprint.registerBiometricSecret({
       alert("Authentication invalid " + error.message);
     }
 ```
+
+This **may** show an authentication prompt.
+
 ### Optional parameters
 
 * __title__: Title in authentication dialogue. Default: `"<APP_NAME> Biometric Sign On"`
