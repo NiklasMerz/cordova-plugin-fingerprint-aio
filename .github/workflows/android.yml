@@ -95,7 +95,7 @@ jobs:
           export PATH="/usr/local/lib/android/sdk/platform-tools":$PATH
           export JAVA_HOME=$JAVA_HOME_11_X64
           npm i -g cordova@latest
-          npm ci
+          npm i
 
       - name: Run paramedic install
         if: ${{ endswith(env.repo, '/cordova-paramedic')　!= true }}

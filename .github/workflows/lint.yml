@@ -49,7 +49,7 @@ jobs:
 
       - name: Run npm install
         run: |
-          npm ci
+          npm i
 
       - name: Run lint test
         run: |
