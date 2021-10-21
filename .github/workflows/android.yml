@@ -55,21 +55,6 @@ jobs:
     strategy:
       matrix:
         versions:
-          - android: 5.1
-            android-api: 22
-
-          - android: 6
-            android-api: 23
-
-          - android: 7
-            android-api: 24
-
-          - android: 7.1
-            android-api: 25
-
-          - android: 8
-            android-api: 26
-
           - android: 8.1
             android-api: 27
             system-image-target: default
