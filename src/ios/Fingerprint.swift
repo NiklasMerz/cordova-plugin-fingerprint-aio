@@ -24,7 +24,7 @@ enum PluginError:Int {
     func isAvailable(_ command: CDVInvokedUrlCommand){
         let authenticationContext = LAContext();
         var biometryType = "finger";
-        var errorResponse: [AnyHashable: Any] = [
+        let errorResponse: [AnyHashable: Any] = [
             "code": 0,
             "message": "Not Available"
         ];
