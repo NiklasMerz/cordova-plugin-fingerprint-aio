@@ -31,6 +31,7 @@ _Version 4 was developed almost 100% by other people than me (@NiklasMerz)._ **P
 
 * Android - Minimum SDK 23
 * iOS - **latest XCode** is required. Plugin sets Swift version 4.
+  * _Please set `<preference name="SwiftVersion" value="5.0" />` in your config.xml_
 * Mac via Catalyst. If you run the iOS platform on a Mac the plugin will ask for the user password and work with like on other platforms.
 * The [cordova-osx](https://github.com/apache/cordova-osx) platform is not supported
 
