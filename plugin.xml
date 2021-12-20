@@ -49,7 +49,7 @@
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="application">
-      <activity android:name="de.niklasmerz.cordova.biometric.BiometricActivity" android:theme="@style/TransparentTheme" android:exported="true"/>
+      <activity android:name="de.niklasmerz.cordova.biometric.BiometricActivity" android:theme="@style/TransparentTheme" android:exported="false"/>
     </config-file>
     
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
