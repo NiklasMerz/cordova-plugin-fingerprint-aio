@@ -1,3 +1,4 @@
+import Cordova
 import Foundation
 import LocalAuthentication
 
@@ -52,6 +53,8 @@ enum PluginError:Int {
                     biometryType = "finger";
                 case .faceID:
                     biometryType = "face"
+                @unknown default:
+                    fatalError()
                 }
             }
 
@@ -143,7 +146,7 @@ enum PluginError:Int {
         do {
             let secret = Secret()
             try? secret.delete()
-            let invalidateOnEnrollment = (data?["invalidateOnEnrollment"] as? Bool) ?? false
+            let invalidateOnEnrollment = (data?.object(forKey: "invalidateOnEnrollment") as? Bool) ?? false
             try secret.save(secretStr, invalidateOnEnrollment: invalidateOnEnrollment)
             pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Success");
         } catch {
@@ -158,7 +161,7 @@ enum PluginError:Int {
     func loadSecret(_ command: CDVInvokedUrlCommand) {
         let data  = command.arguments[0] as AnyObject?;
         var prompt = "Authentication"
-        if let description = data?["description"] as! String? {
+        if let description = data?.object(forKey: "description") as! String? {
             prompt = description;
         }
         var pluginResult: CDVPluginResult
@@ -186,7 +189,7 @@ enum PluginError:Int {
     @objc(registerBiometricSecret:)
     func registerBiometricSecret(_ command: CDVInvokedUrlCommand){
         let data  = command.arguments[0] as AnyObject?;
-        if let secret = data?["secret"] as? String {
+        if let secret = data?.object(forKey: "secret") as? String {
             self.saveSecret(secret, command: command)
             return
         }
