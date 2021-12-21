@@ -1,4 +1,3 @@
-import Cordova
 import Foundation
 import LocalAuthentication
 
@@ -54,7 +53,7 @@ enum PluginError:Int {
                 case .faceID:
                     biometryType = "face"
                 @unknown default:
-                    fatalError()
+                    errorResponse["message"] = "Unkown biometry type"
                 }
             }
 
