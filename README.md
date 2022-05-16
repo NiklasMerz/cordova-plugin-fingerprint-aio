@@ -224,6 +224,12 @@ Some code is refactored from their projects and I learned how to make Cordova pl
 
 Starting with version 3.0.0 the iOS and Android parts are written from scratch.
 
+## Plugin demo app
+
+To test the plugin, you can [try the demo app](https://github.com/andreszs/cordova-plugin-demos/tree/main/com.andreszs.fingerprint.demo "try the demo app") by Andres Zsögön. Pre compiled [Android APK](https://www.andreszsogon.com/cordova-fingerprint-plugin-demo/ "Android APK") also available.
+
+![](https://github.com/andreszs/cordova-plugin-demos/blob/main/com.andreszs.fingerprint.demo/screenshots/fingerprint_aio_demo_1.png?raw=true)
+
 ## License
 
 The project is MIT licensed: [MIT](https://opensource.org/licenses/MIT).
