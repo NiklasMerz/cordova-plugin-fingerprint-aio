@@ -67,6 +67,21 @@
     <source-file src="src/android/CryptoException.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
     <source-file src="src/android/KeyInvalidatedException.java" target-dir="src/de/niklasmerz/cordova/biometric"/>
   </platform>
+  
+  <!-- browser -->
+  <platform name="browser">
+    <config-file target="config.xml" parent="/*">
+      <feature name="Fingerprint">
+        <param name="browser-package" value="Fingerprint"/>
+      </feature>
+    </config-file>
+    <js-module src="src/browser/FingerprintProxy.js" name="FingerprintProxy">
+      <runs/>
+    </js-module>
+	<asset src="src/browser/chevron-left.png" target="fingerprint-chevron-left.png" />
+	<asset src="src/browser/close-octagon-outline.png" target="fingerprint-close.png" />
+	<asset src="src/browser/fingerprint.png" target="fingerprint-success.png" />
+  </platform>
 
   <engines>
     <engine name="cordova-android" version=">=9.0.0"/>

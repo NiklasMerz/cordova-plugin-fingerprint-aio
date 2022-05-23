@@ -6,10 +6,9 @@
 
 [![NPM](https://nodei.co/npm/cordova-plugin-fingerprint-aio.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/cordova-plugin-fingerprint-aio/)
 
-
 **This plugin provides a single and simple interface for accessing fingerprint APIs on both Android 6+ and iOS.**
 
-## Features
+# Features
 
 * Check if a fingerprint scanner is available
 * Fingerprint authentication
@@ -27,22 +26,23 @@ _Version 4 was developed almost 100% by other people than me (@NiklasMerz)._ **P
 
 **Version 4.0 is awesome so please us it and let us fix it:smile:.**
 
-### Platforms
+# Platforms
 
 * Android - Minimum SDK 23
+* Browser - Partial support
 * iOS - **latest XCode** is required. Plugin sets Swift version 4.
   * _Please set `<preference name="SwiftVersion" value="5.0" />` in your config.xml_
 * Mac via Catalyst. If you run the iOS platform on a Mac the plugin will ask for the user password and work with like on other platforms.
 * The [cordova-osx](https://github.com/apache/cordova-osx) platform is not supported
 
 
-## How to use
+# How to use
 
 **[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday (**old plugin version!!**)
 
 ---
 
-### Install
+# Install
 
 **Install from NPM**
 
@@ -72,7 +72,9 @@ Get the latest development version. *Not recommended!*
 cordova plugin add https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio.git
 ```
 
-### Check if fingerprint authentication is available
+# Methods
+
+## Check if fingerprint authentication is available
 ```javascript
 Fingerprint.isAvailable(isAvailableSuccess, isAvailableError, optionalParams);
 
@@ -89,11 +91,16 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError, optionalParams);
       alert(error.message);
     }
 ```
+
 ### Optional parameters
 
 * __allowBackup (iOS)__: If `true` checks if backup authentication option is available, e.g. passcode. Default: `false`, which means check for biometrics only.
 
-### Show authentication dialogue
+### Browser quirks
+
+This method always returns **biometric** in the browser.
+
+## Show authentication dialogue
 ```javascript
 Fingerprint.show({
       description: "Some biometric description"
@@ -124,7 +131,15 @@ Fingerprint.show({
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
-### Register secret
+### Browser quirks
+
+This method shows a dialog to select one the following options:
+
+- **biometric_success** successCallback
+- **BIOMETRIC_DISMISSED** errorCallback
+- **BIOMETRIC_AUTHENTICATION_FAILED** errorCallback
+
+## Register secret
 ```javascript
 Fingerprint.registerBiometricSecret({
       description: "Some biometric description",
@@ -163,7 +178,11 @@ This **may** show an authentication prompt.
 * __secret__: String secret to encrypt and save, use simple strings matching the regex [a-zA-Z0-9\-]+
 * __invalidateOnEnrollment__: If `true` secret will be deleted when biometry items are deleted or enrolled 
 
-### Show authentication dialogue and load secret
+### Browser quirks
+
+:warning: This method is not yet available in the **browser** platform.
+
+## Show authentication dialogue and load secret
 ```javascript
 Fingerprint.loadBiometricSecret({
       description: "Some biometric description",
@@ -195,7 +214,11 @@ Fingerprint.loadBiometricSecret({
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
-### Constants
+### Browser quirks
+
+:warning: This method is not yet available in the **browser** platform.
+
+# Plugin constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;
 - **BIOMETRIC_UNAVAILABLE** = `-101`;
 - **BIOMETRIC_AUTHENTICATION_FAILED** = `-102`;
@@ -224,6 +247,10 @@ Some code is refactored from their projects and I learned how to make Cordova pl
 
 Starting with version 3.0.0 the iOS and Android parts are written from scratch.
 
-## License
+# Plugin demo app
+
+Demo app source code to test the plugin is available at the [cordova-plugin-demos repository](https://github.com/andreszs/cordova-plugin-demos/tree/main/com.andreszs.fingerprint.demo "cordova-plugin-demos repository") by Andrés Zsögön.
+
+# License
 
 The project is MIT licensed: [MIT](https://opensource.org/licenses/MIT).

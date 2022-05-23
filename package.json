@@ -6,6 +6,7 @@
     "id": "cordova-plugin-fingerprint-aio",
     "platforms": [
       "android",
+      "browser",
       "ios"
     ]
   },
@@ -22,7 +23,9 @@
     "ecosystem:cordova",
     "cordova-android",
     "cordova-ios",
-    "ios"
+    "cordova-browser",
+    "ios",
+    "browser"
   ],
   "author": "Niklas Merz",
   "funding": "https://github.com/sponsors/NiklasMerz",
