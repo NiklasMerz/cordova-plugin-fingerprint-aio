@@ -76,7 +76,12 @@ public class BiometricActivity extends AppCompatActivity {
     }
 
     private void justAuthenticate() {
-        mBiometricPrompt.authenticate(createPromptInfo());
+        if (mPromptInfo.isDeviceCredentialAllowed() && Build.VERSION.SDK_INT > Build.VERSION_CODES.P) { // TODO: remove after fix https://issuetracker.google.com/issues/142740104
+            // Replace bugged Android 10+ Biometrics API with legacy KeyguardManager
+            showAuthenticationScreen();
+        }else{
+            mBiometricPrompt.authenticate(createPromptInfo());
+        }
     }
 
     private void authenticateToDecrypt() throws CryptoException {
@@ -169,11 +174,6 @@ public class BiometricActivity extends AppCompatActivity {
                 finishWithError(PluginError.BIOMETRIC_DISMISSED);
                 return;
             case BiometricPrompt.ERROR_NEGATIVE_BUTTON:
-                // TODO: remove after fix https://issuetracker.google.com/issues/142740104
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P && mPromptInfo.isDeviceCredentialAllowed()) {
-                    showAuthenticationScreen();
-                    return;
-                }
                 finishWithError(PluginError.BIOMETRIC_DISMISSED);
                 break;
             case BiometricPrompt.ERROR_LOCKOUT:
