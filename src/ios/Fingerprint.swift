@@ -19,64 +19,80 @@ enum PluginError:Int {
         var code: Int
     }
 
+//    func performSyncOnMain(_ block: () -> Void) {
+//        if Thread.isMainThread {
+//            block()
+//        } else {
+//            DispatchQueue.main.sync(execute: block)
+//        }
+//    }
+
+    func performAsyncOnGlobal(_execure: @escaping (() -> Void)) {
+        DispatchQueue.global().async {
+            _execure()
+        }
+    }
+
 
     @objc(isAvailable:)
     func isAvailable(_ command: CDVInvokedUrlCommand){
-        let authenticationContext = LAContext();
-        var biometryType = "finger";
-        var errorResponse: [AnyHashable: Any] = [
-            "code": 0,
-            "message": "Not Available"
-        ];
-        var error:NSError?;
-        let params = command.argument(at: 0) as? [AnyHashable: Any] ?? [:]
-        let allowBackup = params["allowBackup"] as? Bool ?? false
-        let policy:LAPolicy = allowBackup ? .deviceOwnerAuthentication : .deviceOwnerAuthenticationWithBiometrics;
-        var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
-        let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
+        performAsyncOnGlobal {
+            let authenticationContext = LAContext();
+            var biometryType = "finger";
+            var errorResponse: [AnyHashable: Any] = [
+                "code": 0,
+                "message": "Not Available"
+            ];
+            var error:NSError?;
+            let params = command.argument(at: 0) as? [AnyHashable: Any] ?? [:]
+            let allowBackup = params["allowBackup"] as? Bool ?? false
+            let policy:LAPolicy = allowBackup ? .deviceOwnerAuthentication : .deviceOwnerAuthenticationWithBiometrics;
+            var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: "Not available");
+            let available = authenticationContext.canEvaluatePolicy(policy, error: &error);
 
-        var results: [String : Any]
+            var results: [String : Any]
 
-        if(error != nil){
-            biometryType = "none";
-            errorResponse["code"] = error?.code;
-            errorResponse["message"] = error?.localizedDescription;
-        }
+            if(error != nil){
+                biometryType = "none";
+                errorResponse["code"] = error?.code;
+                errorResponse["message"] = error?.localizedDescription;
+            }
 
-        if (available == true) {
-            if #available(iOS 11.0, *) {
-                switch(authenticationContext.biometryType) {
-                case .none:
-                    biometryType = "none";
-                case .touchID:
-                    biometryType = "finger";
-                case .faceID:
-                    biometryType = "face"
-                @unknown default:
-                    errorResponse["message"] = "Unkown biometry type"
+            if (available == true) {
+                if #available(iOS 11.0, *) {
+                    switch(authenticationContext.biometryType) {
+                    case .none:
+                        biometryType = "none";
+                    case .touchID:
+                        biometryType = "finger";
+                    case .faceID:
+                        biometryType = "face"
+                    @unknown default:
+                        errorResponse["message"] = "Unkown biometry type"
+                    }
                 }
+
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: biometryType);
+            }else{
+                var code: Int;
+                switch(error!._code) {
+                    case Int(kLAErrorBiometryNotAvailable):
+                        code = PluginError.BIOMETRIC_UNAVAILABLE.rawValue;
+                        break;
+                    case Int(kLAErrorBiometryNotEnrolled):
+                        code = PluginError.BIOMETRIC_NOT_ENROLLED.rawValue;
+                        break;
+
+                    default:
+                        code = PluginError.BIOMETRIC_UNKNOWN_ERROR.rawValue;
+                        break;
+                }
+                results = ["code": code, "message": error!.localizedDescription];
+                pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: results);
             }
 
-            pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: biometryType);
-        }else{
-            var code: Int;
-            switch(error!._code) {
-                case Int(kLAErrorBiometryNotAvailable):
-                    code = PluginError.BIOMETRIC_UNAVAILABLE.rawValue;
-                    break;
-                case Int(kLAErrorBiometryNotEnrolled):
-                    code = PluginError.BIOMETRIC_NOT_ENROLLED.rawValue;
-                    break;
-
-                default:
-                    code = PluginError.BIOMETRIC_UNKNOWN_ERROR.rawValue;
-                    break;
-            }
-            results = ["code": code, "message": error!.localizedDescription];
-            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: results);
+            self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
         }
-
-        commandDelegate.send(pluginResult, callbackId:command.callbackId);
     }
 
     func justAuthenticate(_ command: CDVInvokedUrlCommand) {
