@@ -36,7 +36,7 @@ enum PluginError:Int {
 
     @objc(isAvailable:)
     func isAvailable(_ command: CDVInvokedUrlCommand){
-        performAsyncOnGlobal {
+        performAsyncOnGlobal { [weak self] in
             let authenticationContext = LAContext();
             var biometryType = "finger";
             var errorResponse: [AnyHashable: Any] = [
@@ -91,7 +91,7 @@ enum PluginError:Int {
                 pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: results);
             }
 
-            self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
+            self?.commandDelegate.send(pluginResult, callbackId:command.callbackId);
         }
     }
 
