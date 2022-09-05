@@ -35,7 +35,7 @@
     "cordova-paramedic": "git+https://github.com/apache/cordova-paramedic",
     "cordova-plugin-xml": "^0.1.2",
     "eslint": "^6.5.1",
-    "jasmine": "^3.2.0"
+    "jasmine": "^4.4.0"
   },
   "scripts": {
     "test": "npm run eslint",
