@@ -10,6 +10,8 @@ The only supported iOS version is the latest stable release. The most used Andro
 
 ## Reporting a Vulnerability
 
+**You can now report security issues privately directly on [GitHub](https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/security/advisories).**
+
 If you encounter any security related issues please contact me via the e-mail from my [Github](https://github.com/niklasmerz) profile before publishing it. Just hit me up that you have found a bug. You should use PGP if you want to send sensible information to me but I would prefer to use the Github tools. I will add you to the private discussion to go into detail. 
 
 I will create a new security advisory as soon as possible. Security advisories allow us to discuss the issue privatly and work on a solution before releasing any details.
