@@ -210,6 +210,7 @@ Fingerprint.loadBiometricSecret({
 - **BIOMETRIC_LOCKED_OUT** = `-111`;
 - **BIOMETRIC_LOCKED_OUT_PERMANENT** = `-112`;
 - **BIOMETRIC_SECRET_NOT_FOUND** = `-113`;
+- **BIOMETRIC_USER_CANCELED** = `-114`;
 ***
 
 Thanks to the authors of the original fingerprint plugins
