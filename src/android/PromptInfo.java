@@ -123,7 +123,7 @@ class PromptInfo {
             title = args.getString(TITLE, title);
             subtitle = args.getString(SUBTITLE, subtitle);
             description = args.getString(DESCRIPTION, description);
-            fallbackButtonTitle = args.getString(FALLBACK_BUTTON_TITLE, "Use Backup");
+            fallbackButtonTitle = args.getString(FALLBACK_BUTTON_TITLE, fallbackButtonTitle);
             cancelButtonTitle = args.getString(CANCEL_BUTTON_TITLE, cancelButtonTitle);
             confirmationRequired = args.getBoolean(CONFIRMATION_REQUIRED, confirmationRequired);
             invalidateOnEnrollment = args.getBoolean(INVALIDATE_ON_ENROLLMENT, false);
