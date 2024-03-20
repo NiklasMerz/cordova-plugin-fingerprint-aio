@@ -4,6 +4,10 @@
         "commonjs": true,
         "jasmine": true
     },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
     "extends": "eslint:recommended",
     "rules": {
         "linebreak-style": [
