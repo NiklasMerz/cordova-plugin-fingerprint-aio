@@ -31,11 +31,22 @@ class EncryptedData {
         save(CIPHERTEXT_KEY_NAME, ciphertext, context);
     }
 
+    static void remove(Context context) {
+        remove(IV_KEY_NAME, context);
+        remove(CIPHERTEXT_KEY_NAME, context);
+    }
+
     private void save(String key, byte[] value, Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        preferences.edit()
-                .putString(key, Base64.encodeToString(value, Base64.DEFAULT))
-                .apply();
+        preferences.edit().putString(key, Base64.encodeToString(value, Base64.DEFAULT)).apply();
+    }
+
+    private static void remove(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String res = preferences.getString(key, null);
+        if(res != null){
+            preferences.edit().remove(key).apply();
+        }
     }
 
     private static byte[] load(String key, Context context) throws CryptoException {
