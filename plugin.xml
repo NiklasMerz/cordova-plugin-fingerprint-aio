@@ -31,7 +31,7 @@
 
   <!-- android -->
   <platform name="android">
-    <config-file target="config.xml" parent="/*">
+    <config-file target="config.xml" parent="/*" mode="merge">
       <platform name="android">
         <preference name="AndroidXEnabled" value="true"/>
       </platform>
@@ -43,7 +43,7 @@
       </feature>
     </config-file>
     
-    <config-file target="AndroidManifest.xml" parent="/*">
+    <config-file target="AndroidManifest.xml" parent="/*" mode="merge">
 	  <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
       <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     </config-file>

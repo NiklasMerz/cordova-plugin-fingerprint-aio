@@ -12,4 +12,6 @@
 
   <js-module src="tests.js" name="tests">
   </js-module>
+
+  <preference name="SwiftVersion" value="5"/>
 </plugin>
