@@ -92,6 +92,7 @@ Fingerprint.isAvailable(isAvailableSuccess, isAvailableError, optionalParams);
 ### Optional parameters
 
 * __allowBackup (iOS)__: If `true` checks if backup authentication option is available, e.g. passcode. Default: `false`, which means check for biometrics only.
+* __requireStrongBiometrics (Android)__: If `true` will only return success if Class 3 (BIOMETRIC_STRONG) Biometrics are enrolled on the device. It is reccomended you use this if planning on using the `registerBiometricSecret` and `loadBiometricSecret` methods.
 
 ### Show authentication dialogue
 ```javascript
