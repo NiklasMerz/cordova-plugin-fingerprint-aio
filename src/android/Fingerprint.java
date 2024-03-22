@@ -136,7 +136,7 @@ public class Fingerprint extends CordovaPlugin {
     }
 
     private PluginError canAuthenticate() {
-        int error = BiometricManager.from(cordova.getContext()).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+        int error = BiometricManager.from(cordova.getContext()).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK);
         switch (error) {
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
