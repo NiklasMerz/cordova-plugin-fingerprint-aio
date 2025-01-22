@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="5.0.1">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-fingerprint-aio" version="6.0.0">
   <name>FingerprintAllInOne</name>
   <description>Cordova plugin to use fingerprint on Android and iOS</description>
   <license>MIT</license>
@@ -42,16 +43,16 @@
         <param name="android-package" value="de.niklasmerz.cordova.biometric.Fingerprint"/>
       </feature>
     </config-file>
-    
+
     <config-file target="AndroidManifest.xml" parent="/*">
-	  <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+      <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
       <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="application">
       <activity android:name="de.niklasmerz.cordova.biometric.BiometricActivity" android:theme="@style/TransparentTheme" android:exported="false"/>
     </config-file>
-    
+
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
     <resource-file src="src/android/res/biometric_activity.xml" target="res/layout/biometric_activity.xml"/>
     <resource-file src="src/android/res/styles.xml" target="res/values/biometric-styles.xml"/>
